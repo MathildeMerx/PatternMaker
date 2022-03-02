@@ -1,10 +1,11 @@
 import "./App.css";
+import { GridCell } from "./GridCell";
 
 function App() {
     return (
         <div className="content">
             <header>
-                <h1>Pattern designer</h1>
+                <h1 className="title">Pattern designer</h1>
             </header>
             <main className="grid">
                 <aside>
@@ -19,18 +20,8 @@ function App() {
                     </ul>
                 </aside>
                 <section className="design-content">
-                    <h2>GRID</h2>
-                    <div className="design-grid">
-                        {Array(100)
-                            .fill(1)
-                            .map((x) => {
-                                return (
-                                    <div className="line">
-                                        <button className="point-button"></button>
-                                    </div>
-                                );
-                            })}
-                    </div>
+                    <h2 className="pattern-name">GRID</h2>
+                    <GridCell />
                 </section>
             </main>
         </div>
