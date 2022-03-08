@@ -42,13 +42,15 @@ function PatternPoint({ index, value, numCellHeight, gridSpacing, onClick }) {
 
 function createNewPoint(index, points, setPoints, pointNum, setPointNum) {
     let pointsCopy = points.slice();
+    let pointNumCopy = pointNum.slice();
     if (pointsCopy[index]) {
+        pointNumCopy.push(pointsCopy[index]);
         pointsCopy[index] = "";
     } else {
-        pointsCopy[index] = alphabetObject[pointNum];
-        setPointNum(pointNum + 1);
+        pointsCopy[index] = pointNumCopy.pop();
     }
     setPoints(pointsCopy);
+    setPointNum(pointNumCopy);
 }
 
 export { PatternPoint, createNewPoint };

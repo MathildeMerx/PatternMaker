@@ -1,5 +1,4 @@
 const indexes = [...Array(26).keys()];
-const alphabet = indexes.map((x) => [x, String.fromCharCode(x + 65)]);
-const alphabetObject = Object.fromEntries(alphabet);
+const alphabet = indexes.map((x) => String.fromCharCode(90 - x));
 
-export { alphabetObject };
+export { alphabet };

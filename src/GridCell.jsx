@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PatternPoint, createNewPoint } from "./PatternPoint";
 import "./App.css";
+import { alphabet } from "./alphabet";
 
 function GridCell({ parentWidth, parentHeight }) {
     const gridSpacing = 50;
@@ -15,7 +16,7 @@ function GridCell({ parentWidth, parentHeight }) {
     const arrButton = [...Array(numButton).keys()];
 
     const [points, setPoints] = useState(Array(numButton).fill(""));
-    const [pointNum, setPointNum] = useState(0);
+    const [pointNum, setPointNum] = useState(alphabet);
 
     return (
         <div
