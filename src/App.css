@@ -1,93 +1,73 @@
-.point-button {
-    height: 16px;
-    left: -9px;
-    opacity: 0;
-    position: relative;
-    top: -13px;
-    width: 16px;
-}
-
-.point-button:hover {
-    opacity: 1;
+.column {
+    background-color: black;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 1px;
 }
 
 .content {
-    position: fixed;
-    width: 100vw;
     height: 100vh;
-    top: 0;
     left: 0;
-}
-
-.title {
-    height: 43px;
+    position: fixed;
+    top: 0;
+    width: 100vw;
 }
 
 .design-content {
     border: solid 1px;
-    display: flex;
-    flex-wrap: wrap;
     height: calc(100% - 43px);
+    width: calc(100% - 32px);
 }
 
 .design-grid {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 0;
+    border: solid 1px;
+    margin: auto;
     position: relative;
 }
 
 .grid {
-    justify-content: start;
     display: grid;
     grid-column-gap: 32px;
     grid-template-columns: 1fr 3fr;
     height: 100%;
 }
 
-.line {
-    box-sizing: border-box;
-    border-style: solid solid solid solid;
-    border-width: 1px;
-    height: 50px;
-    margin: 0px;
-    vertical-align: bottom;
-    width: 50px;
-    line-height: 0;
-}
-
-.line.top-cell {
-    /* border-style: solid solid solid solid; */
-}
-
-.line.right-cell {
-    /* border-style: solid solid solid solid; */
-}
-
-.line.first-cell {
-    /* border-style: solid solid solid solid; */
-}
-
 .pattern-name {
-    height: fit-content;
+    height: 32px;
+    margin: 0;
+    padding: 24px 32px;
+}
+
+.pattern-point {
+    height: 16px;
+    opacity: 0;
+    position: absolute;
+    width: 16px;
+}
+
+.pattern-point:hover {
+    background-color: white;
+    border-color: black;
+    opacity: 1;
+}
+
+.pattern-point-existing {
+    background-color: white;
+    border: none;
+    height: 16px;
+    position: absolute;
+    width: 16px;
 }
 
 .row {
-    width: 100%;
-    height: 1px;
     background-color: black;
-    position: absolute;
+    height: 1px;
     left: 0;
+    position: absolute;
+    width: 100%;
 }
 
-.column {
-    height: 100%;
-    width: 1px;
-    background-color: black;
-    position: absolute;
-    top: 0;
+.title {
+    height: 43px;
 }

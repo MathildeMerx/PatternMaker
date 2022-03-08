@@ -1,7 +1,9 @@
 import "./App.css";
 import { GridCell } from "./GridCell";
+import { useContainerDimensions } from "./useContainerDimensions";
 
 function App() {
+    let [{ width, height }, containerRef] = useContainerDimensions();
     return (
         <div className="content">
             <header>
@@ -19,9 +21,9 @@ function App() {
                         <li>AB </li>
                     </ul>
                 </aside>
-                <section className="design-content">
+                <section className="design-content" ref={containerRef}>
                     <h2 className="pattern-name">GRID</h2>
-                    <GridCell />
+                    <GridCell parentWidth={width} parentHeight={height} />
                 </section>
             </main>
         </div>

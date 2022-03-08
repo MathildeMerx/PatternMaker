@@ -1,50 +1,62 @@
-import { useContainerDimensions } from "./useContainerDimensions";
+import { useState } from "react";
+import { PatternPoint, createNewPoint } from "./PatternPoint";
 import "./App.css";
 
-function GridCell() {
-    const [{ width, height }, containerRef] = useContainerDimensions();
-    console.log(`width: ${width}, height: ${height}`);
+function GridCell({ parentWidth, parentHeight }) {
+    const gridSpacing = 50;
 
-    const numCellWidth = Math.floor(width / 50);
-    const numCellHeight = Math.floor(height / 50);
-    const numCell = numCellWidth * numCellHeight;
-
+    const numCellWidth = Math.floor((parentWidth - 32) / gridSpacing);
     const arrWidth = [...Array(numCellWidth).keys()];
+
+    const numCellHeight = Math.floor((parentHeight - 80) / gridSpacing) - 1;
     const arrHeight = [...Array(numCellHeight).keys()];
 
+    const numButton = (numCellHeight - 1) * (numCellWidth - 1);
+    const arrButton = [...Array(numButton).keys()];
+
+    const [points, setPoints] = useState(Array(numButton).fill(""));
+    const [pointNum, setPointNum] = useState(0);
+
     return (
-        <div className="design-grid" ref={containerRef}>
+        <div
+            className="design-grid"
+            style={{
+                width: `${numCellWidth * gridSpacing}px`,
+                height: `${numCellHeight * gridSpacing}px`,
+            }}
+        >
             {arrWidth.map((line) => (
                 <div
                     key={line}
                     className="column"
-                    style={{ left: `${line * 50}px` }}
+                    style={{ left: `${(line + 1) * gridSpacing}px` }}
                 />
             ))}
             {arrHeight.map((line) => (
                 <div
                     key={line}
                     className="row"
-                    style={{ top: `${line * 50}px` }}
+                    style={{ top: `${(line + 1) * gridSpacing}px` }}
                 />
             ))}
-            {/* {arr.map((cell) => {
-                return <div key={cell} className="line " />;
-                if (cell === 0) {
-                    return <div key={cell} className="line first-cell"></div>;
-                }
-                if (cell < numCellWidth) {
-                    return <div key={cell} className="line top-cell"></div>;
-                } else if (cell % numCellWidth === 0) {
-                    return <div key={cell} className="line right-cell"></div>;
-                } else {
-                    return (
-                        <div key={cell} className="line">
-                            <button className="point-button"></button>
-                        </div>
-                    );
-                }
-            })} */}
+            {arrButton.map((index) => (
+                <PatternPoint
+                    index={index}
+                    key={index}
+                    value={points[index]}
+                    numCellHeight={numCellHeight}
+                    gridSpacing={gridSpacing}
+                    onClick={() =>
+                        createNewPoint(
+                            index,
+                            points,
+                            setPoints,
+                            pointNum,
+                            setPointNum
+                        )
+                    }
+                />
+            ))}
         </div>
     );
 }

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 function useContainerDimensions() {
     const containerRef = useRef();
 
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const [dimensions, setDimensions] = useState({ width: 600, height: 600 });
 
     useEffect(() => {
         function getDimension() {
