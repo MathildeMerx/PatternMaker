@@ -45,6 +45,7 @@ function createNewPoint(index, points, setPoints, pointNum, setPointNum) {
     let pointNumCopy = pointNum.slice();
     if (pointsCopy[index]) {
         pointNumCopy.push(pointsCopy[index]);
+        pointNumCopy.sort().reverse();
         pointsCopy[index] = "";
     } else {
         pointsCopy[index] = pointNumCopy.pop();
