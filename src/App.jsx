@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { GridCell } from "./GridCell";
 import { useContainerDimensions } from "./useContainerDimensions";
-import { DropdownItem } from "./DropdownItem";
+import { DropdownMenu } from "./DropdownItem";
 
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
@@ -40,21 +40,11 @@ function App() {
                         ))}
                     </ul>
                     <h3>Segments</h3>
-                    <div className="dropdown">
-                        <div className="dropdown-content">
-                            {existingPoints.map((pointName) => {
-                                return (
-                                    <DropdownItem
-                                        pointName={pointName}
-                                        segments={segments}
-                                        setSegments={setSegments}
-                                        key={pointName[0]}
-                                    />
-                                );
-                            })}
-                        </div>
-                        test
-                    </div>
+                    <DropdownMenu
+                        existingPoints={existingPoints}
+                        segments={segments}
+                        setSegments={setSegments}
+                    />
                 </aside>
                 <section className="design-content" ref={containerRef}>
                     <h2 className="pattern-name">GRID</h2>
@@ -65,6 +55,7 @@ function App() {
                         points={points}
                         setPoints={setPoints}
                         gridSpacing={gridSpacing}
+                        segments={segments}
                     />
                 </section>
             </main>

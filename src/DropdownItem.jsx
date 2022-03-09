@@ -1,9 +1,10 @@
 function clickMenu(event, segments, setSegments) {
     event.preventDefault();
-    console.log(event);
     const numSegments = segments.length;
     let segmentCopy = segments.slice();
-    if (segments[numSegments - 1].length === 1) {
+    if (numSegments === 0) {
+        segmentCopy.push([event.target.name]);
+    } else if (segments[numSegments - 1].length === 1) {
         segmentCopy[numSegments - 1].push(event.target.name);
     } else {
         segmentCopy.push([event.target.name]);
@@ -15,11 +16,31 @@ function DropdownItem({ pointName, segments, setSegments }) {
     return (
         <button
             name={pointName[0]}
-            onclick={(e) => clickMenu(e, segments, setSegments)}
+            onClick={(e) => clickMenu(e, segments, setSegments)}
         >
             {pointName[0]}
         </button>
     );
 }
 
-export { DropdownItem };
+function DropdownMenu({ existingPoints, segments, setSegments }) {
+    return (
+        <div className="dropdown">
+            <div className="dropdown-content">
+                {existingPoints.map((pointName) => {
+                    return (
+                        <DropdownItem
+                            pointName={pointName}
+                            segments={segments}
+                            setSegments={setSegments}
+                            key={pointName[0]}
+                        />
+                    );
+                })}
+            </div>
+            test
+        </div>
+    );
+}
+
+export { DropdownMenu };
