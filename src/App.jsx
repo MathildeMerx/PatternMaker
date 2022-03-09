@@ -1,9 +1,31 @@
+import { useState } from "react";
 import "./App.css";
 import { GridCell } from "./GridCell";
 import { useContainerDimensions } from "./useContainerDimensions";
+import { DropdownItem } from "./DropdownItem";
 
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
+
+    const gridSpacing = 50;
+
+    const numCellWidth = Math.floor((width - 32) / gridSpacing);
+
+    const numCellHeight = Math.floor((height - 80) / gridSpacing) - 1;
+
+    const numButton = (numCellHeight - 1) * (numCellWidth - 1);
+
+    const [points, setPoints] = useState(Array(numButton).fill(""));
+    const [segments, setSegments] = useState([]);
+    console.log(segments);
+
+    let existingPoints = points.filter((x) => x);
+    existingPoints = existingPoints.map((x) => [
+        x,
+        Math.floor(points.indexOf(x) / (numCellHeight - 1)) + 1,
+        (points.indexOf(x) % (numCellHeight - 1)) + 1,
+    ]);
+
     return (
         <div className="content">
             <header>
@@ -13,17 +35,37 @@ function App() {
                 <aside>
                     <h3>Points</h3>
                     <ul>
-                        <li>A (0;1)</li>
-                        <li>B (2;1)</li>
+                        {existingPoints.map(([pointName, xIndex, yIndex]) => (
+                            <li> {`${pointName} (${xIndex}, ${yIndex})`}</li>
+                        ))}
                     </ul>
                     <h3>Segments</h3>
-                    <ul>
-                        <li>AB </li>
-                    </ul>
+                    <div className="dropdown">
+                        <div className="dropdown-content">
+                            {existingPoints.map((pointName) => {
+                                return (
+                                    <DropdownItem
+                                        pointName={pointName}
+                                        segments={segments}
+                                        setSegments={setSegments}
+                                        key={pointName[0]}
+                                    />
+                                );
+                            })}
+                        </div>
+                        test
+                    </div>
                 </aside>
                 <section className="design-content" ref={containerRef}>
                     <h2 className="pattern-name">GRID</h2>
-                    <GridCell parentWidth={width} parentHeight={height} />
+                    <GridCell
+                        numCellWidth={numCellWidth}
+                        numCellHeight={numCellHeight}
+                        numButton={numButton}
+                        points={points}
+                        setPoints={setPoints}
+                        gridSpacing={gridSpacing}
+                    />
                 </section>
             </main>
         </div>

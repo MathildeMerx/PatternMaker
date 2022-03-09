@@ -1,43 +1,22 @@
-import { alphabetObject } from "./alphabet";
-
 function PatternPoint({ index, value, numCellHeight, gridSpacing, onClick }) {
-    if (!value) {
-        return (
-            <button
-                key={index}
-                className="pattern-point"
-                onClick={onClick}
-                style={{
-                    top: `${
-                        (index % (numCellHeight - 1)) * gridSpacing + 42
-                    }px`,
-                    left: `${
-                        Math.floor(index / (numCellHeight - 1)) * gridSpacing +
-                        42
-                    }px`,
-                }}
-            />
-        );
-    } else {
-        return (
-            <button
-                key={index}
-                className="pattern-point-existing"
-                onClick={onClick}
-                style={{
-                    top: `${
-                        (index % (numCellHeight - 1)) * gridSpacing + 42
-                    }px`,
-                    left: `${
-                        Math.floor(index / (numCellHeight - 1)) * gridSpacing +
-                        42
-                    }px`,
-                }}
-            >
-                {value}
-            </button>
-        );
-    }
+    const distFromTop = (index % (numCellHeight - 1)) * gridSpacing + 42;
+    const distFromLeft =
+        Math.floor(index / (numCellHeight - 1)) * gridSpacing + 42;
+    return (
+        <button
+            key={index}
+            className={
+                value ? "pattern-point pattern-point-existing" : "pattern-point"
+            }
+            onClick={onClick}
+            style={{
+                top: `${distFromTop}px`,
+                left: `${distFromLeft}px`,
+            }}
+        >
+            {value}
+        </button>
+    );
 }
 
 function createNewPoint(index, points, setPoints, pointNum, setPointNum) {

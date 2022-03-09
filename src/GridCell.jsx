@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { PatternPoint, createNewPoint } from "./PatternPoint";
 import "./App.css";
-import { alphabet } from "./alphabet";
+import { pointNames } from "./alphabet";
 
-function GridCell({ parentWidth, parentHeight }) {
-    const gridSpacing = 50;
-
-    const numCellWidth = Math.floor((parentWidth - 32) / gridSpacing);
+function GridCell({
+    numCellWidth,
+    numCellHeight,
+    numButton,
+    points,
+    setPoints,
+    gridSpacing,
+}) {
+    const [pointNum, setPointNum] = useState(pointNames);
     const arrWidth = [...Array(numCellWidth).keys()];
-
-    const numCellHeight = Math.floor((parentHeight - 80) / gridSpacing) - 1;
     const arrHeight = [...Array(numCellHeight).keys()];
-
-    const numButton = (numCellHeight - 1) * (numCellWidth - 1);
     const arrButton = [...Array(numButton).keys()];
-
-    const [points, setPoints] = useState(Array(numButton).fill(""));
-    const [pointNum, setPointNum] = useState(alphabet);
+    const width = numCellWidth * gridSpacing;
+    const height = numCellHeight * gridSpacing;
 
     return (
         <div
@@ -26,6 +26,18 @@ function GridCell({ parentWidth, parentHeight }) {
                 height: `${numCellHeight * gridSpacing}px`,
             }}
         >
+            <svg
+                width={width}
+                height={height}
+                viewBox={`0 0 ${width} ${height} `}
+            >
+                <path
+                    d={`M ${5 * 50} ${6 * 50} L ${8 * 50} ${4 * 50}`}
+                    fill="none"
+                    stroke="red"
+                    strokeWidth="2"
+                />
+            </svg>
             {arrWidth.map((line) => (
                 <div
                     key={line}
