@@ -40,14 +40,9 @@ function GridCell({
                         const dest = seg[1];
                         const originIndex = points.indexOf(origin);
                         const destIndex = points.indexOf(dest);
-                        console.log(
-                            (Math.floor(originIndex / (numCellHeight - 1)) +
-                                1) *
-                                50
-                        );
-                        console.log((originIndex % (numCellHeight - 1)) + 1);
                         return (
                             <path
+                                key={seg[0] + seg[1]}
                                 d={`M ${
                                     (Math.floor(
                                         originIndex / (numCellHeight - 1)

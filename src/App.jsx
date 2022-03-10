@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { GridCell } from "./GridCell";
 import { useContainerDimensions } from "./useContainerDimensions";
-import { DropdownMenu } from "./DropdownItem";
+import { SegmentsDisplay } from "./SegmentsDisplay";
 
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
@@ -17,9 +17,8 @@ function App() {
 
     const [points, setPoints] = useState(Array(numButton).fill(""));
     const [segments, setSegments] = useState([]);
-    console.log(segments);
 
-    let existingPoints = points.filter((x) => x);
+    let existingPoints = points.filter((x) => x).sort();
     existingPoints = existingPoints.map((x) => [
         x,
         Math.floor(points.indexOf(x) / (numCellHeight - 1)) + 1,
@@ -34,13 +33,15 @@ function App() {
             <main className="grid">
                 <aside>
                     <h3>Points</h3>
-                    <ul>
+                    <ul className="controlled-height">
                         {existingPoints.map(([pointName, xIndex, yIndex]) => (
-                            <li> {`${pointName} (${xIndex}, ${yIndex})`}</li>
-                        ))}
+                            <li key={pointName}>
+                                {" "}
+                                {`${pointName} (${xIndex}, ${yIndex})`}
+                            </li>
+                        )) ?? null}
                     </ul>
-                    <h3>Segments</h3>
-                    <DropdownMenu
+                    <SegmentsDisplay
                         existingPoints={existingPoints}
                         segments={segments}
                         setSegments={setSegments}

@@ -9,15 +9,21 @@
 .content {
     height: 100vh;
     left: 0;
+    padding: 0 32px;
     position: fixed;
     top: 0;
     width: 100vw;
 }
 
+.controlled-height {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
 .design-content {
     border: solid 1px;
     height: calc(100% - 43px);
-    width: calc(100% - 32px);
+    width: calc(100% - 96px);
 }
 
 .design-grid {
@@ -26,14 +32,18 @@
     position: relative;
 }
 
+.dropdown-button:hover {
+    background-color: wheat;
+}
+
 .dropdown-content {
     border-color: black;
-    border-style: solid;
+    border: solid 1px;
     display: none;
-    left: 0;
+    left: -1px;
     max-height: 150px;
-    min-width: 20px;
-    overflow-y: scroll;
+    min-width: 60px;
+    overflow-y: auto;
     position: absolute;
     top: 20px;
 }
@@ -48,7 +58,17 @@
 }
 
 .dropdown {
+    border: solid 1px;
+    display: inline-block;
+    margin: 0 5px;
     position: relative;
+    width: 60px;
+}
+
+.dropdown-title {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5px;
 }
 
 .dropdown:hover .dropdown-content {
