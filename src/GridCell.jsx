@@ -2,17 +2,20 @@ import { useState } from "react";
 import { PatternPoint, createNewPoint } from "./PatternPoint";
 import "./App.css";
 import { pointNames } from "./alphabet";
+import { SegmentPath } from "./SegmentPath";
+import { abscissa, ordinate } from "./coordinates";
+import { pointExists } from "./pointExists";
 
 function GridCell({
     numCellWidth,
     numCellHeight,
     numButton,
-    points,
-    setPoints,
+    existingPoints,
+    setExistingPoints,
     gridSpacing,
     segments,
 }) {
-    const [pointNum, setPointNum] = useState(pointNames);
+    const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
     const arrWidth = [...Array(numCellWidth).keys()];
     const arrHeight = [...Array(numCellHeight).keys()];
     const arrButton = [...Array(numButton).keys()];
@@ -32,42 +35,13 @@ function GridCell({
                 height={height}
                 viewBox={`0 0 ${width} ${height} `}
             >
-                {segments.map((seg) => {
-                    if (seg.length === 1) {
-                        return null;
-                    } else {
-                        const origin = seg[0];
-                        const dest = seg[1];
-                        const originIndex = points.indexOf(origin);
-                        const destIndex = points.indexOf(dest);
-                        return (
-                            <path
-                                key={seg[0] + seg[1]}
-                                d={`M ${
-                                    (Math.floor(
-                                        originIndex / (numCellHeight - 1)
-                                    ) +
-                                        1) *
-                                    50
-                                } ${
-                                    ((originIndex % (numCellHeight - 1)) + 1) *
-                                    50
-                                } L ${
-                                    (Math.floor(
-                                        destIndex / (numCellHeight - 1)
-                                    ) +
-                                        1) *
-                                    50
-                                } ${
-                                    ((destIndex % (numCellHeight - 1)) + 1) * 50
-                                }`}
-                                fill="none"
-                                stroke="red"
-                                strokeWidth="2"
-                            />
-                        );
-                    }
-                })}
+                {segments.map((seg) => (
+                    <SegmentPath
+                        key={seg[0] + seg[1]}
+                        segment={seg}
+                        existingPoints={existingPoints}
+                    />
+                ))}
             </svg>
             {arrWidth.map((line) => (
                 <div
@@ -83,24 +57,30 @@ function GridCell({
                     style={{ top: `${(line + 1) * gridSpacing}px` }}
                 />
             ))}
-            {arrButton.map((index) => (
-                <PatternPoint
-                    index={index}
-                    key={index}
-                    value={points[index]}
-                    numCellHeight={numCellHeight}
-                    gridSpacing={gridSpacing}
-                    onClick={() =>
-                        createNewPoint(
-                            index,
-                            points,
-                            setPoints,
-                            pointNum,
-                            setPointNum
-                        )
-                    }
-                />
-            ))}
+            {arrButton.map((index) => {
+                const absc = abscissa(index, numCellHeight);
+                const ord = ordinate(index, numCellHeight);
+                return (
+                    <PatternPoint
+                        index={index}
+                        key={index}
+                        value={pointExists(absc, ord, existingPoints)}
+                        numCellHeight={numCellHeight}
+                        gridSpacing={gridSpacing}
+                        onClick={() => {
+                            createNewPoint(
+                                absc,
+                                ord,
+                                existingPoints,
+                                setExistingPoints,
+                                possiblePointNames,
+                                setPossiblePointNames,
+                                segments
+                            );
+                        }}
+                    />
+                );
+            })}
         </div>
     );
 }

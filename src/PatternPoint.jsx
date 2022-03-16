@@ -1,3 +1,5 @@
+import { pointExists } from "./pointExists";
+
 function PatternPoint({ index, value, numCellHeight, gridSpacing, onClick }) {
     const distFromTop = (index % (numCellHeight - 1)) * gridSpacing + 42;
     const distFromLeft =
@@ -19,18 +21,42 @@ function PatternPoint({ index, value, numCellHeight, gridSpacing, onClick }) {
     );
 }
 
-function createNewPoint(index, points, setPoints, pointNum, setPointNum) {
-    let pointsCopy = points.slice();
-    let pointNumCopy = pointNum.slice();
-    if (pointsCopy[index]) {
-        pointNumCopy.push(pointsCopy[index]);
-        pointNumCopy.sort().reverse();
-        pointsCopy[index] = "";
-    } else {
-        pointsCopy[index] = pointNumCopy.pop();
+function createNewPoint(
+    abscissa,
+    ordinate,
+    existingPoints,
+    setExistingPoints,
+    possiblePointNames,
+    setPossiblePointNames,
+    segments
+) {
+    let value = pointExists(abscissa, ordinate, existingPoints);
+
+    for (let seg in segments) {
+        if (segments[seg][0] === value || segments[seg][1] === value) {
+            return;
+        }
     }
-    setPoints(pointsCopy);
-    setPointNum(pointNumCopy);
+
+    setExistingPoints((existingPoints) => {
+        if (value) {
+            const { [value]: val, ...rest } = existingPoints;
+            return rest;
+        } else {
+            return {
+                ...existingPoints,
+                [possiblePointNames[0]]: [abscissa, ordinate],
+            };
+        }
+    });
+
+    setPossiblePointNames((possiblePointNames) => {
+        if (value) {
+            return [...possiblePointNames, value].sort();
+        } else {
+            return possiblePointNames.slice(1);
+        }
+    });
 }
 
 export { PatternPoint, createNewPoint };

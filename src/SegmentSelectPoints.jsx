@@ -26,16 +26,18 @@ function DropdownMenu({ existingPoints, newSegment, setNewSegment, index }) {
     return (
         <div className="dropdown">
             <div className="dropdown-content">
-                {existingPoints.map((pointName) => {
-                    return (
-                        <DropdownItem
-                            pointName={pointName}
-                            key={pointName[0]}
-                            setNewSegment={setNewSegment}
-                            index={index}
-                        />
-                    );
-                })}
+                {Object.keys(existingPoints)
+                    .sort()
+                    .map((pointName) => {
+                        return (
+                            <DropdownItem
+                                pointName={pointName}
+                                key={pointName[0]}
+                                setNewSegment={setNewSegment}
+                                index={index}
+                            />
+                        );
+                    })}
             </div>
             <div className="dropdown-title">
                 <div>{newSegment[index] ?? "Point"}</div> <ChevronDownIcon />
@@ -54,7 +56,8 @@ function addSegment(event, newSegment, setSegments, setAddingSegment) {
                     (b === newSegment[0]) & (a === newSegment[1])
             ) ||
             newSegment[0] === null ||
-            newSegment[1] === null
+            newSegment[1] === null ||
+            newSegment[0] === newSegment[1]
         ) {
             return segments;
         } else {
@@ -66,7 +69,7 @@ function addSegment(event, newSegment, setSegments, setAddingSegment) {
     setAddingSegment(false);
 }
 
-function ChooseSegmentPoints({
+function SegmentSelectPoints({
     existingPoints,
     setSegments,
     setAddingSegment,
@@ -107,4 +110,4 @@ function ChooseSegmentPoints({
     );
 }
 
-export { DropdownMenu, ChooseSegmentPoints };
+export { SegmentSelectPoints };

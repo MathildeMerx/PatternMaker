@@ -3,6 +3,7 @@ import "./App.css";
 import { GridCell } from "./GridCell";
 import { useContainerDimensions } from "./useContainerDimensions";
 import { SegmentsDisplay } from "./SegmentsDisplay";
+import { PointsDisplay } from "./PointsDisplay";
 
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
@@ -15,15 +16,8 @@ function App() {
 
     const numButton = (numCellHeight - 1) * (numCellWidth - 1);
 
-    const [points, setPoints] = useState(Array(numButton).fill(""));
+    const [existingPoints, setExistingPoints] = useState({});
     const [segments, setSegments] = useState([]);
-
-    let existingPoints = points.filter((x) => x).sort();
-    existingPoints = existingPoints.map((x) => [
-        x,
-        Math.floor(points.indexOf(x) / (numCellHeight - 1)) + 1,
-        (points.indexOf(x) % (numCellHeight - 1)) + 1,
-    ]);
 
     return (
         <div className="content">
@@ -32,15 +26,7 @@ function App() {
             </header>
             <main className="grid">
                 <aside>
-                    <h3>Points</h3>
-                    <ul className="controlled-height">
-                        {existingPoints.map(([pointName, xIndex, yIndex]) => (
-                            <li key={pointName}>
-                                {" "}
-                                {`${pointName} (${xIndex}, ${yIndex})`}
-                            </li>
-                        )) ?? null}
-                    </ul>
+                    <PointsDisplay existingPoints={existingPoints} />
                     <SegmentsDisplay
                         existingPoints={existingPoints}
                         segments={segments}
@@ -53,8 +39,8 @@ function App() {
                         numCellWidth={numCellWidth}
                         numCellHeight={numCellHeight}
                         numButton={numButton}
-                        points={points}
-                        setPoints={setPoints}
+                        existingPoints={existingPoints}
+                        setExistingPoints={setExistingPoints}
                         gridSpacing={gridSpacing}
                         segments={segments}
                     />
