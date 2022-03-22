@@ -1,9 +1,10 @@
 import { useState } from "react";
 import "./App.css";
-import { GridCell } from "./GridCell";
+import { Grid } from "./Grid";
 import { useContainerDimensions } from "./useContainerDimensions";
 import { SegmentsDisplay } from "./SegmentsDisplay";
 import { PointsDisplay } from "./PointsDisplay";
+import { CurvesDisplay } from "./CurvesDisplay";
 
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
@@ -18,6 +19,7 @@ function App() {
 
     const [existingPoints, setExistingPoints] = useState({});
     const [segments, setSegments] = useState([]);
+    const [curves, setCurves] = useState([]);
 
     return (
         <div className="content">
@@ -32,10 +34,15 @@ function App() {
                         segments={segments}
                         setSegments={setSegments}
                     />
+                    <CurvesDisplay
+                        existingPoints={existingPoints}
+                        curves={curves}
+                        setCurves={setCurves}
+                    />
                 </aside>
                 <section className="design-content" ref={containerRef}>
                     <h2 className="pattern-name">GRID</h2>
-                    <GridCell
+                    <Grid
                         numCellWidth={numCellWidth}
                         numCellHeight={numCellHeight}
                         numButton={numButton}
@@ -43,6 +50,8 @@ function App() {
                         setExistingPoints={setExistingPoints}
                         gridSpacing={gridSpacing}
                         segments={segments}
+                        curves={curves}
+                        setCurves={setCurves}
                     />
                 </section>
             </main>

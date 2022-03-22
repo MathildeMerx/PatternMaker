@@ -1,16 +1,16 @@
 function SegmentPath({ segment, existingPoints }) {
-    const origin = segment[0];
-    const dest = segment[1];
+    const startPoint = segment[0];
+    const endPoint = segment[1];
 
-    const origineAbscisse = existingPoints[origin][0];
-    const origineOrdonnee = existingPoints[origin][1];
-    const destinationAbscisse = existingPoints[dest][0];
-    const destinationOrdonnee = existingPoints[dest][1];
+    const startAbscissa = existingPoints[startPoint][0] * 50;
+    const startOrdinate = existingPoints[startPoint][1] * 50;
+    const endAbscissa = existingPoints[endPoint][0] * 50;
+    const endOrdinate = existingPoints[endPoint][1] * 50;
 
     return (
         <path
-            d={`M ${origineAbscisse * 50} ${origineOrdonnee * 50} 
-            L ${destinationAbscisse * 50} ${destinationOrdonnee * 50}`}
+            d={`M ${startAbscissa} ${startOrdinate} 
+            L ${endAbscissa} ${endOrdinate}`}
             fill="none"
             stroke="red"
             strokeWidth="2"
