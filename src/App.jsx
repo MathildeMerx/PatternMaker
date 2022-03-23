@@ -9,7 +9,7 @@ import styled from "styled-components";
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
 
-    const gridSpacing = 16;
+    const [gridSpacing, setGridSpacing] = useState(50);
 
     const numCellWidth = Math.floor((width - GRID_MARGIN) / gridSpacing);
 
@@ -42,6 +42,16 @@ function App() {
                         curves={curves}
                         setCurves={setCurves}
                     />
+                    <input
+                        type="range"
+                        min="16"
+                        max="100"
+                        value={gridSpacing}
+                        onChange={(e) => setGridSpacing(e.target.value)}
+                        className="slider"
+                        id="borderRadius"
+                    />{" "}
+                    {gridSpacing}
                 </aside>
                 <S_DesignContent ref={containerRef}>
                     <S_PatternName>GRID</S_PatternName>

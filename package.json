@@ -29,8 +29,9 @@
         ],
         "overrides": [
             {
+                "files": "**/*.jsx",
                 "rules": {
-                    "jsx-pascal-case": "off"
+                    "react/jsx-pascal-case": "off"
                 }
             }
         ]

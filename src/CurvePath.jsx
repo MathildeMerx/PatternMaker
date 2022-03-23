@@ -53,7 +53,7 @@ function CurvePath({
             }
             return curvesCopy;
         });
-    }, [controlAbscissa, controlOrdinate, curveIndex, setCurves]);
+    }, [controlAbscissa, controlOrdinate, curveIndex, setCurves, gridSpacing]);
 
     return (
         <>
