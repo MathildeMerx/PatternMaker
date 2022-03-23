@@ -44,6 +44,7 @@ function Grid({
                         key={seg[0] + seg[1]}
                         segment={seg}
                         existingPoints={existingPoints}
+                        gridSpacing={gridSpacing}
                     />
                 ))}
                 {curves.map((curve, index) => (
@@ -53,6 +54,7 @@ function Grid({
                         existingPoints={existingPoints}
                         SVGRef={SVGRef}
                         setCurves={setCurves}
+                        gridSpacing={gridSpacing}
                         key={index}
                     />
                 ))}
@@ -98,7 +100,7 @@ function Grid({
 }
 
 const Column = styled.div`
-    background-color: black;
+    background-color: gainsboro;
     height: 100%;
     position: absolute;
     top: 0;
@@ -106,13 +108,13 @@ const Column = styled.div`
 `;
 
 const DesignGrid = styled.div`
-    border: solid 1px;
+    border: solid 1px gainsboro;
     margin: auto;
     position: relative;
 `;
 
 const Row = styled.div`
-    background-color: black;
+    background-color: gainsboro;
     height: 1px;
     left: 0;
     position: absolute;

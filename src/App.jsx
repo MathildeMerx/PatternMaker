@@ -9,7 +9,7 @@ import styled from "styled-components";
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
 
-    const gridSpacing = 50;
+    const gridSpacing = 16;
 
     const numCellWidth = Math.floor((width - GRID_MARGIN) / gridSpacing);
 

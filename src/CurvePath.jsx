@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
 import { areArraysEqual } from "./areArraysEqual";
 
-function CurvePath({ curve, curveIndex, existingPoints, SVGRef, setCurves }) {
+function CurvePath({
+    curve,
+    curveIndex,
+    existingPoints,
+    SVGRef,
+    setCurves,
+    gridSpacing,
+}) {
     const [showConstructionSegments, setShowConstructionSegments] =
         useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const [startPoint, endPoint, ...controlPoint] = curve;
 
-    const startAbscissa = existingPoints[startPoint][0] * 50;
-    const startOrdinate = existingPoints[startPoint][1] * 50;
-    const endAbscissa = existingPoints[endPoint][0] * 50;
-    const endOrdinate = existingPoints[endPoint][1] * 50;
+    const startAbscissa = existingPoints[startPoint][0] * gridSpacing;
+    const startOrdinate = existingPoints[startPoint][1] * gridSpacing;
+    const endAbscissa = existingPoints[endPoint][0] * gridSpacing;
+    const endOrdinate = existingPoints[endPoint][1] * gridSpacing;
     const [controlAbscissa, setControlAbscissa] = useState(
-        () => controlPoint[0] * 50
+        () => controlPoint[0] * gridSpacing
     );
     const [controlOrdinate, setControlOrdinate] = useState(
-        () => controlPoint[1] * 50
+        () => controlPoint[1] * gridSpacing
     );
 
     const draggingInfo = SVGRef.current.getBoundingClientRect();
@@ -39,8 +46,8 @@ function CurvePath({ curve, curveIndex, existingPoints, SVGRef, setCurves }) {
                     curvesCopy[i] = [
                         currentCurve[0],
                         currentCurve[1],
-                        controlAbscissa / 50,
-                        controlOrdinate / 50,
+                        controlAbscissa / gridSpacing,
+                        controlOrdinate / gridSpacing,
                     ];
                 }
             }
