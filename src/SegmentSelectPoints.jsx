@@ -1,6 +1,11 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { pointNames } from "./alphabet";
+import {
+    S_DropdownButton,
+    S_DropdownContent,
+    S_Dropdown,
+    S_DropdownTitle,
+} from "./dropdownStyledComponents";
 
 function clickMenu(event, setNewSegment, index) {
     event.preventDefault();
@@ -13,20 +18,19 @@ function clickMenu(event, setNewSegment, index) {
 
 function DropdownItem({ pointName, setNewSegment, index }) {
     return (
-        <button
-            className="dropdown-button"
+        <S_DropdownButton
             name={pointName}
             onClick={(e) => clickMenu(e, setNewSegment, index)}
         >
             {pointName}
-        </button>
+        </S_DropdownButton>
     );
 }
 
 function DropdownMenu({ existingPoints, newSegment, setNewSegment, index }) {
     return (
-        <div className="dropdown">
-            <div className="dropdown-content">
+        <S_Dropdown>
+            <S_DropdownContent>
                 {Object.keys(existingPoints)
                     .sort()
                     .map((pointName) => {
@@ -39,11 +43,11 @@ function DropdownMenu({ existingPoints, newSegment, setNewSegment, index }) {
                             />
                         );
                     })}
-            </div>
-            <div className="dropdown-title">
+            </S_DropdownContent>
+            <S_DropdownTitle>
                 <div>{newSegment[index] ?? "Point"}</div> <ChevronDownIcon />
-            </div>
-        </div>
+            </S_DropdownTitle>
+        </S_Dropdown>
     );
 }
 

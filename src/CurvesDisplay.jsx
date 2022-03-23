@@ -1,5 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import { CurveAddButton } from "./CurveAddButton";
+import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 
 function clickDeleteCurve(curv, setCurves) {
     setCurves((curve) =>
@@ -26,10 +27,10 @@ function DeleteCurve({ curv, setCurves }) {
 function CurvesDisplay({ existingPoints, curves, setCurves }) {
     return (
         <div>
-            <h3>Curves</h3>
+            <h2>Curves</h2>
 
             {curves.length > 0 ? (
-                <ul className="controlled-height">
+                <S_ControlledHeightUL>
                     {curves.map((curv) => {
                         return (
                             <li
@@ -41,7 +42,9 @@ function CurvesDisplay({ existingPoints, curves, setCurves }) {
                                 }
                             >
                                 {`[${curv[0]}, ${curv[1]}]`}{" "}
-                                <sub>{`(${curv[2]}, ${curv[3]})`}</sub>
+                                <sub>{`(${curv[2].toFixed(
+                                    2
+                                )}, ${curv[3].toFixed(2)})`}</sub>
                                 <DeleteCurve
                                     curv={curv}
                                     setCurves={setCurves}
@@ -49,7 +52,7 @@ function CurvesDisplay({ existingPoints, curves, setCurves }) {
                             </li>
                         );
                     })}
-                </ul>
+                </S_ControlledHeightUL>
             ) : null}
             {Object.keys(existingPoints).length > 1 ? (
                 <CurveAddButton

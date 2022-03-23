@@ -1,11 +1,11 @@
 import { useState, useRef } from "react";
 import { PatternPoint, createNewPoint } from "./PatternPoint";
-import "./App.css";
 import { pointNames } from "./alphabet";
 import { SegmentPath } from "./SegmentPath";
 import { abscissa, ordinate } from "./coordinates";
 import { pointExists } from "./pointExists";
 import { CurvePath } from "./CurvePath";
+import styled from "styled-components";
 
 function Grid({
     numCellWidth,
@@ -27,8 +27,7 @@ function Grid({
     const height = numCellHeight * gridSpacing;
 
     return (
-        <div
-            className="design-grid"
+        <DesignGrid
             style={{
                 width: `${numCellWidth * gridSpacing}px`,
                 height: `${numCellHeight * gridSpacing}px`,
@@ -59,16 +58,14 @@ function Grid({
                 ))}
             </svg>
             {arrWidth.map((line) => (
-                <div
+                <Column
                     key={line}
-                    className="column"
                     style={{ left: `${(line + 1) * gridSpacing}px` }}
                 />
             ))}
             {arrHeight.map((line) => (
-                <div
+                <Row
                     key={line}
-                    className="row"
                     style={{ top: `${(line + 1) * gridSpacing}px` }}
                 />
             ))}
@@ -96,8 +93,30 @@ function Grid({
                     />
                 );
             })}
-        </div>
+        </DesignGrid>
     );
 }
+
+const Column = styled.div`
+    background-color: black;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 1px;
+`;
+
+const DesignGrid = styled.div`
+    border: solid 1px;
+    margin: auto;
+    position: relative;
+`;
+
+const Row = styled.div`
+    background-color: black;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+`;
 
 export { Grid };

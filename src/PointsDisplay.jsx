@@ -1,8 +1,10 @@
+import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
+
 function PointsDisplay({ existingPoints }) {
     return (
         <>
             <h3>Points</h3>
-            <ul className="controlled-height">
+            <S_ControlledHeightUL>
                 {Object.keys(existingPoints)
                     .sort()
                     .map((point) => (
@@ -10,7 +12,7 @@ function PointsDisplay({ existingPoints }) {
                             {`${point} (${existingPoints[point][0]}, ${existingPoints[point][1]})`}
                         </li>
                     ))}
-            </ul>
+            </S_ControlledHeightUL>
         </>
     );
 }

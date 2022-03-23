@@ -1,5 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import { SegmentAddButton } from "./SegmentAddButton";
+import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 
 function clickDeleteSegment(seg, setSegments) {
     setSegments((segment) =>
@@ -21,7 +22,7 @@ function SegmentsDisplay({ existingPoints, segments, setSegments }) {
             <h3>Segments</h3>
 
             {segments.length > 0 ? (
-                <ul className="controlled-height">
+                <S_ControlledHeightUL>
                     {segments.map((seg) => (
                         <li key={seg[0] + seg[1]}>
                             {`[${seg[0]}, ${seg[1]} ]`}
@@ -31,7 +32,7 @@ function SegmentsDisplay({ existingPoints, segments, setSegments }) {
                             />
                         </li>
                     ))}
-                </ul>
+                </S_ControlledHeightUL>
             ) : null}
             {Object.keys(existingPoints).length > 1 ? (
                 <SegmentAddButton

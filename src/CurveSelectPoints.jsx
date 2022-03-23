@@ -2,6 +2,12 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { areArraysEqual } from "./areArraysEqual";
 import { midPoint } from "./midPoint";
+import {
+    S_DropdownButton,
+    S_DropdownContent,
+    S_Dropdown,
+    S_DropdownTitle,
+} from "./dropdownStyledComponents";
 
 function clickMenu(event, setNewCurve, index) {
     event.preventDefault();
@@ -14,20 +20,19 @@ function clickMenu(event, setNewCurve, index) {
 
 function DropdownItem({ pointName, setNewCurve, index }) {
     return (
-        <button
-            className="dropdown-button"
+        <S_DropdownButton
             name={pointName[0]}
             onClick={(e) => clickMenu(e, setNewCurve, index)}
         >
             {pointName[0]}
-        </button>
+        </S_DropdownButton>
     );
 }
 
 function DropdownMenu({ existingPoints, newCurve, setNewCurve, index }) {
     return (
-        <div className="dropdown">
-            <div className="dropdown-content">
+        <S_Dropdown>
+            <S_DropdownContent>
                 {Object.keys(existingPoints)
                     .sort()
                     .map((pointName) => {
@@ -40,11 +45,11 @@ function DropdownMenu({ existingPoints, newCurve, setNewCurve, index }) {
                             />
                         );
                     })}
-            </div>
-            <div className="dropdown-title">
+            </S_DropdownContent>
+            <S_DropdownTitle>
                 <div>{newCurve[index] ?? "Point"}</div> <ChevronDownIcon />
-            </div>
-        </div>
+            </S_DropdownTitle>
+        </S_Dropdown>
     );
 }
 

@@ -1,3 +1,4 @@
+import styled, { css } from "styled-components";
 import { pointExists } from "./pointExists";
 
 function PatternPoint({ index, value, numCellHeight, gridSpacing, onClick }) {
@@ -5,11 +6,9 @@ function PatternPoint({ index, value, numCellHeight, gridSpacing, onClick }) {
     const distFromLeft =
         Math.floor(index / (numCellHeight - 1)) * gridSpacing + 42;
     return (
-        <button
+        <S_PatternPoint
             key={index}
-            className={
-                value ? "pattern-point pattern-point-existing" : "pattern-point"
-            }
+            existing={!!value}
             onClick={onClick}
             style={{
                 top: `${distFromTop}px`,
@@ -17,7 +16,7 @@ function PatternPoint({ index, value, numCellHeight, gridSpacing, onClick }) {
             }}
         >
             {value}
-        </button>
+        </S_PatternPoint>
     );
 }
 
@@ -58,5 +57,27 @@ function createNewPoint(
         }
     });
 }
+
+const S_PatternPoint = styled.button`
+    cursor: pointer;
+    height: 16px;
+    opacity: 0;
+    position: absolute;
+    width: 16px;
+
+    &:hover {
+        background-color: white;
+        border-color: black;
+        opacity: 1;
+    }
+
+    ${({ existing }) =>
+        existing &&
+        css`
+            background-color: white;
+            border: none;
+            opacity: 1;
+        `}
+`;
 
 export { PatternPoint, createNewPoint };
