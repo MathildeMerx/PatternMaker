@@ -9,16 +9,16 @@ import styled from "styled-components";
 function App() {
     let [{ width, height }, containerRef] = useContainerDimensions();
 
-    const [gridSpacing, setGridSpacing] = useState(50);
+    const [numColumns, setNumColumns] = useState(10);
+    const [numRows, setNumRows] = useState(10);
 
-    const numCellWidth = Math.floor((width - GRID_MARGIN) / gridSpacing);
+    const cellWidth = Math.floor((width - GRID_MARGIN) / numColumns);
 
-    const numCellHeight = Math.floor(
-        (height - (PATTERN_TITLE_MARGIN * 2 + PATTERN_TITLE_HEIGHT)) /
-            gridSpacing
+    const cellHeight = Math.floor(
+        (height - (PATTERN_TITLE_MARGIN * 2 + PATTERN_TITLE_HEIGHT)) / numRows
     );
 
-    const numButton = (numCellHeight - 1) * (numCellWidth - 1);
+    const numButton = (numColumns - 1) * (numRows - 1);
 
     const [existingPoints, setExistingPoints] = useState({});
     const [segments, setSegments] = useState([]);
@@ -41,27 +41,42 @@ function App() {
                         existingPoints={existingPoints}
                         curves={curves}
                         setCurves={setCurves}
+                        cellHeight={cellHeight}
+                        cellWidth={cellWidth}
                     />
                     <input
                         type="range"
-                        min="16"
-                        max="100"
-                        value={gridSpacing}
-                        onChange={(e) => setGridSpacing(e.target.value)}
+                        min="10"
+                        max="50"
+                        value={numColumns}
+                        onChange={(e) =>
+                            setNumColumns(parseInt(e.target.value))
+                        }
                         className="slider"
                         id="borderRadius"
-                    />{" "}
-                    {gridSpacing}
+                    />
+                    Number of columns: {numColumns}
+                    <input
+                        type="range"
+                        min="10"
+                        max="50"
+                        value={numRows}
+                        onChange={(e) => setNumRows(parseInt(e.target.value))}
+                        className="slider"
+                        id="borderRadius"
+                    />
+                    Number of rows: {numRows}
                 </aside>
                 <S_DesignContent ref={containerRef}>
                     <S_PatternName>GRID</S_PatternName>
                     <Grid
-                        numCellWidth={numCellWidth}
-                        numCellHeight={numCellHeight}
+                        numColumns={numColumns}
+                        numRows={numRows}
                         numButton={numButton}
                         existingPoints={existingPoints}
                         setExistingPoints={setExistingPoints}
-                        gridSpacing={gridSpacing}
+                        cellHeight={cellHeight}
+                        cellWidth={cellWidth}
                         segments={segments}
                         curves={curves}
                         setCurves={setCurves}

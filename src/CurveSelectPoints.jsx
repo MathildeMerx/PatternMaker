@@ -9,6 +9,8 @@ import {
     S_DropdownTitle,
 } from "./dropdownStyledComponents";
 
+import { v4 as uuidv4 } from "uuid";
+
 function clickMenu(event, setNewCurve, index) {
     event.preventDefault();
     setNewCurve((newCurve) => {
@@ -53,12 +55,27 @@ function DropdownMenu({ existingPoints, newCurve, setNewCurve, index }) {
     );
 }
 
-function addCurve(event, newCurve, setCurves, setAddingCurve, existingPoints) {
+function addCurve(
+    event,
+    newCurve,
+    setCurves,
+    setAddingCurve,
+    existingPoints,
+    cellWidth,
+    cellHeight
+) {
     event.preventDefault();
     const futureCurve = [
         newCurve[0],
         newCurve[1],
-        ...midPoint(existingPoints, newCurve[0], newCurve[1]),
+        ...midPoint(
+            existingPoints,
+            newCurve[0],
+            newCurve[1],
+            cellWidth,
+            cellHeight
+        ),
+        uuidv4(),
     ];
     setCurves((curves) => {
         if (
@@ -81,7 +98,13 @@ function addCurve(event, newCurve, setCurves, setAddingCurve, existingPoints) {
     setAddingCurve(false);
 }
 
-function CurveSelectPoints({ existingPoints, setCurves, setAddingCurve }) {
+function CurveSelectPoints({
+    existingPoints,
+    setCurves,
+    setAddingCurve,
+    cellWidth,
+    cellHeight,
+}) {
     const [newCurve, setNewCurve] = useState([null, null, null, null]);
     return (
         <div>
@@ -106,7 +129,9 @@ function CurveSelectPoints({ existingPoints, setCurves, setAddingCurve }) {
                         newCurve,
                         setCurves,
                         setAddingCurve,
-                        existingPoints
+                        existingPoints,
+                        cellWidth,
+                        cellHeight
                     )
                 }
             >

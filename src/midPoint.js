@@ -1,4 +1,10 @@
-function midPoint(existingPoints, firstPoint, secondPoint) {
+function midPoint(
+    existingPoints,
+    firstPoint,
+    secondPoint,
+    cellWidth,
+    cellHeight
+) {
     const [firstAbscissa, firstOrdinate] = existingPoints[firstPoint];
     const [secondAbscissa, secondOrdinate] = existingPoints[secondPoint];
 

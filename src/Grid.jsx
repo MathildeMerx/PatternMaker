@@ -8,29 +8,30 @@ import { CurvePath } from "./CurvePath";
 import styled from "styled-components";
 
 function Grid({
-    numCellWidth,
-    numCellHeight,
+    numRows,
+    numColumns,
     numButton,
     existingPoints,
     setExistingPoints,
-    gridSpacing,
+    cellHeight,
+    cellWidth,
     segments,
     curves,
     setCurves,
 }) {
     const SVGRef = useRef();
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
-    const arrWidth = [...Array(numCellWidth).keys()];
-    const arrHeight = [...Array(numCellHeight).keys()];
+    const arrWidth = [...Array(numColumns).keys()];
+    const arrHeight = [...Array(numRows).keys()];
     const arrButton = [...Array(numButton).keys()];
-    const width = numCellWidth * gridSpacing;
-    const height = numCellHeight * gridSpacing;
+    const width = numColumns * cellWidth;
+    const height = numRows * cellHeight;
 
     return (
         <DesignGrid
             style={{
-                width: `${numCellWidth * gridSpacing}px`,
-                height: `${numCellHeight * gridSpacing}px`,
+                width: `${width}px`,
+                height: `${height}px`,
             }}
         >
             <svg
@@ -44,43 +45,48 @@ function Grid({
                         key={seg[0] + seg[1]}
                         segment={seg}
                         existingPoints={existingPoints}
-                        gridSpacing={gridSpacing}
+                        cellHeight={cellHeight}
+                        cellWidth={cellWidth}
                     />
                 ))}
-                {curves.map((curve, index) => (
-                    <CurvePath
-                        curve={curve}
-                        curveIndex={index}
-                        existingPoints={existingPoints}
-                        SVGRef={SVGRef}
-                        setCurves={setCurves}
-                        gridSpacing={gridSpacing}
-                        key={index}
-                    />
-                ))}
+                {curves.map((curve, index) => {
+                    return (
+                        <CurvePath
+                            curve={curve}
+                            curveIndex={index}
+                            existingPoints={existingPoints}
+                            SVGRef={SVGRef}
+                            setCurves={setCurves}
+                            cellHeight={cellHeight}
+                            cellWidth={cellWidth}
+                            key={index}
+                        />
+                    );
+                })}
             </svg>
             {arrWidth.map((line) => (
                 <Column
                     key={line}
-                    style={{ left: `${(line + 1) * gridSpacing}px` }}
+                    style={{ left: `${(line + 1) * cellWidth}px` }}
                 />
             ))}
             {arrHeight.map((line) => (
                 <Row
                     key={line}
-                    style={{ top: `${(line + 1) * gridSpacing}px` }}
+                    style={{ top: `${(line + 1) * cellHeight}px` }}
                 />
             ))}
             {arrButton.map((index) => {
-                const absc = abscissa(index, numCellHeight);
-                const ord = ordinate(index, numCellHeight);
+                const absc = abscissa(index, numRows);
+                const ord = ordinate(index, numRows);
                 return (
                     <PatternPoint
                         index={index}
                         key={index}
                         value={pointExists(absc, ord, existingPoints)}
-                        numCellHeight={numCellHeight}
-                        gridSpacing={gridSpacing}
+                        numRows={numRows}
+                        cellHeight={cellHeight}
+                        cellWidth={cellWidth}
                         onClick={() => {
                             createNewPoint(
                                 absc,

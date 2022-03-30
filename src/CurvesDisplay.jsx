@@ -24,7 +24,13 @@ function DeleteCurve({ curv, setCurves }) {
     );
 }
 
-function CurvesDisplay({ existingPoints, curves, setCurves }) {
+function CurvesDisplay({
+    existingPoints,
+    curves,
+    setCurves,
+    cellWidth,
+    cellHeight,
+}) {
     return (
         <div>
             <h2>Curves</h2>
@@ -58,6 +64,8 @@ function CurvesDisplay({ existingPoints, curves, setCurves }) {
                 <CurveAddButton
                     existingPoints={existingPoints}
                     setCurves={setCurves}
+                    cellHeight={cellHeight}
+                    cellWidth={cellWidth}
                 />
             ) : null}
         </div>

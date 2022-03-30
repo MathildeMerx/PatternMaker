@@ -7,7 +7,8 @@ function CurvePath({
     existingPoints,
     SVGRef,
     setCurves,
-    gridSpacing,
+    cellHeight,
+    cellWidth,
 }) {
     const [showConstructionSegments, setShowConstructionSegments] =
         useState(false);
@@ -15,23 +16,23 @@ function CurvePath({
     const [isDragging, setIsDragging] = useState(false);
     const [startPoint, endPoint, ...controlPoint] = curve;
 
-    const startAbscissa = existingPoints[startPoint][0] * gridSpacing;
-    const startOrdinate = existingPoints[startPoint][1] * gridSpacing;
-    const endAbscissa = existingPoints[endPoint][0] * gridSpacing;
-    const endOrdinate = existingPoints[endPoint][1] * gridSpacing;
+    const startAbscissa = existingPoints[startPoint][0] * cellWidth;
+    const startOrdinate = existingPoints[startPoint][1] * cellHeight;
+    const endAbscissa = existingPoints[endPoint][0] * cellWidth;
+    const endOrdinate = existingPoints[endPoint][1] * cellHeight;
     const [controlAbscissa, setControlAbscissa] = useState(
-        () => controlPoint[0] * gridSpacing
+        () => controlPoint[0]
     );
     const [controlOrdinate, setControlOrdinate] = useState(
-        () => controlPoint[1] * gridSpacing
+        () => controlPoint[1]
     );
 
     const draggingInfo = SVGRef.current.getBoundingClientRect();
 
     function handleMouseMove({ clientX, clientY }) {
         if (isDragging) {
-            setControlAbscissa(clientX - draggingInfo.left);
-            setControlOrdinate(clientY - draggingInfo.top);
+            setControlAbscissa((clientX - draggingInfo.left) / cellWidth);
+            setControlOrdinate((clientY - draggingInfo.top) / cellHeight);
         } else {
             return;
         }
@@ -46,14 +47,14 @@ function CurvePath({
                     curvesCopy[i] = [
                         currentCurve[0],
                         currentCurve[1],
-                        controlAbscissa / gridSpacing,
-                        controlOrdinate / gridSpacing,
+                        controlAbscissa,
+                        controlOrdinate,
                     ];
                 }
             }
             return curvesCopy;
         });
-    }, [controlAbscissa, controlOrdinate, curveIndex, setCurves, gridSpacing]);
+    }, [controlAbscissa, controlOrdinate, curveIndex, setCurves]);
 
     return (
         <>
@@ -62,7 +63,9 @@ function CurvePath({
                 onMouseLeave={() => setIsHovering(false)}
                 onClick={() => setShowConstructionSegments((value) => !value)}
                 d={`M ${startAbscissa} ${startOrdinate} 
-  Q ${controlAbscissa} ${controlOrdinate} ${endAbscissa} ${endOrdinate}`}
+  Q ${controlAbscissa * cellWidth} ${
+                    controlOrdinate * cellHeight
+                } ${endAbscissa} ${endOrdinate}`}
                 fill="none"
                 stroke="red"
                 strokeWidth={isHovering ? "5" : "2"}
@@ -71,7 +74,7 @@ function CurvePath({
             {showConstructionSegments ? (
                 <path
                     d={`M ${startAbscissa} ${startOrdinate} 
-L ${controlAbscissa} ${controlOrdinate} `}
+L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     fill="none"
                     stroke="blue"
                     strokeDasharray="4"
@@ -81,7 +84,7 @@ L ${controlAbscissa} ${controlOrdinate} `}
             {showConstructionSegments ? (
                 <path
                     d={`M ${endAbscissa} ${endOrdinate} 
-L ${controlAbscissa} ${controlOrdinate} `}
+L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     fill="none"
                     stroke="blue"
                     strokeDasharray="4"
@@ -93,8 +96,8 @@ L ${controlAbscissa} ${controlOrdinate} `}
                     onMouseDown={() => setIsDragging(true)}
                     onMouseUp={() => setIsDragging(false)}
                     onMouseMove={(event) => handleMouseMove(event)}
-                    cx={controlAbscissa}
-                    cy={controlOrdinate}
+                    cx={controlAbscissa * cellWidth}
+                    cy={controlOrdinate * cellHeight}
                     r="5"
                     fill="blue"
                     style={{ zIndex: "1" }}
