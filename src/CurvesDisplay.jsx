@@ -2,23 +2,13 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { CurveAddButton } from "./CurveAddButton";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 
-function clickDeleteCurve(curv, setCurves) {
-    setCurves((curve) =>
-        curve.filter(
-            (value) =>
-                !(
-                    value[0] === curv[0] &&
-                    value[1] === curv[1] &&
-                    value[2] === curv[2] &&
-                    value[3] === curv[3]
-                )
-        )
-    );
+function clickDeleteCurve(curveIndex, setCurves) {
+    setCurves((curve) => curve.filter((value) => !(value[4] === curveIndex)));
 }
 
-function DeleteCurve({ curv, setCurves }) {
+function DeleteCurve({ curveIndex, setCurves }) {
     return (
-        <button onClick={() => clickDeleteCurve(curv, setCurves)}>
+        <button onClick={() => clickDeleteCurve(curveIndex, setCurves)}>
             <DeleteIcon />
         </button>
     );
@@ -52,7 +42,7 @@ function CurvesDisplay({
                                     2
                                 )}, ${curv[3].toFixed(2)})`}</sub>
                                 <DeleteCurve
-                                    curv={curv}
+                                    curveIndex={curv[4]}
                                     setCurves={setCurves}
                                 />
                             </li>

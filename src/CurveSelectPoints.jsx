@@ -81,8 +81,14 @@ function addCurve(
         if (
             curves.some(
                 ([start, end, ...rest]) =>
-                    areArraysEqual([start, end, ...rest], futureCurve) ||
-                    areArraysEqual([end, start, ...rest], futureCurve)
+                    areArraysEqual(
+                        [start, end, ...rest].slice(0, -1),
+                        futureCurve.slice(0, -1)
+                    ) ||
+                    areArraysEqual(
+                        [end, start, ...rest].slice(0, -1),
+                        futureCurve.slice(0, -1)
+                    )
             ) ||
             futureCurve[0] === null ||
             futureCurve[1] === null ||

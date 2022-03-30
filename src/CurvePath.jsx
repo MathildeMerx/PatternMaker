@@ -49,6 +49,7 @@ function CurvePath({
                         currentCurve[1],
                         controlAbscissa,
                         controlOrdinate,
+                        currentCurve[4],
                     ];
                 }
             }

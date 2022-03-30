@@ -59,7 +59,7 @@ function Grid({
                             setCurves={setCurves}
                             cellHeight={cellHeight}
                             cellWidth={cellWidth}
-                            key={index}
+                            key={curve[4]}
                         />
                     );
                 })}
