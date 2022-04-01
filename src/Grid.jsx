@@ -18,6 +18,7 @@ function Grid({
     segments,
     curves,
     setCurves,
+    setAlertDeletePoint,
 }) {
     const SVGRef = useRef();
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
@@ -40,6 +41,17 @@ function Grid({
                 height={height}
                 viewBox={`0 0 ${width} ${height} `}
             >
+                {Object.keys(existingPoints).length === 0 ? (
+                    <text
+                        x={`${width * 0.05}`}
+                        y={`${height / 3}`}
+                        textLength={`${width * 0.9}`}
+                        fontSize="48"
+                        fill="gainsboro"
+                    >
+                        Click on this grid to create a point!
+                    </text>
+                ) : null}
                 {segments.map((seg) => (
                     <SegmentPath
                         key={seg[0] + seg[1]}
@@ -49,7 +61,7 @@ function Grid({
                         cellWidth={cellWidth}
                     />
                 ))}
-                {curves.map((curve, index) => {
+                {Object.entries(curves).map(([index, curve]) => {
                     return (
                         <CurvePath
                             curve={curve}
@@ -59,7 +71,7 @@ function Grid({
                             setCurves={setCurves}
                             cellHeight={cellHeight}
                             cellWidth={cellWidth}
-                            key={curve[4]}
+                            key={index}
                         />
                     );
                 })}
@@ -95,7 +107,9 @@ function Grid({
                                 setExistingPoints,
                                 possiblePointNames,
                                 setPossiblePointNames,
-                                segments
+                                segments,
+                                curves,
+                                setAlertDeletePoint
                             );
                         }}
                     />

@@ -75,20 +75,13 @@ function addCurve(
             cellWidth,
             cellHeight
         ),
-        uuidv4(),
     ];
     setCurves((curves) => {
         if (
-            curves.some(
+            Object.values(curves).some(
                 ([start, end, ...rest]) =>
-                    areArraysEqual(
-                        [start, end, ...rest].slice(0, -1),
-                        futureCurve.slice(0, -1)
-                    ) ||
-                    areArraysEqual(
-                        [end, start, ...rest].slice(0, -1),
-                        futureCurve.slice(0, -1)
-                    )
+                    areArraysEqual([start, end, ...rest], futureCurve) ||
+                    areArraysEqual([end, start, ...rest], futureCurve)
             ) ||
             futureCurve[0] === null ||
             futureCurve[1] === null ||
@@ -96,8 +89,8 @@ function addCurve(
         ) {
             return curves;
         } else {
-            let curvesCopy = curves.slice();
-            curvesCopy.push(futureCurve);
+            let curvesCopy = JSON.parse(JSON.stringify(curves));
+            curvesCopy[uuidv4()] = futureCurve;
             return curvesCopy;
         }
     });

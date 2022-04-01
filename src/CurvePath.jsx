@@ -41,18 +41,13 @@ function CurvePath({
     useEffect(() => {
         setCurves((curves) => {
             const currentCurve = curves[curveIndex];
-            let curvesCopy = curves.slice();
-            for (let i = 0; i < curvesCopy.length; i++) {
-                if (areArraysEqual(curves[i], currentCurve)) {
-                    curvesCopy[i] = [
-                        currentCurve[0],
-                        currentCurve[1],
-                        controlAbscissa,
-                        controlOrdinate,
-                        currentCurve[4],
-                    ];
-                }
-            }
+            let curvesCopy = JSON.parse(JSON.stringify(curves));
+            curvesCopy[curveIndex] = [
+                currentCurve[0],
+                currentCurve[1],
+                controlAbscissa,
+                controlOrdinate,
+            ];
             return curvesCopy;
         });
     }, [controlAbscissa, controlOrdinate, curveIndex, setCurves]);

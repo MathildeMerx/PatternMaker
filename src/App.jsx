@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Grid } from "./Grid";
 import { useContainerDimensions } from "./useContainerDimensions";
 import { SegmentsDisplay } from "./SegmentsDisplay";
@@ -22,7 +22,17 @@ function App() {
 
     const [existingPoints, setExistingPoints] = useState({});
     const [segments, setSegments] = useState([]);
-    const [curves, setCurves] = useState([]);
+    const [curves, setCurves] = useState({});
+
+    const [alertDeletePoint, setAlertDeletePoint] = useState(false);
+
+    useEffect(() => {
+        const alertTimer = setTimeout(() => {
+            setAlertDeletePoint(false);
+        }, 5000);
+
+        return () => clearTimeout(alertTimer);
+    }, [setAlertDeletePoint, alertDeletePoint]);
 
     return (
         <S_Content>
@@ -36,6 +46,7 @@ function App() {
                         existingPoints={existingPoints}
                         segments={segments}
                         setSegments={setSegments}
+                        alertDeletePoint={alertDeletePoint}
                     />
                     <CurvesDisplay
                         existingPoints={existingPoints}
@@ -43,6 +54,7 @@ function App() {
                         setCurves={setCurves}
                         cellHeight={cellHeight}
                         cellWidth={cellWidth}
+                        alertDeletePoint={alertDeletePoint}
                     />
                     <input
                         type="range"
@@ -80,6 +92,7 @@ function App() {
                         segments={segments}
                         curves={curves}
                         setCurves={setCurves}
+                        setAlertDeletePoint={setAlertDeletePoint}
                     />
                 </S_DesignContent>
             </S_GridDisplay>

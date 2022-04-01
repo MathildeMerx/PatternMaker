@@ -41,12 +41,22 @@ function createNewPoint(
     setExistingPoints,
     possiblePointNames,
     setPossiblePointNames,
-    segments
+    segments,
+    curves,
+    setAlertDeletePoint
 ) {
     let value = pointExists(abscissa, ordinate, existingPoints);
 
     for (let seg in segments) {
         if (segments[seg][0] === value || segments[seg][1] === value) {
+            setAlertDeletePoint(["seg", value, segments[seg]]);
+            return;
+        }
+    }
+
+    for (let curv in curves) {
+        if (curves[curv][0] === value || curves[curv][1] === value) {
+            setAlertDeletePoint(["curv", value, curves[curv].slice(0, 2)]);
             return;
         }
     }

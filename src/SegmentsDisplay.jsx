@@ -1,6 +1,7 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import { SegmentAddButton } from "./SegmentAddButton";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
+import { S_AlertMessage } from "./S_AlertMessage";
 
 function clickDeleteSegment(seg, setSegments) {
     setSegments((segment) =>
@@ -16,7 +17,12 @@ function DeleteSegment({ seg, setSegments }) {
     );
 }
 
-function SegmentsDisplay({ existingPoints, segments, setSegments }) {
+function SegmentsDisplay({
+    existingPoints,
+    segments,
+    setSegments,
+    alertDeletePoint,
+}) {
     return (
         <div>
             <h3>Segments</h3>
@@ -33,6 +39,15 @@ function SegmentsDisplay({ existingPoints, segments, setSegments }) {
                         </li>
                     ))}
                 </S_ControlledHeightUL>
+            ) : null}
+            {alertDeletePoint ? (
+                alertDeletePoint[0] === "seg" ? (
+                    <S_AlertMessage>
+                        Point {alertDeletePoint[1]} belongs to segment [
+                        {alertDeletePoint[2][0]}, {alertDeletePoint[2][1]}],
+                        delete this segment first!
+                    </S_AlertMessage>
+                ) : null
             ) : null}
             {Object.keys(existingPoints).length > 1 ? (
                 <SegmentAddButton
