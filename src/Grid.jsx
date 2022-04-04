@@ -30,7 +30,7 @@ function Grid({
     const height = numRows * cellHeight;
 
     return (
-        <DesignGrid
+        <S_DesignGrid
             style={{
                 width: `${width}px`,
                 height: `${height}px`,
@@ -106,13 +106,13 @@ function Grid({
                 })}
             </svg>
             {arrWidth.map((line) => (
-                <Column
+                <S_Column
                     key={line}
                     style={{ left: `${(line + 1) * cellWidth}px` }}
                 />
             ))}
             {arrHeight.map((line) => (
-                <Row
+                <S_Row
                     key={line}
                     style={{ top: `${(line + 1) * cellHeight}px` }}
                 />
@@ -142,11 +142,11 @@ function Grid({
                     );
                 }
             )}
-        </DesignGrid>
+        </S_DesignGrid>
     );
 }
 
-const Column = styled.div`
+const S_Column = styled.div`
     background-color: gainsboro;
     height: 100%;
     position: absolute;
@@ -154,13 +154,13 @@ const Column = styled.div`
     width: 1px;
 `;
 
-const DesignGrid = styled.div`
+const S_DesignGrid = styled.div`
     border: solid 1px gainsboro;
     margin: auto;
     position: relative;
 `;
 
-const Row = styled.div`
+const S_Row = styled.div`
     background-color: gainsboro;
     height: 1px;
     left: 0;
