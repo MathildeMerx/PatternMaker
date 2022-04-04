@@ -46,16 +46,23 @@ function Grid({
                     setExistingPoints((existingPoints) => ({
                         ...existingPoints,
                         [pointName]: [
-                            (
-                                (event.clientX -
-                                    event.target.getBoundingClientRect().left) /
-                                cellWidth
-                            ).toFixed(2),
-                            (
-                                (event.clientY -
-                                    event.target.getBoundingClientRect().top) /
-                                cellHeight
-                            ).toFixed(2),
+                            parseFloat(
+                                (
+                                    (event.clientX -
+                                        event.target.getBoundingClientRect()
+                                            .left) /
+                                    cellWidth
+                                ).toFixed(2)
+                            ),
+
+                            parseFloat(
+                                (
+                                    (event.clientY -
+                                        event.target.getBoundingClientRect()
+                                            .top) /
+                                    cellHeight
+                                ).toFixed(2)
+                            ),
                         ],
                     }));
                     setPossiblePointNames((possiblePointNames) =>
@@ -117,8 +124,8 @@ function Grid({
                             pointName={pointName}
                             cellWidth={cellWidth}
                             cellHeight={cellHeight}
-                            positionX={parseFloat(positionX)}
-                            positionY={parseFloat(positionY)}
+                            positionX={positionX}
+                            positionY={positionY}
                             key={pointName}
                             onClick={() => {
                                 createNewPoint(

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { areArraysEqual } from "./areArraysEqual";
 
 function CurvePath({
     curve,

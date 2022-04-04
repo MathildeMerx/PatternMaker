@@ -1,13 +1,8 @@
-function midPoint(
-    existingPoints,
-    firstPoint,
-    secondPoint,
-    cellWidth,
-    cellHeight
-) {
+function midPoint(existingPoints, firstPoint, secondPoint) {
     const [firstAbscissa, firstOrdinate] = existingPoints[firstPoint];
     const [secondAbscissa, secondOrdinate] = existingPoints[secondPoint];
 
+    console.log(typeof firstAbscissa);
     const midAbscissa =
         (firstAbscissa + secondAbscissa) % 2 === 0
             ? (firstAbscissa + secondAbscissa + 1) / 2
