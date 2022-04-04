@@ -19,6 +19,7 @@ function Grid({
     curves,
     setCurves,
     setAlertDeletePoint,
+    setTestExistingPoints,
 }) {
     const SVGRef = useRef();
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
@@ -40,13 +41,34 @@ function Grid({
                 width={width}
                 height={height}
                 viewBox={`0 0 ${width} ${height} `}
+                onClick={(event) => {
+                    let pointName = possiblePointNames[0];
+                    setExistingPoints((existingPoints) => ({
+                        ...existingPoints,
+                        [pointName]: [
+                            (
+                                (event.clientX -
+                                    event.target.getBoundingClientRect().left) /
+                                cellWidth
+                            ).toFixed(2),
+                            (
+                                (event.clientY -
+                                    event.target.getBoundingClientRect().top) /
+                                cellHeight
+                            ).toFixed(2),
+                        ],
+                    }));
+                    setPossiblePointNames((possiblePointNames) =>
+                        possiblePointNames.slice(1)
+                    );
+                }}
             >
                 {Object.keys(existingPoints).length === 0 ? (
                     <text
-                        x={`${width * 0.05}`}
+                        x={`${width / 20}`}
                         y={`${height / 3}`}
                         textLength={`${width * 0.9}`}
-                        fontSize="48"
+                        fontSize={`${width / 20}`}
                         fill="gainsboro"
                     >
                         Click on this grid to create a point!

@@ -96,7 +96,6 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     cy={controlOrdinate * cellHeight}
                     r="5"
                     fill="blue"
-                    style={{ zIndex: "1" }}
                 />
             ) : null}
         </>

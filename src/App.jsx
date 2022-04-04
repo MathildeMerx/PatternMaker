@@ -21,6 +21,7 @@ function App() {
     const numButton = (numColumns - 1) * (numRows - 1);
 
     const [existingPoints, setExistingPoints] = useState({});
+    const [testExistingPoints, setTestExistingPoints] = useState({});
     const [segments, setSegments] = useState([]);
     const [curves, setCurves] = useState({});
 
@@ -93,6 +94,7 @@ function App() {
                         curves={curves}
                         setCurves={setCurves}
                         setAlertDeletePoint={setAlertDeletePoint}
+                        setTestExistingPoints={setTestExistingPoints}
                     />
                 </S_DesignContent>
             </S_GridDisplay>
