@@ -110,33 +110,31 @@ function Grid({
                     style={{ top: `${(line + 1) * cellHeight}px` }}
                 />
             ))}
-            {arrButton.map((index) => {
-                const absc = abscissa(index, numRows);
-                const ord = ordinate(index, numRows);
-                return (
-                    <PatternPoint
-                        index={index}
-                        key={index}
-                        value={pointExists(absc, ord, existingPoints)}
-                        numRows={numRows}
-                        cellHeight={cellHeight}
-                        cellWidth={cellWidth}
-                        onClick={() => {
-                            createNewPoint(
-                                absc,
-                                ord,
-                                existingPoints,
-                                setExistingPoints,
-                                possiblePointNames,
-                                setPossiblePointNames,
-                                segments,
-                                curves,
-                                setAlertDeletePoint
-                            );
-                        }}
-                    />
-                );
-            })}
+            {Object.entries(existingPoints).map(
+                ([pointName, [positionX, positionY]]) => {
+                    return (
+                        <PatternPoint
+                            pointName={pointName}
+                            cellWidth={cellWidth}
+                            cellHeight={cellHeight}
+                            positionX={parseFloat(positionX)}
+                            positionY={parseFloat(positionY)}
+                            key={pointName}
+                            onClick={() => {
+                                createNewPoint(
+                                    pointName,
+                                    existingPoints,
+                                    setExistingPoints,
+                                    setPossiblePointNames,
+                                    segments,
+                                    curves,
+                                    setAlertDeletePoint
+                                );
+                            }}
+                        />
+                    );
+                }
+            )}
         </DesignGrid>
     );
 }
