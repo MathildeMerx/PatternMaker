@@ -4,6 +4,7 @@ import { useContainerDimensions } from "./useContainerDimensions";
 import { SegmentsDisplay } from "./SegmentsDisplay";
 import { PointsDisplay } from "./PointsDisplay";
 import { CurvesDisplay } from "./CurvesDisplay";
+import { EditIcon } from "@chakra-ui/icons";
 import styled from "styled-components";
 
 function App() {
@@ -21,7 +22,6 @@ function App() {
     const numButton = (numColumns - 1) * (numRows - 1);
 
     const [existingPoints, setExistingPoints] = useState({});
-    const [testExistingPoints, setTestExistingPoints] = useState({});
     const [segments, setSegments] = useState([]);
     const [curves, setCurves] = useState({});
 
@@ -34,6 +34,9 @@ function App() {
 
         return () => clearTimeout(alertTimer);
     }, [setAlertDeletePoint, alertDeletePoint]);
+
+    const [pieceName, setPieceName] = useState("Piece of pattern name");
+    const [editingName, setEditingName] = useState(false);
 
     return (
         <S_Content>
@@ -81,7 +84,33 @@ function App() {
                     Number of rows: {numRows}
                 </aside>
                 <S_DesignContent ref={containerRef}>
-                    <S_PatternName>GRID</S_PatternName>
+                    {editingName ? (
+                        <form
+                            onSubmit={() => setEditingName(false)}
+                            style={{ textAlign: "center" }}
+                        >
+                            <label htmlFor="Title-piece-of-pattern">
+                                <S_PatternNameModify
+                                    id="Title-piece-of-pattern"
+                                    type="text"
+                                    value={pieceName}
+                                    onChange={(event) =>
+                                        setPieceName(event.target.value)
+                                    }
+                                ></S_PatternNameModify>
+                            </label>
+                            <input type="submit" />
+                        </form>
+                    ) : (
+                        <S_PatternName>
+                            {pieceName}
+                            <S_EditIcon>
+                                <EditIcon
+                                    onClick={() => setEditingName(true)}
+                                />
+                            </S_EditIcon>
+                        </S_PatternName>
+                    )}
                     <Grid
                         numColumns={numColumns}
                         numRows={numRows}
@@ -123,6 +152,11 @@ const S_DesignContent = styled.section`
     width: calc(100% - ${GRID_MARGIN}px);
 `;
 
+const S_EditIcon = styled.span`
+    cursor: pointer;
+    margin-left: 10px;
+`;
+
 const S_GridDisplay = styled.div`
     display: grid;
     grid-column-gap: 32px;
@@ -133,6 +167,15 @@ const S_GridDisplay = styled.div`
 const S_PatternName = styled.h2`
     line-height: ${PATTERN_TITLE_HEIGHT}px;
     margin: ${PATTERN_TITLE_MARGIN}px auto;
+    text-align: center;
+`;
+
+const S_PatternNameModify = styled.input`
+    border: 3px solid;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    line-height: ${PATTERN_TITLE_HEIGHT}px;
+    margin: ${PATTERN_TITLE_MARGIN - 4}px auto;
     text-align: center;
 `;
 
