@@ -67,7 +67,7 @@ function CurvePath({
                 fill="none"
                 stroke="red"
                 strokeWidth={isHovering ? "5" : "2"}
-                style={{ cursor: "pointer", zIndex: "1" }}
+                style={{ cursor: "pointer" }}
             />
             {showConstructionSegments ? (
                 <path
@@ -87,7 +87,6 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     stroke="blue"
                     strokeDasharray="4"
                     strokeWidth="2"
-                    style={{ zIndex: "1" }}
                 />
             ) : null}
             {showConstructionSegments ? (
@@ -102,7 +101,6 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     cy={controlOrdinate * cellHeight}
                     r="5"
                     fill="blue"
-                    style={{ zIndex: "1" }}
                 />
             ) : null}
         </>

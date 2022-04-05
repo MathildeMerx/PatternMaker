@@ -1,5 +1,5 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { pointExists } from "./pointExists";
 
 function PatternPoint({
     pointName,
@@ -8,7 +8,33 @@ function PatternPoint({
     positionX,
     positionY,
     onClick,
+    SVGRef,
+    setExistingPoints,
+    setDeleteButton,
 }) {
+    let [isDragging, setIsDragging] = useState(false);
+    let [mousePosition, setMousePosition] = useState([0, 0]);
+
+    const draggingInfo = SVGRef.current.getBoundingClientRect();
+
+    function handleMouseMove({ clientX, clientY }) {
+        if (isDragging) {
+            setExistingPoints((existingPoints) => ({
+                ...existingPoints,
+                [pointName]: [
+                    parseFloat(
+                        ((clientX - draggingInfo.left) / cellWidth).toFixed(1)
+                    ),
+                    parseFloat(
+                        ((clientY - draggingInfo.top) / cellHeight).toFixed(1)
+                    ),
+                ],
+            }));
+        } else {
+            return;
+        }
+    }
+
     return (
         <S_PatternPoint
             cellHeight={cellHeight}
@@ -16,6 +42,43 @@ function PatternPoint({
             onClick={onClick}
             pixelsX={positionX * cellWidth}
             pixelsY={positionY * cellHeight}
+            onMouseDown={(event) => {
+                setIsDragging(true);
+                setMousePosition([
+                    parseFloat(
+                        (
+                            (event.clientX - draggingInfo.left) /
+                            cellWidth
+                        ).toFixed(1)
+                    ),
+                    parseFloat(
+                        (
+                            (event.clientY - draggingInfo.top) /
+                            cellHeight
+                        ).toFixed(1)
+                    ),
+                ]);
+            }}
+            onMouseUp={(event) => {
+                setIsDragging(false);
+                if (
+                    parseFloat(
+                        (
+                            (event.clientX - draggingInfo.left) /
+                            cellWidth
+                        ).toFixed(1)
+                    ) === mousePosition[0] &&
+                    parseFloat(
+                        (
+                            (event.clientY - draggingInfo.top) /
+                            cellHeight
+                        ).toFixed(1)
+                    ) === mousePosition[1]
+                ) {
+                    setDeleteButton(true);
+                }
+            }}
+            onMouseMove={(event) => handleMouseMove(event)}
         >
             <S_PointName cellHeight={cellHeight} cellWidth={cellWidth}>
                 {pointName}
@@ -24,37 +87,51 @@ function PatternPoint({
     );
 }
 
-function createNewPoint(
+function deletePoint(
     pointName,
-    existingPoints,
     setExistingPoints,
     setPossiblePointNames,
     segments,
     curves,
-    setAlertDeletePoint
+    setAlertDeletePoint,
+    deleteButton,
+    setDeleteButton
 ) {
-    for (let seg in segments) {
-        if (segments[seg][0] === pointName || segments[seg][1] === pointName) {
-            setAlertDeletePoint(["seg", pointName, segments[seg]]);
-            return;
+    if (deleteButton) {
+        for (let seg in segments) {
+            if (
+                segments[seg][0] === pointName ||
+                segments[seg][1] === pointName
+            ) {
+                setAlertDeletePoint(["seg", pointName, segments[seg]]);
+                return;
+            }
         }
-    }
 
-    for (let curv in curves) {
-        if (curves[curv][0] === pointName || curves[curv][1] === pointName) {
-            setAlertDeletePoint(["curv", pointName, curves[curv].slice(0, 2)]);
-            return;
+        for (let curv in curves) {
+            if (
+                curves[curv][0] === pointName ||
+                curves[curv][1] === pointName
+            ) {
+                setAlertDeletePoint([
+                    "curv",
+                    pointName,
+                    curves[curv].slice(0, 2),
+                ]);
+                return;
+            }
         }
+
+        setExistingPoints((existingPoints) => {
+            const { [pointName]: val, ...rest } = existingPoints;
+            return rest;
+        });
+
+        setPossiblePointNames((possiblePointNames) => {
+            return [...possiblePointNames, pointName].sort();
+        });
     }
-
-    setExistingPoints((existingPoints) => {
-        const { [pointName]: val, ...rest } = existingPoints;
-        return rest;
-    });
-
-    setPossiblePointNames((possiblePointNames) => {
-        return [...possiblePointNames, pointName].sort();
-    });
+    setDeleteButton(false);
 }
 
 const S_PatternPoint = styled.div`
@@ -89,4 +166,4 @@ const S_PointName = styled.div`
     left: ${(props) => props.cellWidth / 5}px;
 `;
 
-export { PatternPoint, createNewPoint };
+export { PatternPoint, deletePoint };

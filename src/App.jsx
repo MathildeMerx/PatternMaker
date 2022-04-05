@@ -94,7 +94,6 @@ function App() {
                         curves={curves}
                         setCurves={setCurves}
                         setAlertDeletePoint={setAlertDeletePoint}
-                        setTestExistingPoints={setTestExistingPoints}
                     />
                 </S_DesignContent>
             </S_GridDisplay>

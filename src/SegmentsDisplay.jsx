@@ -31,7 +31,7 @@ function SegmentsDisplay({
                 <S_ControlledHeightUL>
                     {segments.map((seg) => (
                         <li key={seg[0] + seg[1]}>
-                            {`[${seg[0]}, ${seg[1]} ]`}
+                            {`[${seg[0]}, ${seg[1]}]`}
                             <DeleteSegment
                                 seg={seg}
                                 setSegments={setSegments}

@@ -37,8 +37,8 @@ function CurvesDisplay({
                             <li key={index}>
                                 {`[${curv[0]}, ${curv[1]}]`}
                                 <sub>{`(${curv[2].toFixed(
-                                    2
-                                )}, ${curv[3].toFixed(2)})`}</sub>
+                                    1
+                                )}, ${curv[3].toFixed(1)})`}</sub>
                                 <DeleteCurve
                                     curveIndex={index}
                                     setCurves={setCurves}

@@ -1,16 +1,13 @@
 import { useState, useRef } from "react";
-import { PatternPoint, createNewPoint } from "./PatternPoint";
+import { PatternPoint, deletePoint } from "./PatternPoint";
 import { pointNames } from "./alphabet";
 import { SegmentPath } from "./SegmentPath";
-import { abscissa, ordinate } from "./coordinates";
-import { pointExists } from "./pointExists";
 import { CurvePath } from "./CurvePath";
 import styled from "styled-components";
 
 function Grid({
     numRows,
     numColumns,
-    numButton,
     existingPoints,
     setExistingPoints,
     cellHeight,
@@ -19,15 +16,14 @@ function Grid({
     curves,
     setCurves,
     setAlertDeletePoint,
-    setTestExistingPoints,
 }) {
     const SVGRef = useRef();
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
     const arrWidth = [...Array(numColumns).keys()];
     const arrHeight = [...Array(numRows).keys()];
-    const arrButton = [...Array(numButton).keys()];
     const width = numColumns * cellWidth;
     const height = numRows * cellHeight;
+    const [deleteButton, setDeleteButton] = useState(false);
 
     return (
         <S_DesignGrid
@@ -52,7 +48,7 @@ function Grid({
                                         event.target.getBoundingClientRect()
                                             .left) /
                                     cellWidth
-                                ).toFixed(2)
+                                ).toFixed(1)
                             ),
 
                             parseFloat(
@@ -61,7 +57,7 @@ function Grid({
                                         event.target.getBoundingClientRect()
                                             .top) /
                                     cellHeight
-                                ).toFixed(2)
+                                ).toFixed(1)
                             ),
                         ],
                     }));
@@ -105,18 +101,6 @@ function Grid({
                     );
                 })}
             </svg>
-            {arrWidth.map((line) => (
-                <S_Column
-                    key={line}
-                    style={{ left: `${(line + 1) * cellWidth}px` }}
-                />
-            ))}
-            {arrHeight.map((line) => (
-                <S_Row
-                    key={line}
-                    style={{ top: `${(line + 1) * cellHeight}px` }}
-                />
-            ))}
             {Object.entries(existingPoints).map(
                 ([pointName, [positionX, positionY]]) => {
                     return (
@@ -126,22 +110,40 @@ function Grid({
                             cellHeight={cellHeight}
                             positionX={positionX}
                             positionY={positionY}
+                            SVGRef={SVGRef}
                             key={pointName}
+                            setExistingPoints={setExistingPoints}
+                            setDeleteButton={setDeleteButton}
                             onClick={() => {
-                                createNewPoint(
+                                deletePoint(
                                     pointName,
-                                    existingPoints,
                                     setExistingPoints,
                                     setPossiblePointNames,
                                     segments,
                                     curves,
-                                    setAlertDeletePoint
+                                    setAlertDeletePoint,
+                                    deleteButton,
+                                    setDeleteButton
                                 );
                             }}
                         />
                     );
                 }
             )}
+            {arrWidth.map((line) => (
+                <S_Column
+                    key={line}
+                    style={{ left: `${(line + 1) * cellWidth}px` }}
+                />
+            ))}
+            {arrHeight.map((line) => (
+                <S_Row
+                    key={line}
+                    style={{
+                        top: `${(line + 1) * cellHeight}px`,
+                    }}
+                />
+            ))}
         </S_DesignGrid>
     );
 }
