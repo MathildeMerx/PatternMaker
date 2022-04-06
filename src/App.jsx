@@ -25,15 +25,15 @@ function App() {
     const [segments, setSegments] = useState([]);
     const [curves, setCurves] = useState({});
 
-    const [alertDeletePoint, setAlertDeletePoint] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(false);
 
     useEffect(() => {
         const alertTimer = setTimeout(() => {
-            setAlertDeletePoint(false);
+            setAlertMessage(false);
         }, 5000);
 
         return () => clearTimeout(alertTimer);
-    }, [setAlertDeletePoint, alertDeletePoint]);
+    }, [setAlertMessage, alertMessage]);
 
     const [pieceName, setPieceName] = useState("Piece of pattern name");
     const [editingName, setEditingName] = useState(false);
@@ -50,7 +50,8 @@ function App() {
                         existingPoints={existingPoints}
                         segments={segments}
                         setSegments={setSegments}
-                        alertDeletePoint={alertDeletePoint}
+                        alertMessage={alertMessage}
+                        setAlertMessage={setAlertMessage}
                     />
                     <CurvesDisplay
                         existingPoints={existingPoints}
@@ -58,7 +59,8 @@ function App() {
                         setCurves={setCurves}
                         cellHeight={cellHeight}
                         cellWidth={cellWidth}
-                        alertDeletePoint={alertDeletePoint}
+                        alertMessage={alertMessage}
+                        setAlertMessage={setAlertMessage}
                     />
                     <input
                         type="range"
@@ -122,7 +124,7 @@ function App() {
                         segments={segments}
                         curves={curves}
                         setCurves={setCurves}
-                        setAlertDeletePoint={setAlertDeletePoint}
+                        setAlertMessage={setAlertMessage}
                     />
                 </S_DesignContent>
             </S_GridDisplay>

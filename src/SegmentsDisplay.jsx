@@ -21,8 +21,30 @@ function SegmentsDisplay({
     existingPoints,
     segments,
     setSegments,
-    alertDeletePoint,
+    alertMessage,
+    setAlertMessage,
 }) {
+    let alert;
+
+    if (alertMessage) {
+        switch (alertMessage[0]) {
+            case "deletePointSegment":
+                alert = `Point ${alertMessage[1]} belongs to segment [${alertMessage[2][0]}, ${alertMessage[2][1]}], delete this
+                    segment first!`;
+                break;
+
+            case "nullSegment":
+                alert = "Fill in a value for both ends of the segment!";
+                break;
+
+            case "existingSegment":
+                alert = "The same segment already exists!";
+                break;
+
+            default:
+                alert = "";
+        }
+    }
     return (
         <div>
             <h3>Segments</h3>
@@ -40,19 +62,12 @@ function SegmentsDisplay({
                     ))}
                 </S_ControlledHeightUL>
             ) : null}
-            {alertDeletePoint ? (
-                alertDeletePoint[0] === "seg" ? (
-                    <S_AlertMessage>
-                        Point {alertDeletePoint[1]} belongs to segment [
-                        {alertDeletePoint[2][0]}, {alertDeletePoint[2][1]}],
-                        delete this segment first!
-                    </S_AlertMessage>
-                ) : null
-            ) : null}
+            <S_AlertMessage>{alert}</S_AlertMessage>
             {Object.keys(existingPoints).length > 1 ? (
                 <SegmentAddButton
                     existingPoints={existingPoints}
                     setSegments={setSegments}
+                    setAlertMessage={setAlertMessage}
                 />
             ) : null}
         </div>

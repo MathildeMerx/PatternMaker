@@ -51,7 +51,13 @@ function DropdownMenu({ existingPoints, newSegment, setNewSegment, index }) {
     );
 }
 
-function addSegment(event, newSegment, setSegments, setAddingSegment) {
+function addSegment(
+    event,
+    newSegment,
+    setSegments,
+    setAddingSegment,
+    setAlertMessage
+) {
     event.preventDefault();
     setSegments((segments) => {
         if (
@@ -59,11 +65,15 @@ function addSegment(event, newSegment, setSegments, setAddingSegment) {
                 ([a, b]) =>
                     (a === newSegment[0]) & (b === newSegment[1]) ||
                     (b === newSegment[0]) & (a === newSegment[1])
-            ) ||
-            newSegment[0] === null ||
-            newSegment[1] === null ||
-            newSegment[0] === newSegment[1]
+            )
         ) {
+            setAlertMessage(["existingSegment", newSegment]);
+            return segments;
+        } else if (newSegment[0] === null || newSegment[1] === null) {
+            setAlertMessage(["nullSegment", newSegment]);
+            return segments;
+        } else if (newSegment[0] === newSegment[1]) {
+            setAlertMessage(["uniqueSegment", newSegment]);
             return segments;
         } else {
             let segmentsCopy = segments.slice();
@@ -78,6 +88,7 @@ function SegmentSelectPoints({
     existingPoints,
     setSegments,
     setAddingSegment,
+    setAlertMessage,
 }) {
     const [newSegment, setNewSegment] = useState([null, null]);
     return (
@@ -98,7 +109,13 @@ function SegmentSelectPoints({
             />
             <button
                 onClick={(event) =>
-                    addSegment(event, newSegment, setSegments, setAddingSegment)
+                    addSegment(
+                        event,
+                        newSegment,
+                        setSegments,
+                        setAddingSegment,
+                        setAlertMessage
+                    )
                 }
             >
                 Validate

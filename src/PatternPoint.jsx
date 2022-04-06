@@ -93,7 +93,7 @@ function deletePoint(
     setPossiblePointNames,
     segments,
     curves,
-    setAlertDeletePoint,
+    setAlertMessage,
     deleteButton,
     setDeleteButton
 ) {
@@ -103,7 +103,11 @@ function deletePoint(
                 segments[seg][0] === pointName ||
                 segments[seg][1] === pointName
             ) {
-                setAlertDeletePoint(["seg", pointName, segments[seg]]);
+                setAlertMessage([
+                    "deletePointSegment",
+                    pointName,
+                    segments[seg],
+                ]);
                 return;
             }
         }
@@ -113,8 +117,8 @@ function deletePoint(
                 curves[curv][0] === pointName ||
                 curves[curv][1] === pointName
             ) {
-                setAlertDeletePoint([
-                    "curv",
+                setAlertMessage([
+                    "deletePointCurve",
                     pointName,
                     curves[curv].slice(0, 2),
                 ]);

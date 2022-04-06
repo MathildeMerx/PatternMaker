@@ -15,7 +15,7 @@ function Grid({
     segments,
     curves,
     setCurves,
-    setAlertDeletePoint,
+    setAlertMessage,
 }) {
     const SVGRef = useRef();
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
@@ -121,7 +121,7 @@ function Grid({
                                     setPossiblePointNames,
                                     segments,
                                     curves,
-                                    setAlertDeletePoint,
+                                    setAlertMessage,
                                     deleteButton,
                                     setDeleteButton
                                 );

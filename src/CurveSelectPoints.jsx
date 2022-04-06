@@ -62,7 +62,8 @@ function addCurve(
     setAddingCurve,
     existingPoints,
     cellWidth,
-    cellHeight
+    cellHeight,
+    setAlertMessage
 ) {
     event.preventDefault();
     const futureCurve = [
@@ -82,11 +83,15 @@ function addCurve(
                 ([start, end, ...rest]) =>
                     areArraysEqual([start, end, ...rest], futureCurve) ||
                     areArraysEqual([end, start, ...rest], futureCurve)
-            ) ||
-            futureCurve[0] === null ||
-            futureCurve[1] === null ||
-            futureCurve[0] === futureCurve[1]
+            )
         ) {
+            setAlertMessage(["existingCurve", futureCurve]);
+            return curves;
+        } else if (futureCurve[0] === null || futureCurve[1] === null) {
+            setAlertMessage(["nullCurve", futureCurve]);
+            return curves;
+        } else if (futureCurve[0] === futureCurve[1]) {
+            setAlertMessage(["uniqueCurve", futureCurve]);
             return curves;
         } else {
             let curvesCopy = JSON.parse(JSON.stringify(curves));
@@ -103,6 +108,7 @@ function CurveSelectPoints({
     setAddingCurve,
     cellWidth,
     cellHeight,
+    setAlertMessage,
 }) {
     const [newCurve, setNewCurve] = useState([null, null, null, null]);
     return (
@@ -130,7 +136,8 @@ function CurveSelectPoints({
                         setAddingCurve,
                         existingPoints,
                         cellWidth,
-                        cellHeight
+                        cellHeight,
+                        setAlertMessage
                     )
                 }
             >

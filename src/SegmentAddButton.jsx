@@ -2,7 +2,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { SegmentSelectPoints } from "./SegmentSelectPoints";
 
-function SegmentAddButton({ existingPoints, setSegments }) {
+function SegmentAddButton({ existingPoints, setSegments, setAlertMessage }) {
     const [addingSegment, setAddingSegment] = useState(false);
 
     if (!addingSegment) {
@@ -17,6 +17,7 @@ function SegmentAddButton({ existingPoints, setSegments }) {
                 existingPoints={existingPoints}
                 setSegments={setSegments}
                 setAddingSegment={setAddingSegment}
+                setAlertMessage={setAlertMessage}
             />
         );
     }

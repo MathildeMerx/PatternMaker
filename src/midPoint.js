@@ -1,4 +1,7 @@
 function midPoint(existingPoints, firstPoint, secondPoint) {
+    if (firstPoint === null || secondPoint === null) {
+        return [null, null];
+    }
     const [firstAbscissa, firstOrdinate] = existingPoints[firstPoint];
     const [secondAbscissa, secondOrdinate] = existingPoints[secondPoint];
 
