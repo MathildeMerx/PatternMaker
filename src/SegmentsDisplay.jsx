@@ -18,7 +18,7 @@ function DeleteSegment({ seg, setSegments }) {
 }
 
 function SegmentsDisplay({
-    existingPoints,
+    points,
     segments,
     setSegments,
     alertMessage,
@@ -41,13 +41,17 @@ function SegmentsDisplay({
                 alert = "The same segment already exists!";
                 break;
 
+            case "uniqueSegment":
+                alert = "The start and end points should be different!";
+                break;
+
             default:
                 alert = "";
         }
     }
     return (
         <div>
-            <h3>Segments</h3>
+            <h2>Segments</h2>
 
             {segments.length > 0 ? (
                 <S_ControlledHeightUL>
@@ -63,9 +67,9 @@ function SegmentsDisplay({
                 </S_ControlledHeightUL>
             ) : null}
             <S_AlertMessage>{alert}</S_AlertMessage>
-            {Object.keys(existingPoints).length > 1 ? (
+            {Object.keys(points).length > 1 ? (
                 <SegmentAddButton
-                    existingPoints={existingPoints}
+                    points={points}
                     setSegments={setSegments}
                     setAlertMessage={setAlertMessage}
                 />

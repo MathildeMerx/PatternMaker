@@ -1,7 +1,8 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { CurveAddButton } from "./CurveAddButton";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 import { S_AlertMessage } from "./S_AlertMessage";
+import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
 
 function clickDeleteCurve(curveIndex, setCurves) {
     setCurves((curves) => {
@@ -19,7 +20,7 @@ function DeleteCurve({ curveIndex, setCurves }) {
 }
 
 function CurvesDisplay({
-    existingPoints,
+    points,
     curves,
     setCurves,
     cellWidth,
@@ -44,6 +45,10 @@ function CurvesDisplay({
                 alert = "A perfectly similar curve already exists!";
                 break;
 
+            case "uniqueCurve":
+                alert = "The start and end points should be different!";
+                break;
+
             default:
                 alert = "";
         }
@@ -51,8 +56,16 @@ function CurvesDisplay({
 
     return (
         <div>
-            <h2>Curves</h2>
-
+            <h2>
+                Curves
+                <S_HoverInfoIcon>
+                    <InfoOutlineIcon />
+                    <div>
+                        To modify the shape of a curve, click on the curve in
+                        the grid to make the control point appear.
+                    </div>
+                </S_HoverInfoIcon>
+            </h2>
             {Object.keys(curves).length > 0 ? (
                 <S_ControlledHeightUL>
                     {Object.entries(curves).map(([index, curv]) => {
@@ -72,9 +85,9 @@ function CurvesDisplay({
                 </S_ControlledHeightUL>
             ) : null}
             <S_AlertMessage>{alert}</S_AlertMessage>
-            {Object.keys(existingPoints).length > 1 ? (
+            {Object.keys(points).length > 1 ? (
                 <CurveAddButton
-                    existingPoints={existingPoints}
+                    points={points}
                     setCurves={setCurves}
                     cellHeight={cellHeight}
                     cellWidth={cellWidth}

@@ -31,11 +31,11 @@ function DropdownItem({ pointName, setNewCurve, index }) {
     );
 }
 
-function DropdownMenu({ existingPoints, newCurve, setNewCurve, index }) {
+function DropdownMenu({ points, newCurve, setNewCurve, index }) {
     return (
         <S_Dropdown>
             <S_DropdownContent>
-                {Object.keys(existingPoints)
+                {Object.keys(points)
                     .sort()
                     .map((pointName) => {
                         return (
@@ -60,7 +60,7 @@ function addCurve(
     newCurve,
     setCurves,
     setAddingCurve,
-    existingPoints,
+    points,
     cellWidth,
     cellHeight,
     setAlertMessage
@@ -69,13 +69,7 @@ function addCurve(
     const futureCurve = [
         newCurve[0],
         newCurve[1],
-        ...midPoint(
-            existingPoints,
-            newCurve[0],
-            newCurve[1],
-            cellWidth,
-            cellHeight
-        ),
+        ...midPoint(points, newCurve[0], newCurve[1], cellWidth, cellHeight),
     ];
     setCurves((curves) => {
         if (
@@ -103,7 +97,7 @@ function addCurve(
 }
 
 function CurveSelectPoints({
-    existingPoints,
+    points,
     setCurves,
     setAddingCurve,
     cellWidth,
@@ -115,14 +109,14 @@ function CurveSelectPoints({
         <div>
             Curve from
             <DropdownMenu
-                existingPoints={existingPoints}
+                points={points}
                 newCurve={newCurve}
                 setNewCurve={setNewCurve}
                 index={0}
             />
             to
             <DropdownMenu
-                existingPoints={existingPoints}
+                points={points}
                 newCurve={newCurve}
                 setNewCurve={setNewCurve}
                 index={1}
@@ -134,7 +128,7 @@ function CurveSelectPoints({
                         newCurve,
                         setCurves,
                         setAddingCurve,
-                        existingPoints,
+                        points,
                         cellWidth,
                         cellHeight,
                         setAlertMessage

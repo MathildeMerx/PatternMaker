@@ -9,7 +9,7 @@ function PatternPoint({
     positionY,
     onClick,
     SVGRef,
-    setExistingPoints,
+    setPoints,
     setDeleteButton,
 }) {
     let [isDragging, setIsDragging] = useState(false);
@@ -19,8 +19,8 @@ function PatternPoint({
 
     function handleMouseMove({ clientX, clientY }) {
         if (isDragging) {
-            setExistingPoints((existingPoints) => ({
-                ...existingPoints,
+            setPoints((points) => ({
+                ...points,
                 [pointName]: [
                     parseFloat(
                         ((clientX - draggingInfo.left) / cellWidth).toFixed(1)
@@ -89,7 +89,7 @@ function PatternPoint({
 
 function deletePoint(
     pointName,
-    setExistingPoints,
+    setPoints,
     setPossiblePointNames,
     segments,
     curves,
@@ -126,8 +126,8 @@ function deletePoint(
             }
         }
 
-        setExistingPoints((existingPoints) => {
-            const { [pointName]: val, ...rest } = existingPoints;
+        setPoints((points) => {
+            const { [pointName]: val, ...rest } = points;
             return rest;
         });
 

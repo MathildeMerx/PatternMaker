@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { PatternPoint, deletePoint } from "./PatternPoint";
-import { pointNames } from "./alphabet";
 import { SegmentPath } from "./SegmentPath";
 import { CurvePath } from "./CurvePath";
 import styled from "styled-components";
@@ -8,17 +7,18 @@ import styled from "styled-components";
 function Grid({
     numRows,
     numColumns,
-    existingPoints,
-    setExistingPoints,
+    points,
+    setPoints,
     cellHeight,
     cellWidth,
+    possiblePointNames,
+    setPossiblePointNames,
     segments,
     curves,
     setCurves,
     setAlertMessage,
 }) {
     const SVGRef = useRef();
-    const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
     const arrWidth = [...Array(numColumns).keys()];
     const arrHeight = [...Array(numRows).keys()];
     const width = numColumns * cellWidth;
@@ -26,12 +26,7 @@ function Grid({
     const [deleteButton, setDeleteButton] = useState(false);
 
     return (
-        <S_DesignGrid
-            style={{
-                width: `${width}px`,
-                height: `${height}px`,
-            }}
-        >
+        <S_DesignGrid width={width} height={height}>
             <svg
                 ref={SVGRef}
                 width={width}
@@ -39,8 +34,8 @@ function Grid({
                 viewBox={`0 0 ${width} ${height} `}
                 onClick={(event) => {
                     let pointName = possiblePointNames[0];
-                    setExistingPoints((existingPoints) => ({
-                        ...existingPoints,
+                    setPoints((points) => ({
+                        ...points,
                         [pointName]: [
                             parseFloat(
                                 (
@@ -66,7 +61,7 @@ function Grid({
                     );
                 }}
             >
-                {Object.keys(existingPoints).length === 0 ? (
+                {Object.keys(points).length === 0 ? (
                     <text
                         x={`${width / 20}`}
                         y={`${height / 3}`}
@@ -81,7 +76,7 @@ function Grid({
                     <SegmentPath
                         key={seg[0] + seg[1]}
                         segment={seg}
-                        existingPoints={existingPoints}
+                        points={points}
                         cellHeight={cellHeight}
                         cellWidth={cellWidth}
                     />
@@ -91,7 +86,7 @@ function Grid({
                         <CurvePath
                             curve={curve}
                             curveIndex={index}
-                            existingPoints={existingPoints}
+                            points={points}
                             SVGRef={SVGRef}
                             setCurves={setCurves}
                             cellHeight={cellHeight}
@@ -101,7 +96,7 @@ function Grid({
                     );
                 })}
             </svg>
-            {Object.entries(existingPoints).map(
+            {Object.entries(points).map(
                 ([pointName, [positionX, positionY]]) => {
                     return (
                         <PatternPoint
@@ -112,12 +107,12 @@ function Grid({
                             positionY={positionY}
                             SVGRef={SVGRef}
                             key={pointName}
-                            setExistingPoints={setExistingPoints}
+                            setPoints={setPoints}
                             setDeleteButton={setDeleteButton}
                             onClick={() => {
                                 deletePoint(
                                     pointName,
-                                    setExistingPoints,
+                                    setPoints,
                                     setPossiblePointNames,
                                     segments,
                                     curves,
@@ -131,18 +126,10 @@ function Grid({
                 }
             )}
             {arrWidth.map((line) => (
-                <S_Column
-                    key={line}
-                    style={{ left: `${(line + 1) * cellWidth}px` }}
-                />
+                <S_Column key={line} left={(line + 1) * cellWidth} />
             ))}
             {arrHeight.map((line) => (
-                <S_Row
-                    key={line}
-                    style={{
-                        top: `${(line + 1) * cellHeight}px`,
-                    }}
-                />
+                <S_Row key={line} top={(line + 1) * cellHeight} />
             ))}
         </S_DesignGrid>
     );
@@ -151,6 +138,7 @@ function Grid({
 const S_Column = styled.div`
     background-color: gainsboro;
     height: 100%;
+    left: ${(props) => props.left}px;
     position: absolute;
     top: 0;
     width: 1px;
@@ -158,8 +146,10 @@ const S_Column = styled.div`
 
 const S_DesignGrid = styled.div`
     border: solid 1px gainsboro;
+    width: ${(props) => props.width}px;
     margin: auto;
     position: relative;
+    width: ${(props) => props.width}px;
 `;
 
 const S_Row = styled.div`
@@ -167,6 +157,7 @@ const S_Row = styled.div`
     height: 1px;
     left: 0;
     position: absolute;
+    top: ${(props) => props.top}px;
     width: 100%;
 `;
 

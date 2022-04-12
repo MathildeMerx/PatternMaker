@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 function CurvePath({
     curve,
     curveIndex,
-    existingPoints,
+    points,
     SVGRef,
     setCurves,
     cellHeight,
@@ -15,10 +15,10 @@ function CurvePath({
     const [isDragging, setIsDragging] = useState(false);
     const [startPoint, endPoint, ...controlPoint] = curve;
 
-    const startAbscissa = existingPoints[startPoint][0] * cellWidth;
-    const startOrdinate = existingPoints[startPoint][1] * cellHeight;
-    const endAbscissa = existingPoints[endPoint][0] * cellWidth;
-    const endOrdinate = existingPoints[endPoint][1] * cellHeight;
+    const startAbscissa = points[startPoint][0] * cellWidth;
+    const startOrdinate = points[startPoint][1] * cellHeight;
+    const endAbscissa = points[endPoint][0] * cellWidth;
+    const endOrdinate = points[endPoint][1] * cellHeight;
     const [controlAbscissa, setControlAbscissa] = useState(
         () => controlPoint[0]
     );

@@ -27,11 +27,11 @@ function DropdownItem({ pointName, setNewSegment, index }) {
     );
 }
 
-function DropdownMenu({ existingPoints, newSegment, setNewSegment, index }) {
+function DropdownMenu({ points, newSegment, setNewSegment, index }) {
     return (
         <S_Dropdown>
             <S_DropdownContent>
-                {Object.keys(existingPoints)
+                {Object.keys(points)
                     .sort()
                     .map((pointName) => {
                         return (
@@ -85,7 +85,7 @@ function addSegment(
 }
 
 function SegmentSelectPoints({
-    existingPoints,
+    points,
     setSegments,
     setAddingSegment,
     setAlertMessage,
@@ -95,14 +95,14 @@ function SegmentSelectPoints({
         <div>
             Segment from
             <DropdownMenu
-                existingPoints={existingPoints}
+                points={points}
                 newSegment={newSegment}
                 setNewSegment={setNewSegment}
                 index={0}
             />
             to
             <DropdownMenu
-                existingPoints={existingPoints}
+                points={points}
                 newSegment={newSegment}
                 setNewSegment={setNewSegment}
                 index={1}

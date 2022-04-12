@@ -4,7 +4,7 @@ import { CurveSelectPoints } from "./CurveSelectPoints";
 
 function CurveAddButton({
     setCurves,
-    existingPoints,
+    points,
     cellWidth,
     cellHeight,
     setAlertMessage,
@@ -20,7 +20,7 @@ function CurveAddButton({
     } else {
         return (
             <CurveSelectPoints
-                existingPoints={existingPoints}
+                points={points}
                 setCurves={setCurves}
                 setAddingCurve={setAddingCurve}
                 cellHeight={cellHeight}
