@@ -159,7 +159,7 @@ function App() {
                             </S_EditIcon>
                         </S_PatternName>
                     )}
-                    <S_PrintGrid>
+                    <S_DrawGrid>
                         <Grid
                             numColumns={numColumns}
                             numRows={numRows}
@@ -175,7 +175,7 @@ function App() {
                             setCurves={setCurves}
                             setAlertMessage={setAlertMessage}
                         />
-                    </S_PrintGrid>
+                    </S_DrawGrid>
                 </S_DesignContent>
             </S_GridDisplay>
 
@@ -219,6 +219,10 @@ const S_DesignContent = styled.section`
     width: calc(100% - ${GRID_MARGIN}px);
 `;
 
+const S_DrawGrid = styled.div`
+    line-height: 0%;
+`;
+
 const S_EditIcon = styled.span`
     cursor: pointer;
     margin-left: 10px;
@@ -253,9 +257,7 @@ const S_PatternNameModify = styled.input`
     text-align: center;
 `;
 
-const S_PrintGrid = styled.div`
-    line-height: 0%;
-`;
+const S_PrintGrid = styled.div``;
 
 // Overall height of Title: 72px (32px for the text, + 2x20px of margin)
 const S_Title = styled.h1`
