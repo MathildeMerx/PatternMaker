@@ -94,7 +94,7 @@ function App() {
                         alertMessage={alertMessage}
                         setAlertMessage={setAlertMessage}
                     />
-                    <input
+                    <S_Input
                         type="range"
                         min="10"
                         max="50"
@@ -104,7 +104,7 @@ function App() {
                         }
                     />
                     Number of columns: {numColumns}
-                    <input
+                    <S_Input
                         type="range"
                         min="10"
                         max="50"
@@ -112,7 +112,7 @@ function App() {
                         onChange={(e) => setNumRows(parseInt(e.target.value))}
                     />
                     Number of rows: {numRows}
-                    <input
+                    <S_Input
                         type="range"
                         min="0.2"
                         max="2.5"
@@ -120,8 +120,8 @@ function App() {
                         value={colWidth}
                         onChange={(e) => setColWidth(e.target.value)}
                     />
-                    Column width: {colWidth} (for impression only)
-                    <input
+                    Column width: {colWidth}cm (for impression only)
+                    <S_Input
                         type="range"
                         min="0.2"
                         max="2.5"
@@ -129,7 +129,7 @@ function App() {
                         value={rowHeight}
                         onChange={(e) => setRowHeight(e.target.value)}
                     />
-                    Row height: {rowHeight} (for impression only)
+                    Row height: {rowHeight}cm (for impression only)
                 </aside>
                 <S_DesignContent ref={containerRef}>
                     {editingName ? (
@@ -240,6 +240,9 @@ const S_Header = styled.header`
     display: flex;
     justify-content: space-between;
     padding-right: 64px;
+`;
+const S_Input = styled.input`
+    display: block;
 `;
 
 const S_PatternName = styled.h2`
