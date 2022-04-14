@@ -32,7 +32,7 @@ function PrintGrid({
                 } ${Math.floor(paperPageWidth / colWidth)} ${Math.floor(
                     paperPageHeight / rowHeight
                 )} `}
-                key={indexPageHeight}
+                key={`${indexPageHeight}${indexPageWidth}`}
             >
                 <path
                     d={`M  ${

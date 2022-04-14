@@ -53,17 +53,21 @@ function App() {
             <S_Header>
                 <S_Title>Pattern designer</S_Title>
                 <S_Commands>
-                    <button onClick={() => save(points, segments, curves)}>
+                    <button
+                        onClick={() =>
+                            save(points, segments, curves, pieceName)
+                        }
+                    >
                         Save
                     </button>
                     <button
                         onClick={() =>
                             retrieve(
-                                points,
                                 setPoints,
                                 setSegments,
                                 setCurves,
-                                setPossiblePointNames
+                                setPossiblePointNames,
+                                setPieceName
                             )
                         }
                     >

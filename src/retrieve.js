@@ -1,11 +1,11 @@
 import { availablePointNames } from "./availablePointNames";
 
 function retrieve(
-    points,
     setPoints,
     setSegments,
     setCurves,
-    setPossiblePointNames
+    setPossiblePointNames,
+    setPieceName
 ) {
     let headers = new Headers();
     let username = "mmerx";
@@ -26,6 +26,7 @@ function retrieve(
             setPossiblePointNames(
                 availablePointNames(JSON.parse(JSON.stringify(data["points"])))
             );
+            setPieceName(JSON.parse(JSON.stringify(data["description"])));
         });
 }
 
