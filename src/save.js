@@ -11,15 +11,12 @@ function save(points, segments, curves) {
     let url = "https://sewpat.tsango.com/api/patterns/4/drawings/";
 
     let data = {
-        id: "8",
         name: uuidv4(),
         description: "",
         points: points,
         segments: segments,
         curves: curves,
     };
-
-    console.log(JSON.stringify(data));
 
     fetch(url, { method: "POST", headers: headers, body: JSON.stringify(data) })
         .then((response) => response.json())

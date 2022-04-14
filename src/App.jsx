@@ -159,21 +159,23 @@ function App() {
                             </S_EditIcon>
                         </S_PatternName>
                     )}
-                    <Grid
-                        numColumns={numColumns}
-                        numRows={numRows}
-                        numButton={numButton}
-                        points={points}
-                        setPoints={setPoints}
-                        cellHeight={cellHeight}
-                        cellWidth={cellWidth}
-                        possiblePointNames={possiblePointNames}
-                        setPossiblePointNames={setPossiblePointNames}
-                        segments={segments}
-                        curves={curves}
-                        setCurves={setCurves}
-                        setAlertMessage={setAlertMessage}
-                    />
+                    <S_PrintGrid>
+                        <Grid
+                            numColumns={numColumns}
+                            numRows={numRows}
+                            numButton={numButton}
+                            points={points}
+                            setPoints={setPoints}
+                            cellHeight={cellHeight}
+                            cellWidth={cellWidth}
+                            possiblePointNames={possiblePointNames}
+                            setPossiblePointNames={setPossiblePointNames}
+                            segments={segments}
+                            curves={curves}
+                            setCurves={setCurves}
+                            setAlertMessage={setAlertMessage}
+                        />
+                    </S_PrintGrid>
                 </S_DesignContent>
             </S_GridDisplay>
 

@@ -32,6 +32,7 @@ function PrintGrid({
                 } ${Math.floor(paperPageWidth / colWidth)} ${Math.floor(
                     paperPageHeight / rowHeight
                 )} `}
+                key={indexPageHeight}
             >
                 <path
                     d={`M  ${
@@ -52,15 +53,21 @@ function PrintGrid({
                     strokeWidth="0.1"
                 />
                 {Object.entries(points).map(([, [positionX, positionY]]) => (
-                    <circle cx={positionX} cy={positionY} r="0.1"></circle>
+                    <circle
+                        cx={positionX}
+                        cy={positionY}
+                        r="0.1"
+                        key={`${positionX}${positionY}`}
+                    ></circle>
                 ))}
                 {Object.entries(curves).map(
-                    ([, [startPoint, endPoint, controlX, controlY]]) => (
+                    ([key, [startPoint, endPoint, controlX, controlY]]) => (
                         <path
                             d={`M ${points[startPoint][0]} ${points[startPoint][1]} Q ${controlX} ${controlY} ${points[endPoint][0]} ${points[endPoint][1]}`}
                             fill="none"
                             stroke="black"
                             strokeWidth="0.1"
+                            key={key}
                         ></path>
                     )
                 )}
@@ -72,6 +79,7 @@ function PrintGrid({
                         fill="none"
                         stroke="black"
                         strokeWidth="0.1"
+                        key={`${startPoint}${endPoint}`}
                     ></path>
                 ))}
             </svg>
