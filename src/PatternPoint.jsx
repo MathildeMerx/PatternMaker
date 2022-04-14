@@ -1,112 +1,167 @@
-import styled, { css } from "styled-components";
-import { pointExists } from "./pointExists";
+import { useState } from "react";
+import styled from "styled-components";
 
 function PatternPoint({
-    index,
-    value,
-    numRows,
-    cellHeight,
+    pointName,
     cellWidth,
+    cellHeight,
+    positionX,
+    positionY,
     onClick,
+    SVGRef,
+    setPoints,
+    setDeleteButton,
 }) {
-    const distFromTop =
-        ((index % (numRows - 1)) + 1) * cellHeight -
-        Math.max(5, Math.max(cellWidth, cellHeight) / 6);
-    const distFromLeft =
-        Math.floor(index / (numRows - 1) + 1) * cellWidth -
-        Math.max(5, Math.max(cellWidth, cellHeight) / 6);
-    return (
-        <S_PatternPoint
-            key={index}
-            cellHeight={cellHeight}
-            cellWidth={cellWidth}
-            existing={!!value}
-            onClick={onClick}
-            distFromTop={distFromTop}
-            distFromLeft={distFromLeft}
-        >
-            {value ? (
-                <S_PointName cellHeight={cellHeight} cellWidth={cellWidth}>
-                    {value}
-                </S_PointName>
-            ) : null}
-        </S_PatternPoint>
-    );
-}
+    let [isDragging, setIsDragging] = useState(false);
+    let [mousePosition, setMousePosition] = useState([0, 0]);
 
-function createNewPoint(
-    abscissa,
-    ordinate,
-    existingPoints,
-    setExistingPoints,
-    possiblePointNames,
-    setPossiblePointNames,
-    segments
-) {
-    let value = pointExists(abscissa, ordinate, existingPoints);
+    const draggingInfo = SVGRef.current.getBoundingClientRect();
 
-    for (let seg in segments) {
-        if (segments[seg][0] === value || segments[seg][1] === value) {
+    function handleMouseMove({ clientX, clientY }) {
+        if (isDragging) {
+            setPoints((points) => ({
+                ...points,
+                [pointName]: [
+                    parseFloat(
+                        ((clientX - draggingInfo.left) / cellWidth).toFixed(1)
+                    ),
+                    parseFloat(
+                        ((clientY - draggingInfo.top) / cellHeight).toFixed(1)
+                    ),
+                ],
+            }));
+        } else {
             return;
         }
     }
 
-    setExistingPoints((existingPoints) => {
-        if (value) {
-            const { [value]: val, ...rest } = existingPoints;
-            return rest;
-        } else {
-            return {
-                ...existingPoints,
-                [possiblePointNames[0]]: [abscissa, ordinate],
-            };
-        }
-    });
+    return (
+        <S_PatternPoint
+            cellHeight={cellHeight}
+            cellWidth={cellWidth}
+            onClick={onClick}
+            pixelsX={positionX * cellWidth}
+            pixelsY={positionY * cellHeight}
+            onMouseDown={(event) => {
+                setIsDragging(true);
+                setMousePosition([
+                    parseFloat(
+                        (
+                            (event.clientX - draggingInfo.left) /
+                            cellWidth
+                        ).toFixed(1)
+                    ),
+                    parseFloat(
+                        (
+                            (event.clientY - draggingInfo.top) /
+                            cellHeight
+                        ).toFixed(1)
+                    ),
+                ]);
+            }}
+            onMouseUp={(event) => {
+                setIsDragging(false);
+                if (
+                    parseFloat(
+                        (
+                            (event.clientX - draggingInfo.left) /
+                            cellWidth
+                        ).toFixed(1)
+                    ) === mousePosition[0] &&
+                    parseFloat(
+                        (
+                            (event.clientY - draggingInfo.top) /
+                            cellHeight
+                        ).toFixed(1)
+                    ) === mousePosition[1]
+                ) {
+                    setDeleteButton(true);
+                }
+            }}
+            onMouseMove={(event) => handleMouseMove(event)}
+        >
+            <S_PointName cellHeight={cellHeight} cellWidth={cellWidth}>
+                {pointName}
+            </S_PointName>
+        </S_PatternPoint>
+    );
+}
 
-    setPossiblePointNames((possiblePointNames) => {
-        if (value) {
-            return [...possiblePointNames, value].sort();
-        } else {
-            return possiblePointNames.slice(1);
+function deletePoint(
+    pointName,
+    setPoints,
+    setPossiblePointNames,
+    segments,
+    curves,
+    setAlertMessage,
+    deleteButton,
+    setDeleteButton
+) {
+    if (deleteButton) {
+        for (let seg in segments) {
+            if (
+                segments[seg][0] === pointName ||
+                segments[seg][1] === pointName
+            ) {
+                setAlertMessage([
+                    "deletePointSegment",
+                    pointName,
+                    segments[seg],
+                ]);
+                return;
+            }
         }
-    });
+
+        for (let curv in curves) {
+            if (
+                curves[curv][0] === pointName ||
+                curves[curv][1] === pointName
+            ) {
+                setAlertMessage([
+                    "deletePointCurve",
+                    pointName,
+                    curves[curv].slice(0, 2),
+                ]);
+                return;
+            }
+        }
+
+        setPoints((points) => {
+            const { [pointName]: val, ...rest } = points;
+            return rest;
+        });
+
+        setPossiblePointNames((possiblePointNames) => {
+            return [...possiblePointNames, pointName].sort();
+        });
+    }
+    setDeleteButton(false);
 }
 
 const S_PatternPoint = styled.div`
+    background-color: red;
     cursor: pointer;
     font-size: ${(props) =>
         Math.max(0.75, Math.min(props.cellWidth, props.cellHeight) / 60)}rem;
     font-weight: bold;
     height: ${(props) =>
-        Math.max(10, Math.max(props.cellHeight, props.cellWidth) / 3)}px;
-    left: ${(props) => props.distFromLeft}px;
-    opacity: 0;
+        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5)}px;
+    left: ${(props) =>
+        props.pixelsX -
+        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5) / 2}px;
+    opacity: 1;
     position: absolute;
     border-radius: 50%;
     text-align: center;
-    top: ${(props) => props.distFromTop}px;
+    top: ${(props) =>
+        props.pixelsY -
+        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5) / 2}px;
     width: ${(props) =>
-        Math.max(10, Math.max(props.cellHeight, props.cellWidth) / 3)}px;
+        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5)}px;
 
     &:hover {
         background-color: gainsboro;
-        opacity: 1;
     }
-
-    ${(props) =>
-        props.existing &&
-        css`
-            background-color: red;
-            height: ${(props) =>
-                Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5)}px;
-            left: ${(props) =>
-                props.distFromLeft + Math.max(3, props.cellWidth / 10)}px;
-            opacity: 1;
-            top: ${(props) =>
-                props.distFromTop + Math.max(3, props.cellHeight / 10)}px;
-            width: ${(props) =>
-                Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5)}px;
-        `}
 `;
 
 const S_PointName = styled.div`
@@ -115,4 +170,4 @@ const S_PointName = styled.div`
     left: ${(props) => props.cellWidth / 5}px;
 `;
 
-export { PatternPoint, createNewPoint };
+export { PatternPoint, deletePoint };

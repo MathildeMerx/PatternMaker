@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { areArraysEqual } from "./areArraysEqual";
 
 function CurvePath({
     curve,
     curveIndex,
-    existingPoints,
+    points,
     SVGRef,
     setCurves,
     cellHeight,
@@ -16,10 +15,10 @@ function CurvePath({
     const [isDragging, setIsDragging] = useState(false);
     const [startPoint, endPoint, ...controlPoint] = curve;
 
-    const startAbscissa = existingPoints[startPoint][0] * cellWidth;
-    const startOrdinate = existingPoints[startPoint][1] * cellHeight;
-    const endAbscissa = existingPoints[endPoint][0] * cellWidth;
-    const endOrdinate = existingPoints[endPoint][1] * cellHeight;
+    const startAbscissa = points[startPoint][0] * cellWidth;
+    const startOrdinate = points[startPoint][1] * cellHeight;
+    const endAbscissa = points[endPoint][0] * cellWidth;
+    const endOrdinate = points[endPoint][1] * cellHeight;
     const [controlAbscissa, setControlAbscissa] = useState(
         () => controlPoint[0]
     );
@@ -41,18 +40,13 @@ function CurvePath({
     useEffect(() => {
         setCurves((curves) => {
             const currentCurve = curves[curveIndex];
-            let curvesCopy = curves.slice();
-            for (let i = 0; i < curvesCopy.length; i++) {
-                if (areArraysEqual(curves[i], currentCurve)) {
-                    curvesCopy[i] = [
-                        currentCurve[0],
-                        currentCurve[1],
-                        controlAbscissa,
-                        controlOrdinate,
-                        currentCurve[4],
-                    ];
-                }
-            }
+            let curvesCopy = JSON.parse(JSON.stringify(curves));
+            curvesCopy[curveIndex] = [
+                currentCurve[0],
+                currentCurve[1],
+                controlAbscissa,
+                controlOrdinate,
+            ];
             return curvesCopy;
         });
     }, [controlAbscissa, controlOrdinate, curveIndex, setCurves]);
@@ -62,7 +56,10 @@ function CurvePath({
             <path
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
-                onClick={() => setShowConstructionSegments((value) => !value)}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    setShowConstructionSegments((value) => !value);
+                }}
                 d={`M ${startAbscissa} ${startOrdinate} 
   Q ${controlAbscissa * cellWidth} ${
                     controlOrdinate * cellHeight
@@ -94,14 +91,16 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
             ) : null}
             {showConstructionSegments ? (
                 <circle
+                    onClick={(event) => event.stopPropagation()}
                     onMouseDown={() => setIsDragging(true)}
-                    onMouseUp={() => setIsDragging(false)}
+                    onMouseUp={(event) => {
+                        setIsDragging(false);
+                    }}
                     onMouseMove={(event) => handleMouseMove(event)}
                     cx={controlAbscissa * cellWidth}
                     cy={controlOrdinate * cellHeight}
                     r="5"
                     fill="blue"
-                    style={{ zIndex: "1" }}
                 />
             ) : null}
         </>

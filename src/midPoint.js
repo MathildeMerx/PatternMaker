@@ -1,22 +1,13 @@
-function midPoint(
-    existingPoints,
-    firstPoint,
-    secondPoint,
-    cellWidth,
-    cellHeight
-) {
-    const [firstAbscissa, firstOrdinate] = existingPoints[firstPoint];
-    const [secondAbscissa, secondOrdinate] = existingPoints[secondPoint];
+function midPoint(points, firstPoint, secondPoint) {
+    if (firstPoint === null || secondPoint === null) {
+        return [null, null];
+    }
+    const [firstAbscissa, firstOrdinate] = points[firstPoint];
+    const [secondAbscissa, secondOrdinate] = points[secondPoint];
 
-    const midAbscissa =
-        (firstAbscissa + secondAbscissa) % 2 === 0
-            ? (firstAbscissa + secondAbscissa + 1) / 2
-            : (firstAbscissa + secondAbscissa) / 2;
+    const midAbscissa = (firstAbscissa + secondAbscissa) / 2;
 
-    const midOrdinate =
-        (firstOrdinate + secondOrdinate) % 2 === 0
-            ? (firstOrdinate + secondOrdinate + 1) / 2
-            : (firstOrdinate + secondOrdinate) / 2;
+    const midOrdinate = (firstOrdinate + secondOrdinate) / 2;
 
     return [midAbscissa, midOrdinate];
 }

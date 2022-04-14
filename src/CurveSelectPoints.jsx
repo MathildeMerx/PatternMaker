@@ -31,11 +31,11 @@ function DropdownItem({ pointName, setNewCurve, index }) {
     );
 }
 
-function DropdownMenu({ existingPoints, newCurve, setNewCurve, index }) {
+function DropdownMenu({ points, newCurve, setNewCurve, index }) {
     return (
         <S_Dropdown>
             <S_DropdownContent>
-                {Object.keys(existingPoints)
+                {Object.keys(points)
                     .sort()
                     .map((pointName) => {
                         return (
@@ -60,44 +60,36 @@ function addCurve(
     newCurve,
     setCurves,
     setAddingCurve,
-    existingPoints,
+    points,
     cellWidth,
-    cellHeight
+    cellHeight,
+    setAlertMessage
 ) {
     event.preventDefault();
     const futureCurve = [
         newCurve[0],
         newCurve[1],
-        ...midPoint(
-            existingPoints,
-            newCurve[0],
-            newCurve[1],
-            cellWidth,
-            cellHeight
-        ),
-        uuidv4(),
+        ...midPoint(points, newCurve[0], newCurve[1], cellWidth, cellHeight),
     ];
     setCurves((curves) => {
         if (
-            curves.some(
+            Object.values(curves).some(
                 ([start, end, ...rest]) =>
-                    areArraysEqual(
-                        [start, end, ...rest].slice(0, -1),
-                        futureCurve.slice(0, -1)
-                    ) ||
-                    areArraysEqual(
-                        [end, start, ...rest].slice(0, -1),
-                        futureCurve.slice(0, -1)
-                    )
-            ) ||
-            futureCurve[0] === null ||
-            futureCurve[1] === null ||
-            futureCurve[0] === futureCurve[1]
+                    areArraysEqual([start, end, ...rest], futureCurve) ||
+                    areArraysEqual([end, start, ...rest], futureCurve)
+            )
         ) {
+            setAlertMessage(["existingCurve", futureCurve]);
+            return curves;
+        } else if (futureCurve[0] === null || futureCurve[1] === null) {
+            setAlertMessage(["nullCurve", futureCurve]);
+            return curves;
+        } else if (futureCurve[0] === futureCurve[1]) {
+            setAlertMessage(["uniqueCurve", futureCurve]);
             return curves;
         } else {
-            let curvesCopy = curves.slice();
-            curvesCopy.push(futureCurve);
+            let curvesCopy = JSON.parse(JSON.stringify(curves));
+            curvesCopy[uuidv4()] = futureCurve;
             return curvesCopy;
         }
     });
@@ -105,25 +97,26 @@ function addCurve(
 }
 
 function CurveSelectPoints({
-    existingPoints,
+    points,
     setCurves,
     setAddingCurve,
     cellWidth,
     cellHeight,
+    setAlertMessage,
 }) {
     const [newCurve, setNewCurve] = useState([null, null, null, null]);
     return (
         <div>
             Curve from
             <DropdownMenu
-                existingPoints={existingPoints}
+                points={points}
                 newCurve={newCurve}
                 setNewCurve={setNewCurve}
                 index={0}
             />
             to
             <DropdownMenu
-                existingPoints={existingPoints}
+                points={points}
                 newCurve={newCurve}
                 setNewCurve={setNewCurve}
                 index={1}
@@ -135,9 +128,10 @@ function CurveSelectPoints({
                         newCurve,
                         setCurves,
                         setAddingCurve,
-                        existingPoints,
+                        points,
                         cellWidth,
-                        cellHeight
+                        cellHeight,
+                        setAlertMessage
                     )
                 }
             >

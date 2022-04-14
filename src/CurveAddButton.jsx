@@ -2,7 +2,13 @@ import { AddIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { CurveSelectPoints } from "./CurveSelectPoints";
 
-function CurveAddButton({ setCurves, existingPoints, cellWidth, cellHeight }) {
+function CurveAddButton({
+    setCurves,
+    points,
+    cellWidth,
+    cellHeight,
+    setAlertMessage,
+}) {
     const [addingCurve, setAddingCurve] = useState(false);
 
     if (!addingCurve) {
@@ -14,11 +20,12 @@ function CurveAddButton({ setCurves, existingPoints, cellWidth, cellHeight }) {
     } else {
         return (
             <CurveSelectPoints
-                existingPoints={existingPoints}
+                points={points}
                 setCurves={setCurves}
                 setAddingCurve={setAddingCurve}
                 cellHeight={cellHeight}
                 cellWidth={cellWidth}
+                setAlertMessage={setAlertMessage}
             />
         );
     }

@@ -1,11 +1,11 @@
-function SegmentPath({ segment, existingPoints, cellWidth, cellHeight }) {
+function SegmentPath({ segment, points, cellWidth, cellHeight }) {
     const startPoint = segment[0];
     const endPoint = segment[1];
 
-    const startAbscissa = existingPoints[startPoint][0] * cellWidth;
-    const startOrdinate = existingPoints[startPoint][1] * cellHeight;
-    const endAbscissa = existingPoints[endPoint][0] * cellWidth;
-    const endOrdinate = existingPoints[endPoint][1] * cellHeight;
+    const startAbscissa = points[startPoint][0] * cellWidth;
+    const startOrdinate = points[startPoint][1] * cellHeight;
+    const endAbscissa = points[endPoint][0] * cellWidth;
+    const endOrdinate = points[endPoint][1] * cellHeight;
 
     return (
         <path
