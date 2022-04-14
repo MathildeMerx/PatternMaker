@@ -120,7 +120,7 @@ function App() {
                         value={colWidth}
                         onChange={(e) => setColWidth(e.target.value)}
                     />
-                    Column width: {colWidth}
+                    Column width: {colWidth} (for impression only)
                     <input
                         type="range"
                         min="0.2"
@@ -129,7 +129,7 @@ function App() {
                         value={rowHeight}
                         onChange={(e) => setRowHeight(e.target.value)}
                     />
-                    Row height: {rowHeight}
+                    Row height: {rowHeight} (for impression only)
                 </aside>
                 <S_DesignContent ref={containerRef}>
                     {editingName ? (
