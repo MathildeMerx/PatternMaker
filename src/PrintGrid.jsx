@@ -6,27 +6,75 @@ function PrintGrid({
     numRows,
     colWidth,
     rowHeight,
-    unit,
 }) {
-    let width = numColumns * colWidth * (unit === "cm" ? 1 : 2.54);
-    let height = numRows * rowHeight * (unit === "cm" ? 1 : 2.54);
+    const paperPageWidth = 21;
+    const paperPageHeight = 29.7;
 
-    let numPagesHeight = Math.floor(29.7 / height) + 1;
-    let numPagesWidth = Math.floor(21 / width) + 1;
+    let width = numColumns * colWidth;
+    let height = numRows * rowHeight;
 
-    let pages = Array(numPagesHeight).fill([...Array(numPagesWidth).keys]);
+    let numPagesWidth = Math.ceil(width / paperPageWidth);
+    let numPagesHeight = Math.ceil(height / paperPageHeight);
 
-    pages.map((arr, indexPageHeight) =>
+    let pages = Array(numPagesHeight).fill([...Array(numPagesWidth).keys()]);
+
+    return pages.map((arr, indexPageHeight) =>
         arr.map((indexPageWidth) => (
             <svg
-                width={`${width / numPagesWidth}cm`}
-                height={`${height / numPagesHeight}cm`}
-                viewBox={`${(indexPageWidth * width) / numPagesWidth} ${
-                    (indexPageHeight * height) / numPagesHeight
-                } ${((indexPageWidth + 1) * width) / numPagesWidth} ${
-                    ((indexPageHeight + 1) * height) / numPagesHeight
-                } `}
-            ></svg>
+                width={`${Math.floor(paperPageWidth / colWidth) * colWidth}cm`}
+                height={`${
+                    Math.floor(paperPageHeight / rowHeight) * rowHeight
+                }cm`}
+                viewBox={`${
+                    indexPageWidth * Math.floor(paperPageWidth / colWidth)
+                } ${
+                    indexPageHeight * Math.floor(paperPageHeight / rowHeight)
+                } ${Math.floor(paperPageWidth / colWidth)} ${Math.floor(
+                    paperPageHeight / rowHeight
+                )} `}
+            >
+                <path
+                    d={`M  ${
+                        (indexPageWidth + 1) *
+                        Math.floor(paperPageWidth / colWidth)
+                    } 0 L ${
+                        (indexPageWidth + 1) *
+                        Math.floor(paperPageWidth / colWidth)
+                    } ${
+                        (indexPageHeight + 1) *
+                        Math.floor(paperPageHeight / rowHeight)
+                    } L 0 ${
+                        (indexPageHeight + 1) *
+                        Math.floor(paperPageHeight / rowHeight)
+                    } `}
+                    fill="none"
+                    stroke="gainsboro"
+                    strokeWidth="0.1"
+                />
+                {Object.entries(points).map(([, [positionX, positionY]]) => (
+                    <circle cx={positionX} cy={positionY} r="0.1"></circle>
+                ))}
+                {Object.entries(curves).map(
+                    ([, [startPoint, endPoint, controlX, controlY]]) => (
+                        <path
+                            d={`M ${points[startPoint][0]} ${points[startPoint][1]} Q ${controlX} ${controlY} ${points[endPoint][0]} ${points[endPoint][1]}`}
+                            fill="none"
+                            stroke="black"
+                            strokeWidth="0.1"
+                        ></path>
+                    )
+                )}
+
+                {segments.map(([startPoint, endPoint]) => (
+                    <path
+                        d={`M ${points[startPoint][0]} ${points[startPoint][1]}
+            L ${points[endPoint][0]} ${points[endPoint][1]}`}
+                        fill="none"
+                        stroke="black"
+                        strokeWidth="0.1"
+                    ></path>
+                ))}
+            </svg>
         ))
     );
 }

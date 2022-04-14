@@ -10,6 +10,7 @@ import { retrieve } from "./retrieve";
 import { save } from "./save";
 import { pointNames } from "./alphabet";
 import ReactToPrint from "react-to-print";
+import { PrintGrid } from "./PrintGrid";
 
 function App() {
     let gridRef = useRef();
@@ -19,6 +20,7 @@ function App() {
     const [numRows, setNumRows] = useState(10);
     const [rowHeight, setRowHeight] = useState(1);
     const [colWidth, setColWidth] = useState(1);
+    const unit = "cm";
 
     const cellWidth = Math.floor((width - GRID_MARGIN * 2) / numColumns);
 
@@ -157,25 +159,35 @@ function App() {
                             </S_EditIcon>
                         </S_PatternName>
                     )}
-                    <S_PrintGrid ref={(reference) => (gridRef = reference)}>
-                        <Grid
-                            numColumns={numColumns}
-                            numRows={numRows}
-                            numButton={numButton}
-                            points={points}
-                            setPoints={setPoints}
-                            cellHeight={cellHeight}
-                            cellWidth={cellWidth}
-                            possiblePointNames={possiblePointNames}
-                            setPossiblePointNames={setPossiblePointNames}
-                            segments={segments}
-                            curves={curves}
-                            setCurves={setCurves}
-                            setAlertMessage={setAlertMessage}
-                        />
-                    </S_PrintGrid>
+                    <Grid
+                        numColumns={numColumns}
+                        numRows={numRows}
+                        numButton={numButton}
+                        points={points}
+                        setPoints={setPoints}
+                        cellHeight={cellHeight}
+                        cellWidth={cellWidth}
+                        possiblePointNames={possiblePointNames}
+                        setPossiblePointNames={setPossiblePointNames}
+                        segments={segments}
+                        curves={curves}
+                        setCurves={setCurves}
+                        setAlertMessage={setAlertMessage}
+                    />
                 </S_DesignContent>
             </S_GridDisplay>
+
+            <S_PrintGrid ref={(reference) => (gridRef = reference)}>
+                <PrintGrid
+                    points={points}
+                    segments={segments}
+                    curves={curves}
+                    numColumns={numColumns}
+                    numRows={numRows}
+                    colWidth={colWidth * (unit === "cm" ? 1 : 2.54)}
+                    rowHeight={rowHeight * (unit === "cm" ? 1 : 2.54)}
+                />
+            </S_PrintGrid>
         </S_Content>
     );
 }
