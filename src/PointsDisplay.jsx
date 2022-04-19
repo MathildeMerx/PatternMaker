@@ -15,15 +15,17 @@ function PointsDisplay({ points }) {
                     </div>
                 </S_HoverInfoIcon>
             </h2>
-            <S_ControlledHeightUL>
-                {Object.keys(points)
-                    .sort()
-                    .map((point) => (
-                        <li key={point}>
-                            {`${point} (${points[point][0]}, ${points[point][1]})`}
-                        </li>
-                    ))}
-            </S_ControlledHeightUL>
+            {Object.keys(points).length !== 0 ? (
+                <S_ControlledHeightUL>
+                    {Object.keys(points)
+                        .sort()
+                        .map((point) => (
+                            <li key={point}>
+                                {`${point} (${points[point][0]}, ${points[point][1]})`}
+                            </li>
+                        ))}
+                </S_ControlledHeightUL>
+            ) : null}
         </>
     );
 }
