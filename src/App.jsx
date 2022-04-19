@@ -4,39 +4,48 @@ import { useContainerDimensions } from "./useContainerDimensions";
 import { SegmentsDisplay } from "./SegmentsDisplay";
 import { PointsDisplay } from "./PointsDisplay";
 import { CurvesDisplay } from "./CurvesDisplay";
-import { EditIcon } from "@chakra-ui/icons";
 import styled from "styled-components";
 import { retrieve } from "./retrieve";
 import { save } from "./save";
 import { pointNames } from "./alphabet";
 import ReactToPrint from "react-to-print";
 import { PrintGrid } from "./PrintGrid";
+import {
+    Edit,
+    Print,
+    SaveOutlined,
+    FileDownload,
+    ExpandMore,
+} from "@mui/icons-material";
 
 function App() {
-    let gridRef = useRef();
+    //Custom hook to determine the space available for the grid
     let [{ width, height }, containerRef] = useContainerDimensions();
 
+    //The user will be able to choose the number of columns and rows
+    //with this state
     const [numColumns, setNumColumns] = useState(10);
     const [numRows, setNumRows] = useState(10);
-    const [rowHeight, setRowHeight] = useState(1);
-    const [colWidth, setColWidth] = useState(1);
-    const unit = "cm";
 
+    //Determining the size of the cell based on their number and the space available
     const cellWidth = Math.floor((width - GRID_MARGIN * 2) / numColumns);
-
     const cellHeight = Math.floor(
         (height - (PATTERN_TITLE_MARGIN * 2 + PATTERN_TITLE_HEIGHT)) / numRows
     );
 
-    const numButton = (numColumns - 1) * (numRows - 1);
-
+    //These states will contain the points, segments and curves necessary to draw
+    //the pattern
     const [points, setPoints] = useState({});
     const [segments, setSegments] = useState([]);
     const [curves, setCurves] = useState({});
+
+    //A list of available point names
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
 
+    //When a user makes an error, this will contain the error message
     const [alertMessage, setAlertMessage] = useState(false);
 
+    //This erases the error message after 5 sec
     useEffect(() => {
         const alertTimer = setTimeout(() => {
             setAlertMessage(false);
@@ -45,22 +54,46 @@ function App() {
         return () => clearTimeout(alertTimer);
     }, [setAlertMessage, alertMessage]);
 
+    //To let the user choose the name of the pattern
     const [pieceName, setPieceName] = useState("Piece of pattern name");
     const [editingName, setEditingName] = useState(false);
+
+    //Ref of the printing grid
+    let gridRef = useRef();
+
+    //For the user to specify the real-life size of a cell
+    const [rowHeight, setRowHeight] = useState(1);
+    const [colWidth, setColWidth] = useState(1);
+
+    //Creating a dropdown menu, enabling the user to customize the printing
+    const printButtonRef = useRef();
+    const [clicked, setClicked] = useState(false);
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                printButtonRef.current &&
+                !printButtonRef.current.contains(event.target)
+            ) {
+                setClicked(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [printButtonRef, setClicked]);
 
     return (
         <S_Content>
             <S_Header>
                 <S_Title>Pattern designer</S_Title>
                 <S_Commands>
-                    <button
+                    <SaveOutlined
                         onClick={() =>
                             save(points, segments, curves, pieceName)
                         }
-                    >
-                        Save
-                    </button>
-                    <button
+                    />
+                    <FileDownload
                         onClick={() =>
                             retrieve(
                                 setPoints,
@@ -70,13 +103,40 @@ function App() {
                                 setPieceName
                             )
                         }
-                    >
-                        Retrieve
-                    </button>
-                    <ReactToPrint
-                        trigger={() => <button>{`Print`}</button>}
-                        content={() => gridRef}
                     />
+                    <S_PrintMenu
+                        onClick={() => setClicked(true)}
+                        ref={printButtonRef}
+                        clicked={clicked}
+                    >
+                        <Print />
+                        <ExpandMore />
+                        <S_PrintDropdown clicked={clicked}>
+                            Column width: {colWidth}cm
+                            <S_Input
+                                type="range"
+                                min="0.2"
+                                max="2.5"
+                                step="0.05"
+                                value={colWidth}
+                                onChange={(e) => setColWidth(e.target.value)}
+                            />
+                            Row height: {rowHeight}cm
+                            <S_Input
+                                type="range"
+                                min="0.2"
+                                max="2.5"
+                                step="0.05"
+                                value={rowHeight}
+                                onChange={(e) => setRowHeight(e.target.value)}
+                            />
+                            <ReactToPrint
+                                trigger={() => <button>Print</button>}
+                                content={() => gridRef}
+                                onAfterPrint={() => setClicked(false)}
+                            />
+                        </S_PrintDropdown>
+                    </S_PrintMenu>
                 </S_Commands>
             </S_Header>
             <S_GridDisplay>
@@ -116,24 +176,6 @@ function App() {
                         onChange={(e) => setNumRows(parseInt(e.target.value))}
                     />
                     Number of rows: {numRows}
-                    <S_Input
-                        type="range"
-                        min="0.2"
-                        max="2.5"
-                        step="0.05"
-                        value={colWidth}
-                        onChange={(e) => setColWidth(e.target.value)}
-                    />
-                    Column width: {colWidth}cm (for impression only)
-                    <S_Input
-                        type="range"
-                        min="0.2"
-                        max="2.5"
-                        step="0.05"
-                        value={rowHeight}
-                        onChange={(e) => setRowHeight(e.target.value)}
-                    />
-                    Row height: {rowHeight}cm (for impression only)
                 </aside>
                 <S_DesignContent ref={containerRef}>
                     {editingName ? (
@@ -157,9 +199,7 @@ function App() {
                         <S_PatternName>
                             {pieceName}
                             <S_EditIcon>
-                                <EditIcon
-                                    onClick={() => setEditingName(true)}
-                                />
+                                <Edit onClick={() => setEditingName(true)} />
                             </S_EditIcon>
                         </S_PatternName>
                     )}
@@ -167,7 +207,6 @@ function App() {
                         <Grid
                             numColumns={numColumns}
                             numRows={numRows}
-                            numButton={numButton}
                             points={points}
                             setPoints={setPoints}
                             cellHeight={cellHeight}
@@ -190,8 +229,8 @@ function App() {
                     curves={curves}
                     numColumns={numColumns}
                     numRows={numRows}
-                    colWidth={colWidth * (unit === "cm" ? 1 : 2.54)}
-                    rowHeight={rowHeight * (unit === "cm" ? 1 : 2.54)}
+                    colWidth={colWidth}
+                    rowHeight={rowHeight}
                 />
             </S_PrintGrid>
         </S_Content>
@@ -206,7 +245,11 @@ const PATTERN_TITLE_HEIGHT = 32;
 
 const GRID_MARGIN = 32;
 
-const S_Commands = styled.div``;
+const S_Commands = styled.div`
+    justify-content: space-between;
+    display: flex;
+    min-width: 120px;
+`;
 
 const S_Content = styled.div`
     height: 100vh;
@@ -241,8 +284,11 @@ const S_GridDisplay = styled.div`
 
 const S_Header = styled.header`
     align-items: center;
+    background-color: gainsboro;
     display: flex;
     justify-content: space-between;
+    margin-left: -32px;
+    padding-left: 32px;
     padding-right: 64px;
 `;
 const S_Input = styled.input`
@@ -266,10 +312,24 @@ const S_PatternNameModify = styled.input`
 
 const S_PrintGrid = styled.div``;
 
-// Overall height of Title: 72px (32px for the text, + 2x20px of margin)
+const S_PrintMenu = styled.span`
+    position: relative;
+`;
+
+const S_PrintDropdown = styled.div`
+    background-color: gainsboro;
+    border: solid 1px;
+    display: ${(props) => (props.clicked ? "block" : "none")};
+    right: 0;
+    position: absolute;
+    top: 24px;
+    width: 175px;
+`;
+
 const S_Title = styled.h1`
     line-height: ${TITLE_HEIGHT}rem;
     margin: ${TITLE_MARGIN}px 0;
 `;
 
 export default App;
+export { S_Input };

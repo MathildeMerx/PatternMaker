@@ -1,9 +1,10 @@
-import { DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
+import { DeleteOutlined, InfoOutlined } from "@mui/icons-material";
 import { CurveAddButton } from "./CurveAddButton";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 import { S_AlertMessage } from "./S_AlertMessage";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
 
+//Deleting a curve - when clicking on the bin button
 function clickDeleteCurve(curveIndex, setCurves) {
     setCurves((curves) => {
         let { [curveIndex]: index, ...rest } = curves;
@@ -11,14 +12,16 @@ function clickDeleteCurve(curveIndex, setCurves) {
     });
 }
 
+//Bin icon to delete a curve
 function DeleteCurve({ curveIndex, setCurves }) {
     return (
-        <button onClick={() => clickDeleteCurve(curveIndex, setCurves)}>
-            <DeleteIcon />
-        </button>
+        <DeleteOutlined
+            onClick={() => clickDeleteCurve(curveIndex, setCurves)}
+        />
     );
 }
 
+//List of the existing curves
 function CurvesDisplay({
     points,
     curves,
@@ -30,6 +33,7 @@ function CurvesDisplay({
 }) {
     let alert;
 
+    //Message alerting the user in case of misuse
     if (alertMessage) {
         switch (alertMessage[0]) {
             case "deletePointCurve":
@@ -59,7 +63,7 @@ function CurvesDisplay({
             <h2>
                 Curves
                 <S_HoverInfoIcon>
-                    <InfoOutlineIcon />
+                    <InfoOutlined />
                     <div>
                         To modify the shape of a curve, click on the curve in
                         the grid to make the control point appear.

@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { Add } from "@mui/icons-material";
 import { useState } from "react";
 import { SegmentSelectPoints } from "./SegmentSelectPoints";
 
@@ -6,11 +6,7 @@ function SegmentAddButton({ points, setSegments, setAlertMessage }) {
     const [addingSegment, setAddingSegment] = useState(false);
 
     if (!addingSegment) {
-        return (
-            <button onClick={() => setAddingSegment(true)}>
-                <AddIcon />
-            </button>
-        );
+        return <Add onClick={() => setAddingSegment(true)} />;
     } else {
         return (
             <SegmentSelectPoints

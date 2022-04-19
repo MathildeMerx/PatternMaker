@@ -18,15 +18,23 @@ function Grid({
     setCurves,
     setAlertMessage,
 }) {
+    //Ref for the drag'n'drop
     const SVGRef = useRef();
+
+    //Arrays for grid lines
     const arrWidth = [...Array(numColumns).keys()];
     const arrHeight = [...Array(numRows).keys()];
     const width = numColumns * cellWidth;
     const height = numRows * cellHeight;
+
+    //To determine when someone is trying to delete a button belonging to a
+    //segment / curve (and forbid it)
     const [deleteButton, setDeleteButton] = useState(false);
 
     return (
         <S_DesignGrid width={width} height={height}>
+            {/*SVG of all the pattern geometrical shapes */}
+            {/* When clicking in the SVG, it creates a new point */}
             <svg
                 ref={SVGRef}
                 width={width}
@@ -61,6 +69,8 @@ function Grid({
                     );
                 }}
             >
+                {/* If there are no points tell the user they can
+                click on the grid to create points */}
                 {Object.keys(points).length === 0 ? (
                     <text
                         x={`${width / 20}`}
