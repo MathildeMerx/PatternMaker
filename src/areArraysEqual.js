@@ -1,3 +1,4 @@
+//Testing whether two arrays are identical
 function areArraysEqual(arr1, arr2) {
     let res = true;
     if (arr1.length !== arr2.length) {

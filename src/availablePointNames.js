@@ -1,5 +1,6 @@
 import { pointNames } from "./alphabet";
 
+//Returns point names qhich aren't used yet
 function availablePointNames(points) {
     let existingPoints = Object.keys(points);
 

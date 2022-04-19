@@ -4,6 +4,7 @@ import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 import { S_AlertMessage } from "./S_AlertMessage";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
 
+//Deleting a curve - when clicking on the bin button
 function clickDeleteCurve(curveIndex, setCurves) {
     setCurves((curves) => {
         let { [curveIndex]: index, ...rest } = curves;
@@ -11,6 +12,7 @@ function clickDeleteCurve(curveIndex, setCurves) {
     });
 }
 
+//Bin icon to delete a curve
 function DeleteCurve({ curveIndex, setCurves }) {
     return (
         <DeleteOutlined
@@ -19,6 +21,7 @@ function DeleteCurve({ curveIndex, setCurves }) {
     );
 }
 
+//List of the existing curves
 function CurvesDisplay({
     points,
     curves,
@@ -30,6 +33,7 @@ function CurvesDisplay({
 }) {
     let alert;
 
+    //Message alerting the user in case of misuse
     if (alertMessage) {
         switch (alertMessage[0]) {
             case "deletePointCurve":

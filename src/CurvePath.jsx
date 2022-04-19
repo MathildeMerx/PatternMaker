@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+//Implementation of the curve in the SVG
 function CurvePath({
     curve,
     curveIndex,
@@ -9,12 +10,22 @@ function CurvePath({
     cellHeight,
     cellWidth,
 }) {
+    //State determining whether the control point and construction segments
+    //are visible
     const [showConstructionSegments, setShowConstructionSegments] =
         useState(false);
+
+    //When hovering above a segment, it will become bolder to show the user
+    //they can interact with it
     const [isHovering, setIsHovering] = useState(false);
+
+    //The control point can be moved by dragging it
     const [isDragging, setIsDragging] = useState(false);
+
+    //The 3 points determining the shape of the curve
     const [startPoint, endPoint, ...controlPoint] = curve;
 
+    //The abscissa and ordinate of the 3 points above
     const startAbscissa = points[startPoint][0] * cellWidth;
     const startOrdinate = points[startPoint][1] * cellHeight;
     const endAbscissa = points[endPoint][0] * cellWidth;
@@ -26,8 +37,11 @@ function CurvePath({
         () => controlPoint[1]
     );
 
+    //The localisation of the mouse during drag'n'drop is obtained with this
     const draggingInfo = SVGRef.current.getBoundingClientRect();
 
+    //onDrag doesn't exist in SVGs, so I had to implement it myself: onMouseMove will
+    //be used only between onMouseDown and onMouseUp
     function handleMouseMove({ clientX, clientY }) {
         if (isDragging) {
             setControlAbscissa((clientX - draggingInfo.left) / cellWidth);
@@ -37,6 +51,7 @@ function CurvePath({
         }
     }
 
+    //When the abscissa and ordinate of the control point change, the cusrve state is updated
     useEffect(() => {
         setCurves((curves) => {
             const currentCurve = curves[curveIndex];
