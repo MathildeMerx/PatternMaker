@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
 import {
     S_DropdownButton,
@@ -45,7 +45,7 @@ function DropdownMenu({ points, newSegment, setNewSegment, index }) {
                     })}
             </S_DropdownContent>
             <S_DropdownTitle>
-                <div>{newSegment[index] ?? "Point"}</div> <ChevronDownIcon />
+                <div>{newSegment[index] ?? "Point"}</div> <ExpandMore />
             </S_DropdownTitle>
         </S_Dropdown>
     );

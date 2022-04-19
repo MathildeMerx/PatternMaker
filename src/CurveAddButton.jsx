@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { Add } from "@mui/icons-material";
 import { useState } from "react";
 import { CurveSelectPoints } from "./CurveSelectPoints";
 
@@ -12,11 +12,7 @@ function CurveAddButton({
     const [addingCurve, setAddingCurve] = useState(false);
 
     if (!addingCurve) {
-        return (
-            <button onClick={() => setAddingCurve(true)}>
-                <AddIcon />
-            </button>
-        );
+        return <Add onClick={() => setAddingCurve(true)} />;
     } else {
         return (
             <CurveSelectPoints

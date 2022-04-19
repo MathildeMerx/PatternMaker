@@ -1,4 +1,4 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteOutlined } from "@mui/icons-material";
 import { SegmentAddButton } from "./SegmentAddButton";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 import { S_AlertMessage } from "./S_AlertMessage";
@@ -11,9 +11,7 @@ function clickDeleteSegment(seg, setSegments) {
 
 function DeleteSegment({ seg, setSegments }) {
     return (
-        <button onClick={() => clickDeleteSegment(seg, setSegments)}>
-            <DeleteIcon />
-        </button>
+        <DeleteOutlined onClick={() => clickDeleteSegment(seg, setSegments)} />
     );
 }
 

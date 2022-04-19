@@ -1,4 +1,4 @@
-import { InfoOutlineIcon } from "@chakra-ui/icons";
+import { InfoOutlined } from "@mui/icons-material";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
 
@@ -8,7 +8,7 @@ function PointsDisplay({ points }) {
             <h2>
                 Points
                 <S_HoverInfoIcon>
-                    <InfoOutlineIcon />
+                    <InfoOutlined />
                     <div>
                         Click in the grid to create a point. You can drag'n'drop
                         points, or click on one to delete it.

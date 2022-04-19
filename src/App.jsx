@@ -4,13 +4,13 @@ import { useContainerDimensions } from "./useContainerDimensions";
 import { SegmentsDisplay } from "./SegmentsDisplay";
 import { PointsDisplay } from "./PointsDisplay";
 import { CurvesDisplay } from "./CurvesDisplay";
-import { EditIcon } from "@chakra-ui/icons";
 import styled from "styled-components";
 import { retrieve } from "./retrieve";
 import { save } from "./save";
 import { pointNames } from "./alphabet";
 import ReactToPrint from "react-to-print";
 import { PrintGrid } from "./PrintGrid";
+import { Edit, Print, Save, FileDownload } from "@mui/icons-material";
 
 function App() {
     let gridRef = useRef();
@@ -58,7 +58,7 @@ function App() {
                             save(points, segments, curves, pieceName)
                         }
                     >
-                        Save
+                        <Save />
                     </button>
                     <button
                         onClick={() =>
@@ -71,10 +71,14 @@ function App() {
                             )
                         }
                     >
-                        Retrieve
+                        <FileDownload />
                     </button>
                     <ReactToPrint
-                        trigger={() => <button>{`Print`}</button>}
+                        trigger={() => (
+                            <button>
+                                <Print />
+                            </button>
+                        )}
                         content={() => gridRef}
                     />
                 </S_Commands>
@@ -157,9 +161,7 @@ function App() {
                         <S_PatternName>
                             {pieceName}
                             <S_EditIcon>
-                                <EditIcon
-                                    onClick={() => setEditingName(true)}
-                                />
+                                <Edit onClick={() => setEditingName(true)} />
                             </S_EditIcon>
                         </S_PatternName>
                     )}
@@ -241,8 +243,11 @@ const S_GridDisplay = styled.div`
 
 const S_Header = styled.header`
     align-items: center;
+    background-color: gainsboro;
     display: flex;
     justify-content: space-between;
+    margin-left: -32px;
+    padding-left: 32px;
     padding-right: 64px;
 `;
 const S_Input = styled.input`
