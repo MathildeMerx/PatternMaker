@@ -8,15 +8,9 @@ import styled from "styled-components";
 import { retrieve } from "./retrieve";
 import { save } from "./save";
 import { pointNames } from "./alphabet";
-import ReactToPrint from "react-to-print";
+import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
-import {
-    Edit,
-    Print,
-    SaveOutlined,
-    FileDownload,
-    ExpandMore,
-} from "@mui/icons-material";
+import { Edit, SaveOutlined, FileDownload } from "@mui/icons-material";
 
 function App() {
     //Custom hook to determine the space available for the grid
@@ -59,29 +53,11 @@ function App() {
     const [editingName, setEditingName] = useState(false);
 
     //Ref of the printing grid
-    let gridRef = useRef();
+    let printRef = useRef();
 
     //For the user to specify the real-life size of a cell
     const [rowHeight, setRowHeight] = useState(1);
     const [colWidth, setColWidth] = useState(1);
-
-    //Creating a dropdown menu, enabling the user to customize the printing
-    const printButtonRef = useRef();
-    const [clicked, setClicked] = useState(false);
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                printButtonRef.current &&
-                !printButtonRef.current.contains(event.target)
-            ) {
-                setClicked(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [printButtonRef, setClicked]);
 
     return (
         <S_Content>
@@ -104,39 +80,13 @@ function App() {
                             )
                         }
                     />
-                    <S_PrintMenu
-                        onClick={() => setClicked(true)}
-                        ref={printButtonRef}
-                        clicked={clicked}
-                    >
-                        <Print />
-                        <ExpandMore />
-                        <S_PrintDropdown clicked={clicked}>
-                            Column width: {colWidth}cm
-                            <S_Input
-                                type="range"
-                                min="0.2"
-                                max="2.5"
-                                step="0.05"
-                                value={colWidth}
-                                onChange={(e) => setColWidth(e.target.value)}
-                            />
-                            Row height: {rowHeight}cm
-                            <S_Input
-                                type="range"
-                                min="0.2"
-                                max="2.5"
-                                step="0.05"
-                                value={rowHeight}
-                                onChange={(e) => setRowHeight(e.target.value)}
-                            />
-                            <ReactToPrint
-                                trigger={() => <button>Print</button>}
-                                content={() => gridRef}
-                                onAfterPrint={() => setClicked(false)}
-                            />
-                        </S_PrintDropdown>
-                    </S_PrintMenu>
+                    <PrintDropdown
+                        rowHeight={rowHeight}
+                        setRowHeight={setRowHeight}
+                        colWidth={colWidth}
+                        setColWidth={setColWidth}
+                        printRef={printRef}
+                    ></PrintDropdown>
                 </S_Commands>
             </S_Header>
             <S_GridDisplay>
@@ -222,7 +172,7 @@ function App() {
                 </S_DesignContent>
             </S_GridDisplay>
 
-            <S_PrintGrid ref={(reference) => (gridRef = reference)}>
+            <S_PrintGrid ref={printRef}>
                 <PrintGrid
                     points={points}
                     segments={segments}
@@ -311,20 +261,6 @@ const S_PatternNameModify = styled.input`
 `;
 
 const S_PrintGrid = styled.div``;
-
-const S_PrintMenu = styled.span`
-    position: relative;
-`;
-
-const S_PrintDropdown = styled.div`
-    background-color: gainsboro;
-    border: solid 1px;
-    display: ${(props) => (props.clicked ? "block" : "none")};
-    right: 0;
-    position: absolute;
-    top: 24px;
-    width: 175px;
-`;
 
 const S_Title = styled.h1`
     line-height: ${TITLE_HEIGHT}rem;
