@@ -22,11 +22,12 @@ function Grid({
     const SVGRef = useRef();
 
     //Arrays for grid lines
-    const arrWidth = [...Array(numColumns).keys()];
-    const arrHeight = [...Array(numRows).keys()];
+    const arrWidth = [...Array(numColumns + 1).keys()];
+    const arrHeight = [...Array(numRows + 1).keys()];
     const width = numColumns * cellWidth;
     const height = numRows * cellHeight;
 
+    console.log(arrWidth);
     //To determine when someone is trying to delete a button belonging to a
     //segment / curve (and forbid it)
     const [deleteButton, setDeleteButton] = useState(false);
@@ -136,10 +137,31 @@ function Grid({
                 }
             )}
             {arrWidth.map((line) => (
-                <S_Column key={line} left={(line + 1) * cellWidth} />
+                <>
+                    <S_Column key={line} left={line * cellWidth} />
+                    {line % 5 === 0 ? (
+                        <S_ColumnIndex
+                            key={line}
+                            left={line * cellWidth + (line === 5 ? 4 : 0)}
+                        >
+                            {line}
+                        </S_ColumnIndex>
+                    ) : null}
+                </>
             ))}
             {arrHeight.map((line) => (
-                <S_Row key={line} top={(line + 1) * cellHeight} />
+                <>
+                    <S_Row key={line} top={line * cellHeight} />
+                    {line % 5 === 0 ? (
+                        <S_RowIndex
+                            key={line}
+                            right={width}
+                            top={line * cellHeight}
+                        >
+                            {line}
+                        </S_RowIndex>
+                    ) : null}
+                </>
             ))}
         </S_DesignGrid>
     );
@@ -154,8 +176,15 @@ const S_Column = styled.div`
     width: 1px;
 `;
 
+const S_ColumnIndex = styled.div`
+    color: darkgray;
+    font-size: 0.8em;
+    left: ${(props) => props.left - 6}px;
+    position: absolute;
+    top: -8px;
+`;
+
 const S_DesignGrid = styled.div`
-    border: solid 1px gainsboro;
     width: ${(props) => props.width}px;
     margin: auto;
     position: relative;
@@ -169,6 +198,14 @@ const S_Row = styled.div`
     position: absolute;
     top: ${(props) => props.top}px;
     width: 100%;
+`;
+
+const S_RowIndex = styled.div`
+    color: darkgray;
+    font-size: 0.8em;
+    position: absolute;
+    right: ${(props) => props.right + 4}px;
+    top: ${(props) => props.top}px;
 `;
 
 export { Grid };
