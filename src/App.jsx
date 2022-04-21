@@ -354,9 +354,7 @@ const S_PatternNameModify = styled.input`
     }
 `;
 
-const S_PrintGrid = styled.div`
-    display: ${(props) => (props.clicked ? "block" : "none")};
-`;
+const S_PrintGrid = styled.div``;
 
 const S_SaveOutlined = styled(SaveOutlined)`
     cursor: pointer;

@@ -1,6 +1,6 @@
 import ReactToPrint from "react-to-print";
 import styled from "styled-components";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { S_Input } from "./App";
 
 import { Print } from "@mui/icons-material";
