@@ -14,7 +14,8 @@ const S_Dropdown = styled.div`
     width: 60px;
 `;
 const S_DropdownContent = styled.div`
-    border-color: black;
+    background-color: ${({ theme }) => theme.colours.background};
+    border-color: ${({ theme }) => theme.colours.contrast};
     border: solid 1px;
     display: none;
     left: -1px;
@@ -30,7 +31,6 @@ const S_DropdownContent = styled.div`
         padding: 4px;
         text-align: left;
         text-decoration: none;
-        width: 100%;
     }
 
     ${S_Dropdown}:hover & {
@@ -39,8 +39,11 @@ const S_DropdownContent = styled.div`
 `;
 
 const S_DropdownButton = styled.button`
+    background-color: ${({ theme }) => theme.colours.background};
+    color: ${({ theme }) => theme.colours.contrast};
+    width: 100%;
     &:hover {
-        background-color: wheat;
+        background-color: ${({ theme }) => theme.colours.backgroundLight};
     }
 `;
 

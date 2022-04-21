@@ -5,7 +5,6 @@ const S_HoverInfoIcon = styled.span`
     position: relative;
 
     &:hover div {
-        background-color: white;
         border: solid 2px;
         bottom: 20px;
         display: block;

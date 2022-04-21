@@ -168,7 +168,7 @@ function Grid({
 }
 
 const S_Column = styled.div`
-    background-color: gainsboro;
+    background-color: ${({ theme }) => theme.colours.contrast};
     height: 100%;
     left: ${(props) => props.left}px;
     position: absolute;
@@ -177,7 +177,7 @@ const S_Column = styled.div`
 `;
 
 const S_ColumnIndex = styled.div`
-    color: darkgray;
+    color: ${({ theme }) => theme.colours.contrast};
     font-size: 0.8em;
     left: ${(props) => props.left - 6}px;
     position: absolute;
@@ -192,7 +192,7 @@ const S_DesignGrid = styled.div`
 `;
 
 const S_Row = styled.div`
-    background-color: gainsboro;
+    background-color: ${({ theme }) => theme.colours.contrast};
     height: 1px;
     left: 0;
     position: absolute;
@@ -201,7 +201,7 @@ const S_Row = styled.div`
 `;
 
 const S_RowIndex = styled.div`
-    color: darkgray;
+    color: ${({ theme }) => theme.colours.contrast};
     font-size: 0.8em;
     position: absolute;
     right: ${(props) => props.right + 4}px;

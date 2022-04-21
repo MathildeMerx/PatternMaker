@@ -30,9 +30,9 @@ function PrintDropdown({
         };
     }, [printButtonRef, setClicked]);
     return (
-        <S_PrintMenu ref={printButtonRef} onClick={() => setClicked(true)}>
-            <Print />
-            <ExpandMore />
+        <S_PrintMenu ref={printButtonRef}>
+            <Print onClick={() => setClicked(!clicked)} />
+            <ExpandMore onClick={() => setClicked(!clicked)} />
             <S_PrintDropdown clicked={clicked}>
                 Column width: {colWidth}cm
                 <S_Input
@@ -69,7 +69,8 @@ const S_PrintMenu = styled.span`
 `;
 
 const S_PrintDropdown = styled.div`
-    background-color: gainsboro;
+    background-color: ${({ theme }) => theme.colours.background};
+    color: ${({ theme }) => theme.colours.contrast};
     border: solid 1px;
     display: ${(props) => (props.clicked ? "block" : "none")};
     right: 0;

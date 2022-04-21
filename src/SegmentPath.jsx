@@ -1,4 +1,7 @@
+import { useTheme } from "styled-components";
+
 function SegmentPath({ segment, points, cellWidth, cellHeight }) {
+    const theme = useTheme();
     const startPoint = segment[0];
     const endPoint = segment[1];
 
@@ -12,7 +15,7 @@ function SegmentPath({ segment, points, cellWidth, cellHeight }) {
             d={`M ${startAbscissa} ${startOrdinate} 
             L ${endAbscissa} ${endOrdinate}`}
             fill="none"
-            stroke="red"
+            stroke={theme.colours.bright}
             strokeWidth="2"
         />
     );

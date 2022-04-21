@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 
 //Implementation of the curve in the SVG
 function CurvePath({
@@ -10,6 +11,8 @@ function CurvePath({
     cellHeight,
     cellWidth,
 }) {
+    const theme = useTheme();
+
     //State determining whether the control point and construction segments
     //are visible
     const [showConstructionSegments, setShowConstructionSegments] =
@@ -80,7 +83,7 @@ function CurvePath({
                     controlOrdinate * cellHeight
                 } ${endAbscissa} ${endOrdinate}`}
                 fill="none"
-                stroke="red"
+                stroke={theme.colours.bright}
                 strokeWidth={isHovering ? "5" : "2"}
                 style={{ cursor: "pointer" }}
             />

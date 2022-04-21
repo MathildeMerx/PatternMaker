@@ -196,12 +196,15 @@ const PATTERN_TITLE_HEIGHT = 32;
 const GRID_MARGIN = 32;
 
 const S_Commands = styled.div`
+    color: ${({ theme }) => theme.colours.bright};
     justify-content: space-between;
     display: flex;
     min-width: 120px;
 `;
 
 const S_Content = styled.div`
+    background-color: ${({ theme }) => theme.colours.background};
+    color: ${({ theme }) => theme.colours.contrast};
     height: 100vh;
     left: 0;
     padding-left: 32px;
@@ -234,7 +237,6 @@ const S_GridDisplay = styled.div`
 
 const S_Header = styled.header`
     align-items: center;
-    background-color: gainsboro;
     display: flex;
     justify-content: space-between;
     margin-left: -32px;

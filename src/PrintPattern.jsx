@@ -71,7 +71,6 @@ const S_PrintMenu = styled.span`
 `;
 
 const S_PrintDropdown = styled.div`
-    background-color: gainsboro;
     border: solid 1px;
     display: ${(props) => (props.clicked ? "block" : "none")};
     right: 0;
