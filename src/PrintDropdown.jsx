@@ -12,10 +12,11 @@ function PrintDropdown({
     setColWidth,
     rowHeight,
     setRowHeight,
+    clicked,
+    setClicked,
 }) {
     //Creating a dropdown menu, enabling the user to customize the printing
     const printButtonRef = useRef();
-    const [clicked, setClicked] = useState(false);
     useEffect(() => {
         function handleClickOutside(event) {
             if (
