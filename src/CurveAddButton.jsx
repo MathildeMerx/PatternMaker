@@ -1,6 +1,7 @@
 import { Add } from "@mui/icons-material";
 import { useState } from "react";
 import { CurveSelectPoints } from "./CurveSelectPoints";
+import styled from "styled-components";
 
 //A "+" button to create new curves
 function CurveAddButton({
@@ -14,7 +15,7 @@ function CurveAddButton({
     const [addingCurve, setAddingCurve] = useState(false);
 
     if (!addingCurve) {
-        return <Add onClick={() => setAddingCurve(true)} />;
+        return <S_Add onClick={() => setAddingCurve(true)} />;
     } else {
         return (
             //The UI to define a new curve
@@ -31,3 +32,11 @@ function CurveAddButton({
 }
 
 export { CurveAddButton };
+
+const S_Add = styled(Add)`
+    cursor: pointer;
+
+    &:hover {
+        color: ${({ theme }) => theme.colours.bright};
+    }
+`;

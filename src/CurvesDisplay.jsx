@@ -3,6 +3,7 @@ import { CurveAddButton } from "./CurveAddButton";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 import { S_AlertMessage } from "./S_AlertMessage";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import styled from "styled-components";
 
 //Deleting a curve - when clicking on the bin button
 function clickDeleteCurve(curveIndex, setCurves) {
@@ -15,7 +16,7 @@ function clickDeleteCurve(curveIndex, setCurves) {
 //Bin icon to delete a curve
 function DeleteCurve({ curveIndex, setCurves }) {
     return (
-        <DeleteOutlined
+        <S_DeleteOutlined
             onClick={() => clickDeleteCurve(curveIndex, setCurves)}
         />
     );
@@ -103,3 +104,11 @@ function CurvesDisplay({
 }
 
 export { CurvesDisplay };
+
+const S_DeleteOutlined = styled(DeleteOutlined)`
+    cursor: pointer;
+
+    &:hover {
+        color: ${({ theme }) => theme.colours.negative};
+    }
+`;

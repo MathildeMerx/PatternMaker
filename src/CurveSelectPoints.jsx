@@ -1,5 +1,5 @@
 import { ExpandMore } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { areArraysEqual } from "./areArraysEqual";
 import { midPoint } from "./midPoint";
 import {
@@ -8,7 +8,8 @@ import {
     S_Dropdown,
     S_DropdownTitle,
 } from "./dropdownStyledComponents";
-
+import { S_CancelButton, S_ValidateButton } from "./Theme/Button";
+import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 function clickMenu(event, setNewCurve, index) {
@@ -32,9 +33,28 @@ function DropdownItem({ pointName, setNewCurve, index }) {
 }
 
 function DropdownMenu({ points, newCurve, setNewCurve, index }) {
+    const dropdownRef = useRef();
+    const [clicked, setClicked] = useState(false);
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setClicked(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownRef, setClicked]);
     return (
-        <S_Dropdown>
-            <S_DropdownContent>
+        <S_Dropdown ref={dropdownRef} onClick={() => setClicked(!clicked)}>
+            <S_DropdownTitle>
+                <div>{newCurve[index] ?? "Point"}</div> <ExpandMore />
+            </S_DropdownTitle>
+            <S_DropdownContent clicked={clicked}>
                 {Object.keys(points)
                     .sort()
                     .map((pointName) => {
@@ -48,9 +68,6 @@ function DropdownMenu({ points, newCurve, setNewCurve, index }) {
                         );
                     })}
             </S_DropdownContent>
-            <S_DropdownTitle>
-                <div>{newCurve[index] ?? "Point"}</div> <ExpandMore />
-            </S_DropdownTitle>
         </S_Dropdown>
     );
 }
@@ -106,47 +123,55 @@ function CurveSelectPoints({
 }) {
     const [newCurve, setNewCurve] = useState([null, null, null, null]);
     return (
-        <div>
-            Curve from
-            <DropdownMenu
-                points={points}
-                newCurve={newCurve}
-                setNewCurve={setNewCurve}
-                index={0}
-            />
-            to
-            <DropdownMenu
-                points={points}
-                newCurve={newCurve}
-                setNewCurve={setNewCurve}
-                index={1}
-            />
-            <button
-                onClick={(event) =>
-                    addCurve(
-                        event,
-                        newCurve,
-                        setCurves,
-                        setAddingCurve,
-                        points,
-                        cellWidth,
-                        cellHeight,
-                        setAlertMessage
-                    )
-                }
-            >
-                Validate
-            </button>
-            <button
-                onClick={(event) => {
-                    event.preventDefault();
-                    setAddingCurve(false);
-                }}
-            >
-                Cancel
-            </button>
-        </div>
+        <>
+            <div>
+                Curve from
+                <DropdownMenu
+                    points={points}
+                    newCurve={newCurve}
+                    setNewCurve={setNewCurve}
+                    index={0}
+                />
+                to
+                <DropdownMenu
+                    points={points}
+                    newCurve={newCurve}
+                    setNewCurve={setNewCurve}
+                    index={1}
+                />
+            </div>
+            <Submit>
+                <S_CancelButton
+                    onClick={(event) => {
+                        event.preventDefault();
+                        setAddingCurve(false);
+                    }}
+                >
+                    Cancel
+                </S_CancelButton>
+                <S_ValidateButton
+                    onClick={(event) =>
+                        addCurve(
+                            event,
+                            newCurve,
+                            setCurves,
+                            setAddingCurve,
+                            points,
+                            cellWidth,
+                            cellHeight,
+                            setAlertMessage
+                        )
+                    }
+                >
+                    Validate
+                </S_ValidateButton>
+            </Submit>
+        </>
     );
 }
+
+const Submit = styled.div`
+    margin-top: 8px;
+`;
 
 export { CurveSelectPoints };

@@ -139,7 +139,7 @@ function deletePoint(
 }
 
 const S_PatternPoint = styled.div`
-    background-color: red;
+    background-color: ${({ theme }) => theme.colours.bright};
     cursor: pointer;
     font-size: ${(props) =>
         Math.max(0.75, Math.min(props.cellWidth, props.cellHeight) / 60)}rem;
@@ -160,7 +160,7 @@ const S_PatternPoint = styled.div`
         Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5)}px;
 
     &:hover {
-        background-color: gainsboro;
+        background-color: ${({ theme }) => theme.colours.contrast};
     }
 `;
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 
 //Implementation of the curve in the SVG
 function CurvePath({
@@ -10,6 +11,8 @@ function CurvePath({
     cellHeight,
     cellWidth,
 }) {
+    const theme = useTheme();
+
     //State determining whether the control point and construction segments
     //are visible
     const [showConstructionSegments, setShowConstructionSegments] =
@@ -80,8 +83,8 @@ function CurvePath({
                     controlOrdinate * cellHeight
                 } ${endAbscissa} ${endOrdinate}`}
                 fill="none"
-                stroke="red"
-                strokeWidth={isHovering ? "5" : "2"}
+                stroke={theme.colours.bright}
+                strokeWidth={isHovering ? "6" : "3"}
                 style={{ cursor: "pointer" }}
             />
             {showConstructionSegments ? (
@@ -89,9 +92,9 @@ function CurvePath({
                     d={`M ${startAbscissa} ${startOrdinate} 
 L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     fill="none"
-                    stroke="blue"
+                    stroke={theme.colours.contrast}
                     strokeDasharray="4"
-                    strokeWidth="2"
+                    strokeWidth="3"
                 />
             ) : null}
             {showConstructionSegments ? (
@@ -99,9 +102,9 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     d={`M ${endAbscissa} ${endOrdinate} 
 L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     fill="none"
-                    stroke="blue"
+                    stroke={theme.colours.contrast}
                     strokeDasharray="4"
-                    strokeWidth="2"
+                    strokeWidth="3"
                 />
             ) : null}
             {showConstructionSegments ? (
@@ -115,7 +118,7 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     cx={controlAbscissa * cellWidth}
                     cy={controlOrdinate * cellHeight}
                     r="5"
-                    fill="blue"
+                    fill={theme.colours.contrast}
                 />
             ) : null}
         </>

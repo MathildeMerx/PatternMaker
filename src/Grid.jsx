@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, Fragment } from "react";
 import { PatternPoint, deletePoint } from "./PatternPoint";
 import { SegmentPath } from "./SegmentPath";
 import { CurvePath } from "./CurvePath";
 import styled from "styled-components";
+import { useTheme } from "styled-components";
 
 function Grid({
     numRows,
@@ -18,12 +19,13 @@ function Grid({
     setCurves,
     setAlertMessage,
 }) {
+    const theme = useTheme();
     //Ref for the drag'n'drop
     const SVGRef = useRef();
 
     //Arrays for grid lines
-    const arrWidth = [...Array(numColumns).keys()];
-    const arrHeight = [...Array(numRows).keys()];
+    const arrWidth = [...Array(numColumns + 1).keys()];
+    const arrHeight = [...Array(numRows + 1).keys()];
     const width = numColumns * cellWidth;
     const height = numRows * cellHeight;
 
@@ -33,6 +35,33 @@ function Grid({
 
     return (
         <S_DesignGrid width={width} height={height}>
+            {arrWidth.map((line) => (
+                <Fragment key={`colFrag${line}`}>
+                    <S_Column key={`col${line}`} left={line * cellWidth} />
+                    {line % 5 === 0 ? (
+                        <S_ColumnIndex
+                            key={`col${line}index`}
+                            left={line * cellWidth + (line === 5 ? 4 : 0)}
+                        >
+                            {line}
+                        </S_ColumnIndex>
+                    ) : null}
+                </Fragment>
+            ))}
+            {arrHeight.map((line) => (
+                <Fragment key={`rowFrag${line}`}>
+                    <S_Row key={`row${line}`} top={line * cellHeight} />
+                    {line % 5 === 0 ? (
+                        <S_RowIndex
+                            key={`row${line}index`}
+                            right={width}
+                            top={line * cellHeight}
+                        >
+                            {line}
+                        </S_RowIndex>
+                    ) : null}
+                </Fragment>
+            ))}
             {/*SVG of all the pattern geometrical shapes */}
             {/* When clicking in the SVG, it creates a new point */}
             <svg
@@ -77,7 +106,7 @@ function Grid({
                         y={`${height / 3}`}
                         textLength={`${width * 0.9}`}
                         fontSize={`${width / 20}`}
-                        fill="gainsboro"
+                        fill={theme.colours.bright}
                     >
                         Click on this grid to create a point!
                     </text>
@@ -135,27 +164,30 @@ function Grid({
                     );
                 }
             )}
-            {arrWidth.map((line) => (
-                <S_Column key={line} left={(line + 1) * cellWidth} />
-            ))}
-            {arrHeight.map((line) => (
-                <S_Row key={line} top={(line + 1) * cellHeight} />
-            ))}
         </S_DesignGrid>
     );
 }
 
 const S_Column = styled.div`
-    background-color: gainsboro;
+    background-color: ${({ theme }) => theme.colours.backgroundLight};
     height: 100%;
     left: ${(props) => props.left}px;
     position: absolute;
     top: 0;
     width: 1px;
+    z-index: -1;
+`;
+
+const S_ColumnIndex = styled.div`
+    color: ${({ theme }) => theme.colours.contrast};
+    font-size: 0.8em;
+    left: ${(props) => props.left - 6}px;
+    position: absolute;
+    top: -8px;
 `;
 
 const S_DesignGrid = styled.div`
-    border: solid 1px gainsboro;
+    cursor: pointer;
     width: ${(props) => props.width}px;
     margin: auto;
     position: relative;
@@ -163,12 +195,21 @@ const S_DesignGrid = styled.div`
 `;
 
 const S_Row = styled.div`
-    background-color: gainsboro;
+    background-color: ${({ theme }) => theme.colours.backgroundLight};
     height: 1px;
     left: 0;
     position: absolute;
     top: ${(props) => props.top}px;
     width: 100%;
+    z-index: -1;
+`;
+
+const S_RowIndex = styled.div`
+    color: ${({ theme }) => theme.colours.contrast};
+    font-size: 0.8em;
+    position: absolute;
+    right: ${(props) => props.right + 4}px;
+    top: ${(props) => props.top}px;
 `;
 
 export { Grid };

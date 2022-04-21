@@ -8,15 +8,10 @@ import styled from "styled-components";
 import { retrieve } from "./retrieve";
 import { save } from "./save";
 import { pointNames } from "./alphabet";
-import ReactToPrint from "react-to-print";
+import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
-import {
-    Edit,
-    Print,
-    SaveOutlined,
-    FileDownload,
-    ExpandMore,
-} from "@mui/icons-material";
+import { Edit, SaveOutlined, FileDownload } from "@mui/icons-material";
+import { Button } from "./Theme/Button";
 
 function App() {
     //Custom hook to determine the space available for the grid
@@ -59,84 +54,49 @@ function App() {
     const [editingName, setEditingName] = useState(false);
 
     //Ref of the printing grid
-    let gridRef = useRef();
+    let printRef = useRef();
 
     //For the user to specify the real-life size of a cell
     const [rowHeight, setRowHeight] = useState(1);
     const [colWidth, setColWidth] = useState(1);
-
-    //Creating a dropdown menu, enabling the user to customize the printing
-    const printButtonRef = useRef();
-    const [clicked, setClicked] = useState(false);
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                printButtonRef.current &&
-                !printButtonRef.current.contains(event.target)
-            ) {
-                setClicked(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [printButtonRef, setClicked]);
 
     return (
         <S_Content>
             <S_Header>
                 <S_Title>Pattern designer</S_Title>
                 <S_Commands>
-                    <SaveOutlined
-                        onClick={() =>
-                            save(points, segments, curves, pieceName)
-                        }
-                    />
-                    <FileDownload
-                        onClick={() =>
-                            retrieve(
-                                setPoints,
-                                setSegments,
-                                setCurves,
-                                setPossiblePointNames,
-                                setPieceName
-                            )
-                        }
-                    />
-                    <S_PrintMenu
-                        onClick={() => setClicked(true)}
-                        ref={printButtonRef}
-                        clicked={clicked}
-                    >
-                        <Print />
-                        <ExpandMore />
-                        <S_PrintDropdown clicked={clicked}>
-                            Column width: {colWidth}cm
-                            <S_Input
-                                type="range"
-                                min="0.2"
-                                max="2.5"
-                                step="0.05"
-                                value={colWidth}
-                                onChange={(e) => setColWidth(e.target.value)}
-                            />
-                            Row height: {rowHeight}cm
-                            <S_Input
-                                type="range"
-                                min="0.2"
-                                max="2.5"
-                                step="0.05"
-                                value={rowHeight}
-                                onChange={(e) => setRowHeight(e.target.value)}
-                            />
-                            <ReactToPrint
-                                trigger={() => <button>Print</button>}
-                                content={() => gridRef}
-                                onAfterPrint={() => setClicked(false)}
-                            />
-                        </S_PrintDropdown>
-                    </S_PrintMenu>
+                    <div>
+                        <S_SaveOutlined
+                            onClick={() =>
+                                save(points, segments, curves, pieceName)
+                            }
+                        />
+                        <p>Save</p>
+                    </div>
+                    <div>
+                        <S_FileDownload
+                            onClick={() =>
+                                retrieve(
+                                    setPoints,
+                                    setSegments,
+                                    setCurves,
+                                    setPossiblePointNames,
+                                    setPieceName
+                                )
+                            }
+                        />
+                        <p>Retrieve</p>
+                    </div>
+                    <div>
+                        <PrintDropdown
+                            rowHeight={rowHeight}
+                            setRowHeight={setRowHeight}
+                            colWidth={colWidth}
+                            setColWidth={setColWidth}
+                            printRef={printRef}
+                        ></PrintDropdown>
+                        <p>Print</p>
+                    </div>
                 </S_Commands>
             </S_Header>
             <S_GridDisplay>
@@ -193,7 +153,7 @@ function App() {
                                     }
                                 ></S_PatternNameModify>
                             </label>
-                            <input type="submit" />
+                            <Button type="submit">Submit</Button>
                         </form>
                     ) : (
                         <S_PatternName>
@@ -222,7 +182,7 @@ function App() {
                 </S_DesignContent>
             </S_GridDisplay>
 
-            <S_PrintGrid ref={(reference) => (gridRef = reference)}>
+            <S_PrintGrid ref={printRef}>
                 <PrintGrid
                     points={points}
                     segments={segments}
@@ -246,12 +206,26 @@ const PATTERN_TITLE_HEIGHT = 32;
 const GRID_MARGIN = 32;
 
 const S_Commands = styled.div`
+    align-items: baseline;
+    color: ${({ theme }) => theme.colours.bright};
+    gap: 20px;
     justify-content: space-between;
     display: flex;
     min-width: 120px;
+
+    & div svg {
+        display: block;
+        margin: auto;
+    }
+
+    & div p {
+        margin: 0;
+    }
 `;
 
 const S_Content = styled.div`
+    background-color: ${({ theme }) => theme.colours.background};
+    color: ${({ theme }) => theme.colours.contrast};
     height: 100vh;
     left: 0;
     padding-left: 32px;
@@ -273,6 +247,14 @@ const S_DrawGrid = styled.div`
 const S_EditIcon = styled.span`
     cursor: pointer;
     margin-left: 10px;
+
+    &:hover {
+        color: ${({ theme }) => theme.colours.bright};
+    }
+`;
+
+const S_FileDownload = styled(FileDownload)`
+    cursor: pointer;
 `;
 
 const S_GridDisplay = styled.div`
@@ -284,7 +266,6 @@ const S_GridDisplay = styled.div`
 
 const S_Header = styled.header`
     align-items: center;
-    background-color: gainsboro;
     display: flex;
     justify-content: space-between;
     margin-left: -32px;
@@ -293,6 +274,45 @@ const S_Header = styled.header`
 `;
 const S_Input = styled.input`
     display: block;
+    -webkit-appearance: none;
+    width: 50%;
+    min-width: 150px;
+    height: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    outline: 0;
+    background: ${({ theme }) => theme.colours.backgroundLight};
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 18px;
+        width: 18px;
+        border-radius: 3px;
+        background: ${({ theme }) => theme.colours.bright};
+        border-radius: 50%;
+        border: 0;
+        cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 3px;
+        background: ${({ theme }) => theme.colours.bright};
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    &::-ms-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 3px;
+        background: ${({ theme }) => theme.colours.bright};
+        border-radius: 50%;
+        border: 0;
+        cursor: pointer;
+    }
 `;
 
 const S_PatternName = styled.h2`
@@ -302,28 +322,25 @@ const S_PatternName = styled.h2`
 `;
 
 const S_PatternNameModify = styled.input`
-    border: 3px solid;
-    border-radius: 5px;
+    background-color: ${({ theme }) => theme.colours.background};
+    border: none;
+    border-bottom: 3px solid;
+    color: ${({ theme }) => theme.colours.contrast};
     font-size: 1.5rem;
     line-height: ${PATTERN_TITLE_HEIGHT}px;
     margin: ${PATTERN_TITLE_MARGIN - 4}px auto;
+    margin-right: 8px;
     text-align: center;
+
+    &:focus-visible {
+        outline: none;
+    }
 `;
 
 const S_PrintGrid = styled.div``;
 
-const S_PrintMenu = styled.span`
-    position: relative;
-`;
-
-const S_PrintDropdown = styled.div`
-    background-color: gainsboro;
-    border: solid 1px;
-    display: ${(props) => (props.clicked ? "block" : "none")};
-    right: 0;
-    position: absolute;
-    top: 24px;
-    width: 175px;
+const S_SaveOutlined = styled(SaveOutlined)`
+    cursor: pointer;
 `;
 
 const S_Title = styled.h1`
