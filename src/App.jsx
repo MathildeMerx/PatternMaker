@@ -64,29 +64,38 @@ function App() {
             <S_Header>
                 <S_Title>Pattern designer</S_Title>
                 <S_Commands>
-                    <SaveOutlined
-                        onClick={() =>
-                            save(points, segments, curves, pieceName)
-                        }
-                    />
-                    <FileDownload
-                        onClick={() =>
-                            retrieve(
-                                setPoints,
-                                setSegments,
-                                setCurves,
-                                setPossiblePointNames,
-                                setPieceName
-                            )
-                        }
-                    />
-                    <PrintDropdown
-                        rowHeight={rowHeight}
-                        setRowHeight={setRowHeight}
-                        colWidth={colWidth}
-                        setColWidth={setColWidth}
-                        printRef={printRef}
-                    ></PrintDropdown>
+                    <div>
+                        <S_SaveOutlined
+                            onClick={() =>
+                                save(points, segments, curves, pieceName)
+                            }
+                        />
+                        <p>Save</p>
+                    </div>
+                    <div>
+                        <S_FileDownload
+                            onClick={() =>
+                                retrieve(
+                                    setPoints,
+                                    setSegments,
+                                    setCurves,
+                                    setPossiblePointNames,
+                                    setPieceName
+                                )
+                            }
+                        />
+                        <p>Retrieve</p>
+                    </div>
+                    <div>
+                        <PrintDropdown
+                            rowHeight={rowHeight}
+                            setRowHeight={setRowHeight}
+                            colWidth={colWidth}
+                            setColWidth={setColWidth}
+                            printRef={printRef}
+                        ></PrintDropdown>
+                        <p>Print</p>
+                    </div>
                 </S_Commands>
             </S_Header>
             <S_GridDisplay>
@@ -196,10 +205,21 @@ const PATTERN_TITLE_HEIGHT = 32;
 const GRID_MARGIN = 32;
 
 const S_Commands = styled.div`
+    align-items: baseline;
     color: ${({ theme }) => theme.colours.bright};
+    gap: 20px;
     justify-content: space-between;
     display: flex;
     min-width: 120px;
+
+    & div svg {
+        display: block;
+        margin: auto;
+    }
+
+    & div p {
+        margin: 0;
+    }
 `;
 
 const S_Content = styled.div`
@@ -228,6 +248,10 @@ const S_EditIcon = styled.span`
     margin-left: 10px;
 `;
 
+const S_FileDownload = styled(FileDownload)`
+    cursor: pointer;
+`;
+
 const S_GridDisplay = styled.div`
     display: grid;
     grid-column-gap: 32px;
@@ -245,6 +269,25 @@ const S_Header = styled.header`
 `;
 const S_Input = styled.input`
     display: block;
+    -webkit-appearance: none;
+    width: 50%;
+    min-width: 150px;
+    height: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    outline: 0;
+    background: ${({ theme }) => theme.colours.backgroundLight};
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 18px;
+        width: 18px;
+        border-radius: 3px;
+        background: ${({ theme }) => theme.colours.bright};
+        border-radius: 50%;
+        border: 0;
+        cursor: pointer;
+    }
 `;
 
 const S_PatternName = styled.h2`
@@ -263,6 +306,10 @@ const S_PatternNameModify = styled.input`
 `;
 
 const S_PrintGrid = styled.div``;
+
+const S_SaveOutlined = styled(SaveOutlined)`
+    cursor: pointer;
+`;
 
 const S_Title = styled.h1`
     line-height: ${TITLE_HEIGHT}rem;

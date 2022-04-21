@@ -7,34 +7,30 @@ const S_DropdownTitle = styled.div`
 `;
 
 const S_Dropdown = styled.div`
-    border: solid 1px;
+    border-bottom: solid 1px;
+    cursor: pointer;
     display: inline-block;
     margin: 0 5px;
     position: relative;
     width: 60px;
 `;
 const S_DropdownContent = styled.div`
-    background-color: ${({ theme }) => theme.colours.background};
-    border-color: ${({ theme }) => theme.colours.contrast};
-    border: solid 1px;
-    display: none;
+    border-radius: 4px;
+    display: ${(props) => (props.clicked ? "block" : "none")};
     left: -1px;
     max-height: 150px;
     min-width: 60px;
     overflow-y: auto;
     position: absolute;
-    top: 20px;
+    top: 32px;
+    z-index: 1;
 
     & button {
+        background-color: ${({ theme }) => theme.colours.backgroundLight};
         border-style: none;
-        display: block;
-        padding: 4px;
+        padding: 8px;
         text-align: left;
         text-decoration: none;
-    }
-
-    ${S_Dropdown}:hover & {
-        display: block;
     }
 `;
 
@@ -43,7 +39,7 @@ const S_DropdownButton = styled.button`
     color: ${({ theme }) => theme.colours.contrast};
     width: 100%;
     &:hover {
-        background-color: ${({ theme }) => theme.colours.backgroundLight};
+        background-color: ${({ theme }) => theme.colours.background};
     }
 `;
 

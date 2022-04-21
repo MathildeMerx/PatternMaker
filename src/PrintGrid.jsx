@@ -49,7 +49,6 @@ function PrintGrid({
                         Math.floor(paperPageHeight / rowHeight)
                     } `}
                     fill="none"
-                    stroke="gainsboro"
                     strokeWidth="0.1"
                 />
                 {Object.entries(points).map(([, [positionX, positionY]]) => (
@@ -65,7 +64,6 @@ function PrintGrid({
                         <path
                             d={`M ${points[startPoint][0]} ${points[startPoint][1]} Q ${controlX} ${controlY} ${points[endPoint][0]} ${points[endPoint][1]}`}
                             fill="none"
-                            stroke="black"
                             strokeWidth="0.1"
                             key={key}
                         ></path>

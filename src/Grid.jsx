@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, Fragment } from "react";
 import { PatternPoint, deletePoint } from "./PatternPoint";
 import { SegmentPath } from "./SegmentPath";
 import { CurvePath } from "./CurvePath";
 import styled from "styled-components";
+import { useTheme } from "styled-components";
 
 function Grid({
     numRows,
@@ -18,6 +19,7 @@ function Grid({
     setCurves,
     setAlertMessage,
 }) {
+    const theme = useTheme();
     //Ref for the drag'n'drop
     const SVGRef = useRef();
 
@@ -27,13 +29,39 @@ function Grid({
     const width = numColumns * cellWidth;
     const height = numRows * cellHeight;
 
-    console.log(arrWidth);
     //To determine when someone is trying to delete a button belonging to a
     //segment / curve (and forbid it)
     const [deleteButton, setDeleteButton] = useState(false);
 
     return (
         <S_DesignGrid width={width} height={height}>
+            {arrWidth.map((line) => (
+                <Fragment key={`colFrag${line}`}>
+                    <S_Column key={`col${line}`} left={line * cellWidth} />
+                    {line % 5 === 0 ? (
+                        <S_ColumnIndex
+                            key={`col${line}index`}
+                            left={line * cellWidth + (line === 5 ? 4 : 0)}
+                        >
+                            {line}
+                        </S_ColumnIndex>
+                    ) : null}
+                </Fragment>
+            ))}
+            {arrHeight.map((line) => (
+                <Fragment key={`rowFrag${line}`}>
+                    <S_Row key={`row${line}`} top={line * cellHeight} />
+                    {line % 5 === 0 ? (
+                        <S_RowIndex
+                            key={`row${line}index`}
+                            right={width}
+                            top={line * cellHeight}
+                        >
+                            {line}
+                        </S_RowIndex>
+                    ) : null}
+                </Fragment>
+            ))}
             {/*SVG of all the pattern geometrical shapes */}
             {/* When clicking in the SVG, it creates a new point */}
             <svg
@@ -78,7 +106,7 @@ function Grid({
                         y={`${height / 3}`}
                         textLength={`${width * 0.9}`}
                         fontSize={`${width / 20}`}
-                        fill="gainsboro"
+                        fill={theme.colours.bright}
                     >
                         Click on this grid to create a point!
                     </text>
@@ -136,44 +164,18 @@ function Grid({
                     );
                 }
             )}
-            {arrWidth.map((line) => (
-                <>
-                    <S_Column key={line} left={line * cellWidth} />
-                    {line % 5 === 0 ? (
-                        <S_ColumnIndex
-                            key={line}
-                            left={line * cellWidth + (line === 5 ? 4 : 0)}
-                        >
-                            {line}
-                        </S_ColumnIndex>
-                    ) : null}
-                </>
-            ))}
-            {arrHeight.map((line) => (
-                <>
-                    <S_Row key={line} top={line * cellHeight} />
-                    {line % 5 === 0 ? (
-                        <S_RowIndex
-                            key={line}
-                            right={width}
-                            top={line * cellHeight}
-                        >
-                            {line}
-                        </S_RowIndex>
-                    ) : null}
-                </>
-            ))}
         </S_DesignGrid>
     );
 }
 
 const S_Column = styled.div`
-    background-color: ${({ theme }) => theme.colours.contrast};
+    background-color: ${({ theme }) => theme.colours.backgroundLight};
     height: 100%;
     left: ${(props) => props.left}px;
     position: absolute;
     top: 0;
     width: 1px;
+    z-index: -1;
 `;
 
 const S_ColumnIndex = styled.div`
@@ -185,6 +187,7 @@ const S_ColumnIndex = styled.div`
 `;
 
 const S_DesignGrid = styled.div`
+    cursor: pointer;
     width: ${(props) => props.width}px;
     margin: auto;
     position: relative;
@@ -192,12 +195,13 @@ const S_DesignGrid = styled.div`
 `;
 
 const S_Row = styled.div`
-    background-color: ${({ theme }) => theme.colours.contrast};
+    background-color: ${({ theme }) => theme.colours.backgroundLight};
     height: 1px;
     left: 0;
     position: absolute;
     top: ${(props) => props.top}px;
     width: 100%;
+    z-index: -1;
 `;
 
 const S_RowIndex = styled.div`

@@ -84,7 +84,7 @@ function CurvePath({
                 } ${endAbscissa} ${endOrdinate}`}
                 fill="none"
                 stroke={theme.colours.bright}
-                strokeWidth={isHovering ? "5" : "2"}
+                strokeWidth={isHovering ? "6" : "3"}
                 style={{ cursor: "pointer" }}
             />
             {showConstructionSegments ? (
@@ -92,9 +92,9 @@ function CurvePath({
                     d={`M ${startAbscissa} ${startOrdinate} 
 L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     fill="none"
-                    stroke="blue"
+                    stroke={theme.colours.contrast}
                     strokeDasharray="4"
-                    strokeWidth="2"
+                    strokeWidth="3"
                 />
             ) : null}
             {showConstructionSegments ? (
@@ -102,9 +102,9 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     d={`M ${endAbscissa} ${endOrdinate} 
 L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     fill="none"
-                    stroke="blue"
+                    stroke={theme.colours.contrast}
                     strokeDasharray="4"
-                    strokeWidth="2"
+                    strokeWidth="3"
                 />
             ) : null}
             {showConstructionSegments ? (
@@ -118,7 +118,7 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     cx={controlAbscissa * cellWidth}
                     cy={controlOrdinate * cellHeight}
                     r="5"
-                    fill="blue"
+                    fill={theme.colours.contrast}
                 />
             ) : null}
         </>

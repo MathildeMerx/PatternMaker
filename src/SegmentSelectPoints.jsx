@@ -1,5 +1,7 @@
 import { ExpandMore } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { S_CancelButton, S_ValidateButton } from "./Theme/Button";
+import styled from "styled-components";
 import {
     S_DropdownButton,
     S_DropdownContent,
@@ -28,9 +30,28 @@ function DropdownItem({ pointName, setNewSegment, index }) {
 }
 
 function DropdownMenu({ points, newSegment, setNewSegment, index }) {
+    const dropdownRef = useRef();
+    const [clicked, setClicked] = useState(false);
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setClicked(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownRef, setClicked]);
     return (
-        <S_Dropdown>
-            <S_DropdownContent>
+        <S_Dropdown ref={dropdownRef} onClick={() => setClicked(!clicked)}>
+            <S_DropdownTitle>
+                <div>{newSegment[index] ?? "Point"}</div> <ExpandMore />
+            </S_DropdownTitle>
+            <S_DropdownContent clicked={clicked}>
                 {Object.keys(points)
                     .sort()
                     .map((pointName) => {
@@ -44,9 +65,6 @@ function DropdownMenu({ points, newSegment, setNewSegment, index }) {
                         );
                     })}
             </S_DropdownContent>
-            <S_DropdownTitle>
-                <div>{newSegment[index] ?? "Point"}</div> <ExpandMore />
-            </S_DropdownTitle>
         </S_Dropdown>
     );
 }
@@ -107,29 +125,35 @@ function SegmentSelectPoints({
                 setNewSegment={setNewSegment}
                 index={1}
             />
-            <button
-                onClick={(event) =>
-                    addSegment(
-                        event,
-                        newSegment,
-                        setSegments,
-                        setAddingSegment,
-                        setAlertMessage
-                    )
-                }
-            >
-                Validate
-            </button>
-            <button
-                onClick={(event) => {
-                    event.preventDefault();
-                    setAddingSegment(false);
-                }}
-            >
-                Cancel
-            </button>
+            <Submit>
+                <S_CancelButton
+                    onClick={(event) => {
+                        event.preventDefault();
+                        setAddingSegment(false);
+                    }}
+                >
+                    Cancel
+                </S_CancelButton>
+                <S_ValidateButton
+                    onClick={(event) =>
+                        addSegment(
+                            event,
+                            newSegment,
+                            setSegments,
+                            setAddingSegment,
+                            setAlertMessage
+                        )
+                    }
+                >
+                    Validate
+                </S_ValidateButton>
+            </Submit>
         </div>
     );
 }
+
+const Submit = styled.div`
+    margin-top: 8px;
+`;
 
 export { SegmentSelectPoints };

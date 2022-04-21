@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { useRef, useEffect, useState } from "react";
 import { S_Input } from "./App";
 
-import { Print, ExpandMore } from "@mui/icons-material";
+import { Print } from "@mui/icons-material";
+import { Button } from "./Theme/Button";
 
 function PrintDropdown({
     printRef,
@@ -31,8 +32,7 @@ function PrintDropdown({
     }, [printButtonRef, setClicked]);
     return (
         <S_PrintMenu ref={printButtonRef}>
-            <Print onClick={() => setClicked(!clicked)} />
-            <ExpandMore onClick={() => setClicked(!clicked)} />
+            <S_Print onClick={() => setClicked(!clicked)} />
             <S_PrintDropdown clicked={clicked}>
                 Column width: {colWidth}cm
                 <S_Input
@@ -53,7 +53,7 @@ function PrintDropdown({
                     onChange={(e) => setRowHeight(e.target.value)}
                 />
                 <ReactToPrint
-                    trigger={() => <button>Print</button>}
+                    trigger={() => <S_PrintButton>Print</S_PrintButton>}
                     content={() => printRef.current}
                     onAfterPrint={() => setClicked(false)}
                 />
@@ -64,17 +64,28 @@ function PrintDropdown({
 
 export { PrintDropdown };
 
+const S_Print = styled(Print)`
+    cursor: pointer;
+`;
+
 const S_PrintMenu = styled.span`
     position: relative;
 `;
 
 const S_PrintDropdown = styled.div`
     background-color: ${({ theme }) => theme.colours.background};
-    color: ${({ theme }) => theme.colours.contrast};
     border: solid 1px;
-    display: ${(props) => (props.clicked ? "block" : "none")};
-    right: 0;
+    color: ${({ theme }) => theme.colours.contrast};
+    display: ${(props) => (props.clicked ? "flex" : "none")};
+    flex-direction: column;
+    padding: 8px;
     position: absolute;
+    right: 0;
     top: 24px;
     width: 175px;
+    z-index: 1;
+`;
+
+const S_PrintButton = styled(Button)`
+    margin-left: auto;
 `;
