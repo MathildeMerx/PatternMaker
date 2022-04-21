@@ -11,6 +11,7 @@ import { pointNames } from "./alphabet";
 import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
 import { Edit, SaveOutlined, FileDownload } from "@mui/icons-material";
+import { Button } from "./Theme/Button";
 
 function App() {
     //Custom hook to determine the space available for the grid
@@ -152,7 +153,7 @@ function App() {
                                     }
                                 ></S_PatternNameModify>
                             </label>
-                            <input type="submit" />
+                            <Button type="submit">Submit</Button>
                         </form>
                     ) : (
                         <S_PatternName>
@@ -246,6 +247,10 @@ const S_DrawGrid = styled.div`
 const S_EditIcon = styled.span`
     cursor: pointer;
     margin-left: 10px;
+
+    &:hover {
+        color: ${({ theme }) => theme.colours.bright};
+    }
 `;
 
 const S_FileDownload = styled(FileDownload)`
@@ -288,6 +293,26 @@ const S_Input = styled.input`
         border: 0;
         cursor: pointer;
     }
+
+    &::-moz-range-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 3px;
+        background: ${({ theme }) => theme.colours.bright};
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    &::-ms-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 3px;
+        background: ${({ theme }) => theme.colours.bright};
+        border-radius: 50%;
+        border: 0;
+        cursor: pointer;
+    }
 `;
 
 const S_PatternName = styled.h2`
@@ -297,12 +322,19 @@ const S_PatternName = styled.h2`
 `;
 
 const S_PatternNameModify = styled.input`
-    border: 3px solid;
-    border-radius: 5px;
+    background-color: ${({ theme }) => theme.colours.background};
+    border: none;
+    border-bottom: 3px solid;
+    color: ${({ theme }) => theme.colours.contrast};
     font-size: 1.5rem;
     line-height: ${PATTERN_TITLE_HEIGHT}px;
     margin: ${PATTERN_TITLE_MARGIN - 4}px auto;
+    margin-right: 8px;
     text-align: center;
+
+    &:focus-visible {
+        outline: none;
+    }
 `;
 
 const S_PrintGrid = styled.div``;
