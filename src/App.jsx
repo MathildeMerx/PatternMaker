@@ -60,6 +60,8 @@ function App() {
     const [rowHeight, setRowHeight] = useState(1);
     const [colWidth, setColWidth] = useState(1);
 
+    const [clicked, setClicked] = useState(false);
+
     return (
         <S_Content>
             <S_Header>
@@ -94,49 +96,57 @@ function App() {
                             colWidth={colWidth}
                             setColWidth={setColWidth}
                             printRef={printRef}
+                            clicked={clicked}
+                            setClicked={setClicked}
                         ></PrintDropdown>
                         <p>Print</p>
                     </div>
                 </S_Commands>
             </S_Header>
             <S_GridDisplay>
-                <aside>
-                    <PointsDisplay points={points} />
-                    <SegmentsDisplay
-                        points={points}
-                        segments={segments}
-                        setSegments={setSegments}
-                        alertMessage={alertMessage}
-                        setAlertMessage={setAlertMessage}
-                    />
-                    <CurvesDisplay
-                        points={points}
-                        curves={curves}
-                        setCurves={setCurves}
-                        cellHeight={cellHeight}
-                        cellWidth={cellWidth}
-                        alertMessage={alertMessage}
-                        setAlertMessage={setAlertMessage}
-                    />
-                    <S_Input
-                        type="range"
-                        min="10"
-                        max="50"
-                        value={numColumns}
-                        onChange={(e) =>
-                            setNumColumns(parseInt(e.target.value))
-                        }
-                    />
-                    Number of columns: {numColumns}
-                    <S_Input
-                        type="range"
-                        min="10"
-                        max="50"
-                        value={numRows}
-                        onChange={(e) => setNumRows(parseInt(e.target.value))}
-                    />
-                    Number of rows: {numRows}
-                </aside>
+                <S_Aside height={height}>
+                    <div>
+                        <PointsDisplay points={points} />
+                        <SegmentsDisplay
+                            points={points}
+                            segments={segments}
+                            setSegments={setSegments}
+                            alertMessage={alertMessage}
+                            setAlertMessage={setAlertMessage}
+                        />
+                        <CurvesDisplay
+                            points={points}
+                            curves={curves}
+                            setCurves={setCurves}
+                            cellHeight={cellHeight}
+                            cellWidth={cellWidth}
+                            alertMessage={alertMessage}
+                            setAlertMessage={setAlertMessage}
+                        />
+                    </div>
+                    <div>
+                        <S_Input
+                            type="range"
+                            min="10"
+                            max="50"
+                            value={numColumns}
+                            onChange={(e) =>
+                                setNumColumns(parseInt(e.target.value))
+                            }
+                        />
+                        Number of columns: {numColumns}
+                        <S_Input
+                            type="range"
+                            min="10"
+                            max="50"
+                            value={numRows}
+                            onChange={(e) =>
+                                setNumRows(parseInt(e.target.value))
+                            }
+                        />
+                        Number of rows: {numRows}
+                    </div>
+                </S_Aside>
                 <S_DesignContent ref={containerRef}>
                     {editingName ? (
                         <form
@@ -182,7 +192,7 @@ function App() {
                 </S_DesignContent>
             </S_GridDisplay>
 
-            <S_PrintGrid ref={printRef}>
+            <S_PrintGrid clicked={clicked} ref={printRef}>
                 <PrintGrid
                     points={points}
                     segments={segments}
@@ -204,6 +214,13 @@ const PATTERN_TITLE_MARGIN = 24;
 const PATTERN_TITLE_HEIGHT = 32;
 
 const GRID_MARGIN = 32;
+
+const S_Aside = styled.aside`
+    display: flex;
+    flex-direction: column;
+    height: ${(props) => props.height - 16}px;
+    justify-content: space-between;
+`;
 
 const S_Commands = styled.div`
     align-items: baseline;
@@ -337,7 +354,9 @@ const S_PatternNameModify = styled.input`
     }
 `;
 
-const S_PrintGrid = styled.div``;
+const S_PrintGrid = styled.div`
+    display: ${(props) => (props.clicked ? "block" : "none")};
+`;
 
 const S_SaveOutlined = styled(SaveOutlined)`
     cursor: pointer;
