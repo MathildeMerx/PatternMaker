@@ -15,6 +15,8 @@ const S_Dropdown = styled.div`
     width: 60px;
 `;
 const S_DropdownContent = styled.div`
+    background-color: ${({ theme }) => theme.colours.backgroundLight};
+    border: solid 1px ${({ theme }) => theme.colours.backgroundLight};
     border-radius: 4px;
     display: ${(props) => (props.clicked ? "block" : "none")};
     left: -1px;
@@ -31,6 +33,19 @@ const S_DropdownContent = styled.div`
         padding: 8px;
         text-align: left;
         text-decoration: none;
+    }
+
+    &::-webkit-scrollbar {
+        background-color: ${({ theme }) => theme.colours.background};
+        border: double 2px ${({ theme }) => theme.colours.background};
+        border-radius: 5px;
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: ${({ theme }) => theme.colours.backgroundLight};
+        border: solid 2px ${({ theme }) => theme.colours.background};
+        border-radius: 5px;
     }
 `;
 
