@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const S_ControlledHeightUL = styled.ul`
-    max-height: 150px;
+    max-height: 130px;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
