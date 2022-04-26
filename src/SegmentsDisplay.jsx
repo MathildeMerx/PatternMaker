@@ -57,13 +57,13 @@ function SegmentsDisplay({
             {segments.length > 0 ? (
                 <S_ControlledHeightUL>
                     {segments.map((seg) => (
-                        <li key={seg[0] + seg[1]}>
+                        <S_li key={seg[0] + seg[1]}>
                             {`[${seg[0]}, ${seg[1]}]`}
                             <DeleteSegment
                                 seg={seg}
                                 setSegments={setSegments}
                             />
-                        </li>
+                        </S_li>
                     ))}
                 </S_ControlledHeightUL>
             ) : null}
@@ -83,8 +83,17 @@ export { SegmentsDisplay };
 
 const S_DeleteOutlined = styled(DeleteOutlined)`
     cursor: pointer;
+    margin-left: 8px;
+    position: relative;
+    top: 6px;
 
     &:hover {
         color: ${({ theme }) => theme.colours.negative};
     }
+`;
+
+//Needed to remove the scrollbar: otherwise the height doesn't take into
+//account the height of the bin icon and there's always a scroll bar
+const S_li = styled.li`
+    margin-bottom: 2px;
 `;

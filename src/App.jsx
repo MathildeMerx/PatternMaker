@@ -264,6 +264,8 @@ const S_DrawGrid = styled.div`
 const S_EditIcon = styled.span`
     cursor: pointer;
     margin-left: 10px;
+    position: relative;
+    top: 4px;
 
     &:hover {
         color: ${({ theme }) => theme.colours.bright};

@@ -3,6 +3,7 @@ import styled from "styled-components";
 const S_HoverInfoIcon = styled.span`
     margin-left: 10px;
     position: relative;
+    top: 4px;
 
     &:hover div {
         background-color: ${({ theme }) => theme.colours.background};
