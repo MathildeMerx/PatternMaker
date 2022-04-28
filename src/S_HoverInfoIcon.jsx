@@ -10,12 +10,15 @@ const S_HoverInfoIcon = styled.span`
         border: solid 2px;
         bottom: 20px;
         display: block;
-        font-size: 0.6em;
         font-weight: 400;
         padding: 4px;
         position: absolute;
         left: 20px;
         width: 200px;
+    }
+
+    h2 &:hover div {
+        font-size: 1rem;
     }
 
     div {

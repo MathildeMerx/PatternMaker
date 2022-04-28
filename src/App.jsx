@@ -12,6 +12,8 @@ import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
 import { Edit, SaveOutlined, FileDownload } from "@mui/icons-material";
 import { Button } from "./Theme/Button";
+import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import { InfoOutlined } from "@mui/icons-material";
 
 function App() {
     //Custom hook to determine the space available for the grid
@@ -57,8 +59,7 @@ function App() {
     let printRef = useRef();
 
     //For the user to specify the real-life size of a cell
-    const [rowHeight, setRowHeight] = useState(1);
-    const [colWidth, setColWidth] = useState(1);
+    const [cellSize, setCellSize] = useState(1);
 
     const [clicked, setClicked] = useState(false);
 
@@ -91,10 +92,8 @@ function App() {
                     </div>
                     <div>
                         <PrintDropdown
-                            rowHeight={rowHeight}
-                            setRowHeight={setRowHeight}
-                            colWidth={colWidth}
-                            setColWidth={setColWidth}
+                            cellSize={cellSize}
+                            setCellSize={setCellSize}
                             printRef={printRef}
                             clicked={clicked}
                             setClicked={setClicked}
@@ -125,6 +124,16 @@ function App() {
                         />
                     </div>
                     <div>
+                        <p>
+                            Number of columns: {numColumns}
+                            <S_HoverInfoIcon>
+                                <InfoOutlined />
+                                <S_BiggerFont>
+                                    Beware when printing: cells will be square,
+                                    so what you see on screen may be distorted!
+                                </S_BiggerFont>
+                            </S_HoverInfoIcon>
+                        </p>
                         <S_Input
                             type="range"
                             min="10"
@@ -134,7 +143,14 @@ function App() {
                                 setNumColumns(parseInt(e.target.value))
                             }
                         />
-                        Number of columns: {numColumns}
+                        Number of rows: {numRows}
+                        <S_HoverInfoIcon>
+                            <InfoOutlined />
+                            <S_BiggerFont>
+                                Beware when printing: cells will be square, so
+                                what you see on screen may be distorted!
+                            </S_BiggerFont>
+                        </S_HoverInfoIcon>
                         <S_Input
                             type="range"
                             min="10"
@@ -144,7 +160,6 @@ function App() {
                                 setNumRows(parseInt(e.target.value))
                             }
                         />
-                        Number of rows: {numRows}
                     </div>
                 </S_Aside>
                 <S_DesignContent ref={containerRef}>
@@ -199,8 +214,7 @@ function App() {
                     curves={curves}
                     numColumns={numColumns}
                     numRows={numRows}
-                    colWidth={colWidth}
-                    rowHeight={rowHeight}
+                    cellSize={cellSize}
                 />
             </S_PrintGrid>
         </S_Content>
@@ -221,6 +235,8 @@ const S_Aside = styled.aside`
     height: ${(props) => props.height - 16}px;
     justify-content: space-between;
 `;
+
+const S_BiggerFont = styled.div``;
 
 const S_Commands = styled.div`
     align-items: baseline;
