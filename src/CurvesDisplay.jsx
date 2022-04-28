@@ -107,6 +107,9 @@ export { CurvesDisplay };
 
 const S_DeleteOutlined = styled(DeleteOutlined)`
     cursor: pointer;
+    margin-left: 8px;
+    position: relative;
+    top: 6px;
 
     &:hover {
         color: ${({ theme }) => theme.colours.negative};

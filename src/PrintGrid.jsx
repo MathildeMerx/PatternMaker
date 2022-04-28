@@ -4,49 +4,65 @@ function PrintGrid({
     curves,
     numColumns,
     numRows,
-    colWidth,
-    rowHeight,
+    cellSize,
 }) {
     const paperPageWidth = 21;
     const paperPageHeight = 29.7;
 
-    let width = numColumns * colWidth;
-    let height = numRows * rowHeight;
+    const colPerPage = Math.floor(paperPageWidth / cellSize);
+    const rowPerPage = Math.floor(paperPageHeight / cellSize);
 
-    let numPagesWidth = Math.ceil(width / paperPageWidth);
-    let numPagesHeight = Math.ceil(height / paperPageHeight);
+    let width = colPerPage * cellSize;
+    let height = rowPerPage * cellSize;
+
+    let numPagesWidth = Math.ceil(numColumns / colPerPage);
+    let numPagesHeight = Math.ceil(numRows / rowPerPage);
 
     let pages = Array(numPagesHeight).fill([...Array(numPagesWidth).keys()]);
 
     return pages.map((arr, indexPageHeight) =>
         arr.map((indexPageWidth) => (
             <svg
-                width={`${Math.floor(paperPageWidth / colWidth) * colWidth}cm`}
-                height={`${
-                    Math.floor(paperPageHeight / rowHeight) * rowHeight
-                }cm`}
-                viewBox={`${
-                    indexPageWidth * Math.floor(paperPageWidth / colWidth)
-                } ${
-                    indexPageHeight * Math.floor(paperPageHeight / rowHeight)
-                } ${Math.floor(paperPageWidth / colWidth)} ${Math.floor(
-                    paperPageHeight / rowHeight
-                )} `}
+                width={`${width}cm`}
+                height={`${height}cm`}
+                viewBox={`${indexPageWidth * colPerPage} ${
+                    indexPageHeight * rowPerPage
+                } ${colPerPage} ${rowPerPage} `}
                 key={`${indexPageHeight}${indexPageWidth}`}
             >
+                {[...Array(colPerPage).keys()].map((index) => (
+                    <path
+                        d={`M ${indexPageWidth * colPerPage + index} ${
+                            indexPageHeight * rowPerPage
+                        } L ${indexPageWidth * colPerPage + index} ${
+                            (indexPageHeight + 1) * rowPerPage
+                        } `}
+                        fill="none"
+                        stroke="gainsboro"
+                        strokeWidth="0.1"
+                        key={`printCol${index}page${indexPageHeight}${indexPageWidth}`}
+                    ></path>
+                ))}
+                {[...Array(rowPerPage).keys()].map((index) => (
+                    <path
+                        d={`M ${indexPageWidth * colPerPage} ${
+                            indexPageHeight * rowPerPage + index
+                        } L ${(indexPageWidth + 1) * colPerPage} ${
+                            indexPageHeight * rowPerPage + index
+                        } `}
+                        fill="none"
+                        stroke="gainsboro"
+                        strokeWidth="0.1"
+                        key={`printRow${index}page${indexPageHeight}${indexPageWidth}`}
+                    ></path>
+                ))}
                 <path
-                    d={`M  ${
-                        (indexPageWidth + 1) *
-                        Math.floor(paperPageWidth / colWidth)
-                    } 0 L ${
-                        (indexPageWidth + 1) *
-                        Math.floor(paperPageWidth / colWidth)
-                    } ${
-                        (indexPageHeight + 1) *
-                        Math.floor(paperPageHeight / rowHeight)
-                    } L 0 ${
-                        (indexPageHeight + 1) *
-                        Math.floor(paperPageHeight / rowHeight)
+                    d={`M  ${(indexPageWidth + 1) * colPerPage} ${
+                        indexPageHeight * rowPerPage
+                    } L ${(indexPageWidth + 1) * colPerPage} ${
+                        (indexPageHeight + 1) * rowPerPage
+                    } L ${indexPageWidth * colPerPage} ${
+                        (indexPageHeight + 1) * rowPerPage
                     } `}
                     fill="none"
                     stroke="gainsboro"

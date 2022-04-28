@@ -8,10 +8,8 @@ import { Button } from "./Theme/Button";
 
 function PrintDropdown({
     printRef,
-    colWidth,
-    setColWidth,
-    rowHeight,
-    setRowHeight,
+    cellSize,
+    setCellSize,
     clicked,
     setClicked,
 }) {
@@ -35,28 +33,20 @@ function PrintDropdown({
         <S_PrintMenu ref={printButtonRef}>
             <S_Print onClick={() => setClicked(!clicked)} />
             <S_PrintDropdown clicked={clicked}>
-                Column width: {colWidth}cm
+                Cell size: {cellSize}cm
                 <S_Input
                     type="range"
                     min="0.2"
                     max="2.5"
                     step="0.05"
-                    value={colWidth}
-                    onChange={(e) => setColWidth(e.target.value)}
-                />
-                Row height: {rowHeight}cm
-                <S_Input
-                    type="range"
-                    min="0.2"
-                    max="2.5"
-                    step="0.05"
-                    value={rowHeight}
-                    onChange={(e) => setRowHeight(e.target.value)}
+                    value={cellSize}
+                    onChange={(e) => setCellSize(e.target.value)}
                 />
                 <ReactToPrint
                     trigger={() => <S_PrintButton>Print</S_PrintButton>}
                     content={() => printRef.current}
                     onAfterPrint={() => setClicked(false)}
+                    pageStyle="@page { size: 21cm 29.7cm }"
                 />
             </S_PrintDropdown>
         </S_PrintMenu>

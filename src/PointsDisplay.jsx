@@ -1,6 +1,7 @@
 import { InfoOutlined } from "@mui/icons-material";
 import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import styled from "styled-components";
 
 function PointsDisplay({ points }) {
     return (
@@ -20,9 +21,9 @@ function PointsDisplay({ points }) {
                     {Object.keys(points)
                         .sort()
                         .map((point) => (
-                            <li key={point}>
+                            <S_li key={point}>
                                 {`${point} (${points[point][0]}, ${points[point][1]})`}
-                            </li>
+                            </S_li>
                         ))}
                 </S_ControlledHeightUL>
             ) : null}
@@ -31,3 +32,8 @@ function PointsDisplay({ points }) {
 }
 
 export { PointsDisplay };
+
+//To respect the height of segment display
+const S_li = styled.li`
+    height: 28px;
+`;

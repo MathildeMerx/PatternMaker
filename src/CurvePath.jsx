@@ -10,6 +10,7 @@ function CurvePath({
     setCurves,
     cellHeight,
     cellWidth,
+    mousePositionRef,
 }) {
     const theme = useTheme();
 
@@ -43,17 +44,29 @@ function CurvePath({
     //The localisation of the mouse during drag'n'drop is obtained with this
     const draggingInfo = SVGRef.current.getBoundingClientRect();
 
-    //onDrag doesn't exist in SVGs, so I had to implement it myself: onMouseMove will
-    //be used only between onMouseDown and onMouseUp
-    function handleMouseMove({ clientX, clientY }) {
-        if (isDragging) {
-            setControlAbscissa((clientX - draggingInfo.left) / cellWidth);
-            setControlOrdinate((clientY - draggingInfo.top) / cellHeight);
-        } else {
-            return;
-        }
-    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (isDragging) {
+                setControlAbscissa(
+                    (mousePositionRef.current[0] - draggingInfo.left) /
+                        cellWidth
+                );
+                setControlOrdinate(
+                    (mousePositionRef.current[1] - draggingInfo.top) /
+                        cellHeight
+                );
+            }
+        }, 20);
 
+        return () => clearInterval(interval);
+    }, [
+        isDragging,
+        mousePositionRef,
+        cellWidth,
+        cellHeight,
+        draggingInfo.left,
+        draggingInfo.top,
+    ]);
     //When the abscissa and ordinate of the control point change, the cusrve state is updated
     useEffect(() => {
         setCurves((curves) => {
@@ -114,7 +127,6 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
                     onMouseUp={(event) => {
                         setIsDragging(false);
                     }}
-                    onMouseMove={(event) => handleMouseMove(event)}
                     cx={controlAbscissa * cellWidth}
                     cy={controlOrdinate * cellHeight}
                     r="5"
