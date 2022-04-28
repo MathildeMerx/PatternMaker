@@ -154,6 +154,7 @@ function Grid({
                             key={pointName}
                             setPoints={setPoints}
                             setDeleteButton={setDeleteButton}
+                            mousePositionRef={mousePositionRef}
                             onClick={() => {
                                 deletePoint(
                                     pointName,

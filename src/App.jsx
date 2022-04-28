@@ -124,16 +124,14 @@ function App() {
                         />
                     </div>
                     <div>
-                        <p>
-                            Number of columns: {numColumns}
-                            <S_HoverInfoIcon>
-                                <InfoOutlined />
-                                <S_BiggerFont>
-                                    Beware when printing: cells will be square,
-                                    so what you see on screen may be distorted!
-                                </S_BiggerFont>
-                            </S_HoverInfoIcon>
-                        </p>
+                        Number of columns: {numColumns}
+                        <S_HoverInfoIcon>
+                            <InfoOutlined />
+                            <div>
+                                Beware when printing: cells will be square, so
+                                what you see on screen may be distorted!
+                            </div>
+                        </S_HoverInfoIcon>
                         <S_Input
                             type="range"
                             min="10"
@@ -146,10 +144,10 @@ function App() {
                         Number of rows: {numRows}
                         <S_HoverInfoIcon>
                             <InfoOutlined />
-                            <S_BiggerFont>
+                            <div>
                                 Beware when printing: cells will be square, so
                                 what you see on screen may be distorted!
-                            </S_BiggerFont>
+                            </div>
                         </S_HoverInfoIcon>
                         <S_Input
                             type="range"
@@ -235,8 +233,6 @@ const S_Aside = styled.aside`
     height: ${(props) => props.height - 16}px;
     justify-content: space-between;
 `;
-
-const S_BiggerFont = styled.div``;
 
 const S_Commands = styled.div`
     align-items: baseline;

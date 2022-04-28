@@ -40,6 +40,7 @@ function PrintGrid({
                         fill="none"
                         stroke="gainsboro"
                         strokeWidth="0.1"
+                        key={`printCol${index}page${indexPageHeight}${indexPageWidth}`}
                     ></path>
                 ))}
                 {[...Array(rowPerPage).keys()].map((index) => (
@@ -52,6 +53,7 @@ function PrintGrid({
                         fill="none"
                         stroke="gainsboro"
                         strokeWidth="0.1"
+                        key={`printRow${index}page${indexPageHeight}${indexPageWidth}`}
                     ></path>
                 ))}
                 <path

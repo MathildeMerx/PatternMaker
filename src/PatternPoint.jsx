@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 function PatternPoint({
@@ -11,29 +11,50 @@ function PatternPoint({
     SVGRef,
     setPoints,
     setDeleteButton,
+    mousePositionRef,
 }) {
     let [isDragging, setIsDragging] = useState(false);
     let [mousePosition, setMousePosition] = useState([0, 0]);
 
+    //The localisation of the mouse during drag'n'drop is obtained with this
     const draggingInfo = SVGRef.current.getBoundingClientRect();
 
-    function handleMouseMove({ clientX, clientY }) {
-        if (isDragging) {
-            setPoints((points) => ({
-                ...points,
-                [pointName]: [
-                    parseFloat(
-                        ((clientX - draggingInfo.left) / cellWidth).toFixed(1)
-                    ),
-                    parseFloat(
-                        ((clientY - draggingInfo.top) / cellHeight).toFixed(1)
-                    ),
-                ],
-            }));
-        } else {
-            return;
-        }
-    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (isDragging) {
+                setPoints((points) => ({
+                    ...points,
+                    [pointName]: [
+                        parseFloat(
+                            (
+                                (mousePositionRef.current[0] -
+                                    draggingInfo.left) /
+                                cellWidth
+                            ).toFixed(1)
+                        ),
+                        parseFloat(
+                            (
+                                (mousePositionRef.current[1] -
+                                    draggingInfo.top) /
+                                cellHeight
+                            ).toFixed(1)
+                        ),
+                    ],
+                }));
+            }
+        }, 20);
+
+        return () => clearInterval(interval);
+    }, [
+        isDragging,
+        mousePositionRef,
+        cellWidth,
+        cellHeight,
+        draggingInfo.left,
+        draggingInfo.top,
+        setPoints,
+        pointName,
+    ]);
 
     return (
         <S_PatternPoint
@@ -78,7 +99,6 @@ function PatternPoint({
                     setDeleteButton(true);
                 }
             }}
-            onMouseMove={(event) => handleMouseMove(event)}
         >
             <S_PointName cellHeight={cellHeight} cellWidth={cellWidth}>
                 {pointName}
