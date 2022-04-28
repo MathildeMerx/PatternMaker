@@ -33,6 +33,8 @@ function Grid({
     //segment / curve (and forbid it)
     const [deleteButton, setDeleteButton] = useState(false);
 
+    const [mousePosition, setMousePosition] = useState([0, 0]);
+
     return (
         <S_DesignGrid width={width} height={height}>
             {arrWidth.map((line) => (
@@ -69,6 +71,9 @@ function Grid({
                 width={width}
                 height={height}
                 viewBox={`0 0 ${width} ${height} `}
+                onMouseMove={(event) =>
+                    setMousePosition([event.clientX, event.clientY])
+                }
                 onClick={(event) => {
                     let pointName = possiblePointNames[0];
                     setPoints((points) => ({
@@ -130,6 +135,7 @@ function Grid({
                             setCurves={setCurves}
                             cellHeight={cellHeight}
                             cellWidth={cellWidth}
+                            mousePosition={mousePosition}
                             key={index}
                         />
                     );
