@@ -2,7 +2,7 @@ import ReactToPrint from "react-to-print";
 import styled from "styled-components";
 import { useRef, useEffect } from "react";
 import { S_Input } from "./App";
-
+import { S_CommandsDropdown } from "./S_CommandsDropdown";
 import { Print } from "@mui/icons-material";
 import { Button } from "./Theme/Button";
 
@@ -32,7 +32,7 @@ function PrintDropdown({
     return (
         <S_PrintMenu ref={printButtonRef}>
             <S_Print onClick={() => setClicked(!clicked)} />
-            <S_PrintDropdown clicked={clicked}>
+            <S_CommandsDropdown clicked={clicked}>
                 Cell size: {cellSize}cm
                 <S_Input
                     type="range"
@@ -48,7 +48,7 @@ function PrintDropdown({
                     onAfterPrint={() => setClicked(false)}
                     pageStyle="@page { size: 21cm 29.7cm }"
                 />
-            </S_PrintDropdown>
+            </S_CommandsDropdown>
         </S_PrintMenu>
     );
 }
@@ -61,20 +61,6 @@ const S_Print = styled(Print)`
 
 const S_PrintMenu = styled.span`
     position: relative;
-`;
-
-const S_PrintDropdown = styled.div`
-    background-color: ${({ theme }) => theme.colours.background};
-    border: solid 1px;
-    color: ${({ theme }) => theme.colours.contrast};
-    display: ${(props) => (props.clicked ? "flex" : "none")};
-    flex-direction: column;
-    padding: 8px;
-    position: absolute;
-    right: 0;
-    top: 24px;
-    width: 175px;
-    z-index: 1;
 `;
 
 const S_PrintButton = styled(Button)`

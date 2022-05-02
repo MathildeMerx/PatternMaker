@@ -10,10 +10,16 @@ import { save } from "./save";
 import { pointNames } from "./alphabet";
 import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
-import { Edit, SaveOutlined, FileDownload } from "@mui/icons-material";
+import {
+    Edit,
+    SaveOutlined,
+    FileDownload,
+    InfoOutlined,
+    Logout,
+} from "@mui/icons-material";
 import { Button } from "./Theme/Button";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
-import { InfoOutlined } from "@mui/icons-material";
+import { LogIn } from "./LogIn";
 
 function App() {
     //Custom hook to determine the space available for the grid
@@ -63,33 +69,53 @@ function App() {
 
     const [clicked, setClicked] = useState(false);
 
+    const [credentials, setCredentials] = useState(false);
+    console.log(credentials);
+
     return (
         <S_Content>
             <S_Header>
                 <S_Title>Pattern designer</S_Title>
                 <S_Commands>
-                    <div>
-                        <S_SaveOutlined
-                            onClick={() =>
-                                save(points, segments, curves, pieceName)
-                            }
-                        />
-                        <p>Save</p>
-                    </div>
-                    <div>
-                        <S_FileDownload
-                            onClick={() =>
-                                retrieve(
-                                    setPoints,
-                                    setSegments,
-                                    setCurves,
-                                    setPossiblePointNames,
-                                    setPieceName
-                                )
-                            }
-                        />
-                        <p>Retrieve</p>
-                    </div>
+                    {credentials ? (
+                        <>
+                            <div>
+                                <S_Logout
+                                    onClick={() => setCredentials(false)}
+                                />
+                                Log out
+                            </div>
+                            <div>
+                                <S_SaveOutlined
+                                    onClick={() =>
+                                        save(
+                                            points,
+                                            segments,
+                                            curves,
+                                            pieceName
+                                        )
+                                    }
+                                />
+                                <p>Save</p>
+                            </div>
+                            <div>
+                                <S_FileDownload
+                                    onClick={() =>
+                                        retrieve(
+                                            setPoints,
+                                            setSegments,
+                                            setCurves,
+                                            setPossiblePointNames,
+                                            setPieceName
+                                        )
+                                    }
+                                />
+                                <p>Retrieve</p>
+                            </div>
+                        </>
+                    ) : (
+                        <LogIn setCredentials={setCredentials} />
+                    )}
                     <div>
                         <PrintDropdown
                             cellSize={cellSize}
@@ -238,7 +264,7 @@ const S_Commands = styled.div`
     align-items: baseline;
     color: ${({ theme }) => theme.colours.bright};
     gap: 20px;
-    justify-content: space-between;
+    justify-content: flex-end;
     display: flex;
     min-width: 120px;
 
@@ -344,6 +370,10 @@ const S_Input = styled.input`
         border: 0;
         cursor: pointer;
     }
+`;
+
+const S_Logout = styled(Logout)`
+    cursor: pointer;
 `;
 
 const S_PatternName = styled.h2`
