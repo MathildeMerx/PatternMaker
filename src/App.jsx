@@ -5,15 +5,15 @@ import { SegmentsDisplay } from "./SegmentsDisplay";
 import { PointsDisplay } from "./PointsDisplay";
 import { CurvesDisplay } from "./CurvesDisplay";
 import styled from "styled-components";
-import { retrieve } from "./retrieve";
 import { pointNames } from "./alphabet";
 import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
-import { Edit, FileDownload, InfoOutlined, Logout } from "@mui/icons-material";
+import { Edit, InfoOutlined, Logout } from "@mui/icons-material";
 import { Button } from "./Theme/Button";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
 import { LogIn } from "./LogIn";
 import { SaveIcon } from "./SaveIcon";
+import { RetrieveIcon } from "./RetrieveIcon";
 
 function App() {
     //Custom hook to determine the space available for the grid
@@ -85,20 +85,14 @@ function App() {
                                 pieceName={pieceName}
                                 credentials={credentials}
                             />
-                            <div>
-                                <S_FileDownload
-                                    onClick={() =>
-                                        retrieve(
-                                            setPoints,
-                                            setSegments,
-                                            setCurves,
-                                            setPossiblePointNames,
-                                            setPieceName
-                                        )
-                                    }
-                                />
-                                <p>Retrieve</p>
-                            </div>
+                            <RetrieveIcon
+                                setPoints={setPoints}
+                                setSegments={setSegments}
+                                setCurves={setCurves}
+                                setPossiblePointNames={setPossiblePointNames}
+                                setPieceName={setPieceName}
+                                credentials={credentials}
+                            />
                         </>
                     ) : (
                         <LogIn setCredentials={setCredentials} />
@@ -299,10 +293,6 @@ const S_EditIcon = styled.span`
     &:hover {
         color: ${({ theme }) => theme.colours.bright};
     }
-`;
-
-const S_FileDownload = styled(FileDownload)`
-    cursor: pointer;
 `;
 
 const S_GridDisplay = styled.div`

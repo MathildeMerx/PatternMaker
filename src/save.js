@@ -26,9 +26,9 @@ function save(points, segments, curves, pieceName, setSaveAlert, credentials) {
         .then((json) => {
             json.description
                 ? setSaveAlert(
-                      `You have successfully saved ${json.description}!`
+                      `You have successfully saved "${json.description}"!`
                   )
-                : setSaveAlert("Warning: unsuccessful save...");
+                : setSaveAlert("Warning: unsuccessful save.");
         });
 }
 

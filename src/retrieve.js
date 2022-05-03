@@ -5,11 +5,13 @@ function retrieve(
     setSegments,
     setCurves,
     setPossiblePointNames,
-    setPieceName
+    setPieceName,
+    setRetrieveAlert,
+    credentials
 ) {
     let headers = new Headers();
-    let username = "mmerx";
-    let password = "Y60yWAfF0qX6Uk8N";
+    let username = credentials[0];
+    let password = credentials[1];
     headers.set("Authorization", "Basic " + btoa(username + ":" + password));
     let url = "https://sewpat.tsango.com/api/patterns/4/drawings/";
     fetch(url, { method: "GET", headers: headers })
@@ -27,7 +29,13 @@ function retrieve(
                 availablePointNames(JSON.parse(JSON.stringify(data["points"])))
             );
             setPieceName(JSON.parse(JSON.stringify(data["description"])));
-        });
+            setRetrieveAlert(
+                `"${JSON.parse(
+                    JSON.stringify(data["description"])
+                )}" successfully retrieved!`
+            );
+        })
+        .catch(() => setRetrieveAlert("Warning: retrieve failed."));
 }
 
 export { retrieve };
