@@ -6,20 +6,14 @@ import { PointsDisplay } from "./PointsDisplay";
 import { CurvesDisplay } from "./CurvesDisplay";
 import styled from "styled-components";
 import { retrieve } from "./retrieve";
-import { save } from "./save";
 import { pointNames } from "./alphabet";
 import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
-import {
-    Edit,
-    SaveOutlined,
-    FileDownload,
-    InfoOutlined,
-    Logout,
-} from "@mui/icons-material";
+import { Edit, FileDownload, InfoOutlined, Logout } from "@mui/icons-material";
 import { Button } from "./Theme/Button";
 import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
 import { LogIn } from "./LogIn";
+import { SaveIcon } from "./SaveIcon";
 
 function App() {
     //Custom hook to determine the space available for the grid
@@ -70,7 +64,6 @@ function App() {
     const [clicked, setClicked] = useState(false);
 
     const [credentials, setCredentials] = useState(false);
-    console.log(credentials);
 
     return (
         <S_Content>
@@ -85,19 +78,13 @@ function App() {
                                 />
                                 Log out
                             </div>
-                            <div>
-                                <S_SaveOutlined
-                                    onClick={() =>
-                                        save(
-                                            points,
-                                            segments,
-                                            curves,
-                                            pieceName
-                                        )
-                                    }
-                                />
-                                <p>Save</p>
-                            </div>
+                            <SaveIcon
+                                points={points}
+                                segments={segments}
+                                curves={curves}
+                                pieceName={pieceName}
+                                credentials={credentials}
+                            />
                             <div>
                                 <S_FileDownload
                                     onClick={() =>
@@ -198,7 +185,11 @@ function App() {
                                     type="text"
                                     value={pieceName}
                                     onChange={(event) =>
-                                        setPieceName(event.target.value)
+                                        setPieceName(
+                                            event.target.value === ""
+                                                ? "Choose a name"
+                                                : event.target.value
+                                        )
                                     }
                                 ></S_PatternNameModify>
                             </label>
@@ -400,10 +391,6 @@ const S_PatternNameModify = styled.input`
 
 const S_PrintGrid = styled.div`
     display: ${(props) => (props.clicked ? "block" : "none")};
-`;
-
-const S_SaveOutlined = styled(SaveOutlined)`
-    cursor: pointer;
 `;
 
 const S_Title = styled.h1`

@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 
-function save(points, segments, curves, pieceName) {
+function save(points, segments, curves, pieceName, setSaveAlert, credentials) {
     let headers = new Headers();
-    let username = "mmerx";
-    let password = "Y60yWAfF0qX6Uk8N";
+    let username = credentials[0];
+    let password = credentials[1];
     headers.set("Authorization", "Basic " + btoa(username + ":" + password));
     headers.append("Accept", "application/json");
     headers.append("Content-Type", "application/json");
@@ -21,7 +21,15 @@ function save(points, segments, curves, pieceName) {
         method: "POST",
         headers: headers,
         body: JSON.stringify(data),
-    }).then((response) => response.json());
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            json.description
+                ? setSaveAlert(
+                      `You have successfully saved ${json.description}!`
+                  )
+                : setSaveAlert("Warning: unsuccessful save...");
+        });
 }
 
 export { save };
