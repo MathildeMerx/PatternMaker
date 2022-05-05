@@ -1,7 +1,7 @@
 import { useState, useRef, Fragment } from "react";
 import { PatternPoint, deletePoint } from "./PatternPoint";
-import { SegmentPath } from "./SegmentPath";
-import { CurvePath } from "./CurvePath";
+import { SegmentPath } from "./SegmentLogic/SegmentPath";
+import { CurvePath } from "./CurveLogic/CurvePath";
 import styled from "styled-components";
 import { useTheme } from "styled-components";
 
@@ -19,24 +19,30 @@ function Grid({
     setCurves,
     setAlertMessage,
 }) {
+    //This theme will be used for the colors of the SVG points
     const theme = useTheme();
-    //Ref for the drag'n'drop
+
+    //Ref for the drag'n'drop (specifies where the grid is positioned on screen)
     const SVGRef = useRef();
 
-    //Arrays for grid lines
+    //Arrays which will be used for the grid lines
     const arrWidth = [...Array(numColumns + 1).keys()];
     const arrHeight = [...Array(numRows + 1).keys()];
+
+    //Width and height of the grid
     const width = numColumns * cellWidth;
     const height = numRows * cellHeight;
 
-    //To determine when someone is trying to delete a button belonging to a
+    //State specifying if someone is trying to delete a button belonging to a
     //segment / curve (and forbid it)
     const [deleteButton, setDeleteButton] = useState(false);
 
+    //The position of the mouse is used for drag'n'drops
     const mousePositionRef = useRef([0, 0]);
 
     return (
         <S_DesignGrid width={width} height={height}>
+            {/* These are the vertical lines of the grid. Each line in 5 has a legend */}
             {arrWidth.map((line) => (
                 <Fragment key={`colFrag${line}`}>
                     <S_Column key={`col${line}`} left={line * cellWidth} />
@@ -50,6 +56,8 @@ function Grid({
                     ) : null}
                 </Fragment>
             ))}
+
+            {/* These are the horizontal lines of the grid. Each line in 5 has a legend */}
             {arrHeight.map((line) => (
                 <Fragment key={`rowFrag${line}`}>
                     <S_Row key={`row${line}`} top={line * cellHeight} />
@@ -64,6 +72,7 @@ function Grid({
                     ) : null}
                 </Fragment>
             ))}
+
             {/*SVG of all the pattern geometrical shapes */}
             {/* When clicking in the SVG, it creates a new point */}
             <svg
@@ -116,6 +125,8 @@ function Grid({
                         Click on this grid to create a point!
                     </text>
                 ) : null}
+
+                {/* Here all the segments are rendered in the grid */}
                 {segments.map((seg) => (
                     <SegmentPath
                         key={seg[0] + seg[1]}
@@ -125,6 +136,8 @@ function Grid({
                         cellWidth={cellWidth}
                     />
                 ))}
+
+                {/* Here all the curves are rendered in the grid */}
                 {Object.entries(curves).map(([index, curve]) => {
                     return (
                         <CurvePath
@@ -141,6 +154,8 @@ function Grid({
                     );
                 })}
             </svg>
+
+            {/* Here all the points are rendered in the grid */}
             {Object.entries(points).map(
                 ([pointName, [positionX, positionY]]) => {
                     return (

@@ -1,26 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { Grid } from "./Grid";
 import { useContainerDimensions } from "./useContainerDimensions";
-import { SegmentsDisplay } from "./SegmentsDisplay";
+import { SegmentsDisplay } from "./SegmentLogic/SegmentsDisplay";
 import { PointsDisplay } from "./PointsDisplay";
-import { CurvesDisplay } from "./CurvesDisplay";
+import { CurvesDisplay } from "./CurveLogic/CurvesDisplay";
 import styled from "styled-components";
 import { pointNames } from "./alphabet";
 import { PrintDropdown } from "./PrintDropdown";
 import { PrintGrid } from "./PrintGrid";
-import { Edit, InfoOutlined, Logout } from "@mui/icons-material";
-import { Button } from "./Theme/Button";
-import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import { Logout } from "@mui/icons-material";
+import { PatternNameForm } from "./PatternNameForm";
 import { LogIn } from "./LogIn";
 import { SaveIcon } from "./SaveIcon";
 import { RetrieveIcon } from "./RetrieveIcon";
+import { NumCellsInput } from "./NumCellsInput";
 
 function App() {
     //Custom hook to determine the space available for the grid
     let [{ width, height }, containerRef] = useContainerDimensions();
 
-    //The user will be able to choose the number of columns and rows
-    //with this state
+    //The user will be able to choose the number of visible columns and rows
+    //in the grid with this state
     const [numColumns, setNumColumns] = useState(10);
     const [numRows, setNumRows] = useState(10);
 
@@ -39,10 +39,11 @@ function App() {
     //A list of available point names
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
 
-    //When a user makes an error, this will contain the error message
+    //When a user makes a construction error, this state will contain
+    //the error message
     const [alertMessage, setAlertMessage] = useState(false);
 
-    //This erases the error message after 5 sec
+    //This useEffect erases said error message after 5 sec
     useEffect(() => {
         const alertTimer = setTimeout(() => {
             setAlertMessage(false);
@@ -51,18 +52,21 @@ function App() {
         return () => clearTimeout(alertTimer);
     }, [setAlertMessage, alertMessage]);
 
-    //To let the user choose the name of the pattern
+    //These states let the user choose the name of the pattern
     const [pieceName, setPieceName] = useState("Piece of pattern name");
     const [editingName, setEditingName] = useState(false);
 
-    //Ref of the printing grid
+    //This is the ref of grid to be printed (if desired)
     let printRef = useRef();
 
-    //For the user to specify the real-life size of a cell
+    //This state lets the user specify the size of a cell when printing
     const [cellSize, setCellSize] = useState(1);
 
+    //This state reflects whether the print menu should be open or not
     const [clicked, setClicked] = useState(false);
 
+    //This state contains the username and password of the user, while waiting
+    //for another better method
     const [credentials, setCredentials] = useState(false);
 
     return (
@@ -70,6 +74,7 @@ function App() {
             <S_Header>
                 <S_Title>Pattern designer</S_Title>
                 <S_Commands>
+                    {/* If the user is connected, we want to see a log out, save and retrieve icons. Else, only a log in icon. */}
                     {credentials ? (
                         <>
                             <div>
@@ -97,6 +102,7 @@ function App() {
                     ) : (
                         <LogIn setCredentials={setCredentials} />
                     )}
+                    {/* The print icon is shown whether logged in or not */}
                     <div>
                         <PrintDropdown
                             cellSize={cellSize}
@@ -109,7 +115,10 @@ function App() {
                     </div>
                 </S_Commands>
             </S_Header>
+
             <S_GridDisplay>
+                {/* Displaying aside the points, segments and curves 
+            already created by the user */}
                 <S_Aside height={height}>
                     <div>
                         <PointsDisplay points={points} />
@@ -130,73 +139,25 @@ function App() {
                             setAlertMessage={setAlertMessage}
                         />
                     </div>
-                    <div>
-                        Number of columns: {numColumns}
-                        <S_HoverInfoIcon>
-                            <InfoOutlined />
-                            <div>
-                                Beware when printing: cells will be square, so
-                                what you see on screen may be distorted!
-                            </div>
-                        </S_HoverInfoIcon>
-                        <S_Input
-                            type="range"
-                            min="10"
-                            max="50"
-                            value={numColumns}
-                            onChange={(e) =>
-                                setNumColumns(parseInt(e.target.value))
-                            }
-                        />
-                        Number of rows: {numRows}
-                        <S_HoverInfoIcon>
-                            <InfoOutlined />
-                            <div>
-                                Beware when printing: cells will be square, so
-                                what you see on screen may be distorted!
-                            </div>
-                        </S_HoverInfoIcon>
-                        <S_Input
-                            type="range"
-                            min="10"
-                            max="50"
-                            value={numRows}
-                            onChange={(e) =>
-                                setNumRows(parseInt(e.target.value))
-                            }
-                        />
-                    </div>
+                    <NumCellsInput
+                        numColumns={numColumns}
+                        setNumColumns={setNumColumns}
+                        numRows={numRows}
+                        setNumRows={setNumRows}
+                    />
                 </S_Aside>
                 <S_DesignContent ref={containerRef}>
-                    {editingName ? (
-                        <form
-                            onSubmit={() => setEditingName(false)}
-                            style={{ textAlign: "center" }}
-                        >
-                            <label htmlFor="Title-piece-of-pattern">
-                                <S_PatternNameModify
-                                    id="Title-piece-of-pattern"
-                                    type="text"
-                                    value={pieceName}
-                                    onChange={(event) =>
-                                        setPieceName(
-                                            event.target.value === ""
-                                                ? "Choose a name"
-                                                : event.target.value
-                                        )
-                                    }
-                                ></S_PatternNameModify>
-                            </label>
-                            <Button type="submit">Submit</Button>
-                        </form>
-                    ) : (
-                        <S_PatternName>
-                            {pieceName}
-                            <S_EditIcon>
-                                <Edit onClick={() => setEditingName(true)} />
-                            </S_EditIcon>
-                        </S_PatternName>
-                    )}
+                    {/* Form to modify the pattern name */}
+                    <PatternNameForm
+                        editingName={editingName}
+                        setEditingName={setEditingName}
+                        pieceName={pieceName}
+                        setPieceName={setPieceName}
+                        PATTERN_TITLE_HEIGHT={PATTERN_TITLE_HEIGHT}
+                        PATTERN_TITLE_MARGIN={PATTERN_TITLE_MARGIN}
+                    />
+
+                    {/* Grid in which the user can design their pattern, and see it */}
                     <S_DrawGrid>
                         <Grid
                             numColumns={numColumns}
@@ -216,6 +177,7 @@ function App() {
                 </S_DesignContent>
             </S_GridDisplay>
 
+            {/* A non interactive grid, real-sized, printable */}
             <S_PrintGrid clicked={clicked} ref={printRef}>
                 <PrintGrid
                     points={points}
@@ -284,17 +246,6 @@ const S_DrawGrid = styled.div`
     line-height: 0%;
 `;
 
-const S_EditIcon = styled.span`
-    cursor: pointer;
-    margin-left: 10px;
-    position: relative;
-    top: 4px;
-
-    &:hover {
-        color: ${({ theme }) => theme.colours.bright};
-    }
-`;
-
 const S_GridDisplay = styled.div`
     display: grid;
     grid-column-gap: 32px;
@@ -310,73 +261,9 @@ const S_Header = styled.header`
     padding-left: 32px;
     padding-right: 64px;
 `;
-const S_Input = styled.input`
-    display: block;
-    -webkit-appearance: none;
-    width: 50%;
-    min-width: 150px;
-    height: 10px;
-    margin: 10px 0;
-    border-radius: 6px;
-    outline: 0;
-    background: ${({ theme }) => theme.colours.backgroundLight};
-
-    &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        height: 18px;
-        width: 18px;
-        border-radius: 3px;
-        background: ${({ theme }) => theme.colours.bright};
-        border-radius: 50%;
-        border: 0;
-        cursor: pointer;
-    }
-
-    &::-moz-range-thumb {
-        height: 18px;
-        width: 18px;
-        border-radius: 3px;
-        background: ${({ theme }) => theme.colours.bright};
-        border: 0;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    &::-ms-thumb {
-        height: 18px;
-        width: 18px;
-        border-radius: 3px;
-        background: ${({ theme }) => theme.colours.bright};
-        border-radius: 50%;
-        border: 0;
-        cursor: pointer;
-    }
-`;
 
 const S_Logout = styled(Logout)`
     cursor: pointer;
-`;
-
-const S_PatternName = styled.h2`
-    line-height: ${PATTERN_TITLE_HEIGHT}px;
-    margin: ${PATTERN_TITLE_MARGIN}px auto;
-    text-align: center;
-`;
-
-const S_PatternNameModify = styled.input`
-    background-color: ${({ theme }) => theme.colours.background};
-    border: none;
-    border-bottom: 3px solid;
-    color: ${({ theme }) => theme.colours.contrast};
-    font-size: 1.5rem;
-    line-height: ${PATTERN_TITLE_HEIGHT}px;
-    margin: ${PATTERN_TITLE_MARGIN - 4}px auto;
-    margin-right: 8px;
-    text-align: center;
-
-    &:focus-visible {
-        outline: none;
-    }
 `;
 
 const S_PrintGrid = styled.div`
@@ -389,4 +276,3 @@ const S_Title = styled.h1`
 `;
 
 export default App;
-export { S_Input };

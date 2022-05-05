@@ -11,7 +11,8 @@ function CurveAddButton({
     cellHeight,
     setAlertMessage,
 }) {
-    //If the user is inputting a new curve, the "+" is removed
+    //This variable specifies whether the user is inputting a new curve -
+    //in that case, the "+" disappears
     const [addingCurve, setAddingCurve] = useState(false);
 
     if (!addingCurve) {

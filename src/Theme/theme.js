@@ -1,3 +1,4 @@
+//The color palette of this project
 export const theme = {
     colours: {
         background: "#0A0221",

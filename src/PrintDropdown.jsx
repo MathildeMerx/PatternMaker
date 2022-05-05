@@ -1,7 +1,7 @@
 import ReactToPrint from "react-to-print";
 import styled from "styled-components";
 import { useRef, useEffect } from "react";
-import { S_Input } from "./App";
+import { RangeInput } from "./Theme/RangeInput";
 import { S_CommandsDropdown } from "./S_CommandsDropdown";
 import { Print } from "@mui/icons-material";
 import { Button } from "./Theme/Button";
@@ -34,7 +34,7 @@ function PrintDropdown({
             <S_Print onClick={() => setClicked(!clicked)} />
             <S_CommandsDropdown clicked={clicked}>
                 Cell size: {cellSize}cm
-                <S_Input
+                <RangeInput
                     type="range"
                     min="0.2"
                     max="2.5"

@@ -1,8 +1,8 @@
 import { DeleteOutlined, InfoOutlined } from "@mui/icons-material";
 import { CurveAddButton } from "./CurveAddButton";
-import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
-import { S_AlertMessage } from "./S_AlertMessage";
-import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
+import { S_AlertMessage } from "../S_AlertMessage";
+import { S_HoverInfoIcon } from "../S_HoverInfoIcon";
 import styled from "styled-components";
 
 //Deleting a curve - when clicking on the bin button

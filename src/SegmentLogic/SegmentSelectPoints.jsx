@@ -1,13 +1,13 @@
 import { ExpandMore } from "@mui/icons-material";
 import { useState, useEffect, useRef } from "react";
-import { S_CancelButton, S_ValidateButton } from "./Theme/Button";
+import { S_CancelButton, S_ValidateButton } from "../Theme/Button";
 import styled from "styled-components";
 import {
     S_DropdownButton,
     S_DropdownContent,
     S_Dropdown,
     S_DropdownTitle,
-} from "./dropdownStyledComponents";
+} from "../dropdownStyledComponents";
 
 function clickMenu(event, setNewSegment, index) {
     event.preventDefault();

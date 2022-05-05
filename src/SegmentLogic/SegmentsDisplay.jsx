@@ -1,7 +1,7 @@
 import { DeleteOutlined } from "@mui/icons-material";
 import { SegmentAddButton } from "./SegmentAddButton";
-import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
-import { S_AlertMessage } from "./S_AlertMessage";
+import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
+import { S_AlertMessage } from "../S_AlertMessage";
 import styled from "styled-components";
 
 function clickDeleteSegment(seg, setSegments) {
