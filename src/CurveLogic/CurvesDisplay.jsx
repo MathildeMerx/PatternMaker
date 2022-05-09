@@ -27,6 +27,7 @@ function CurvesDisplay({
     points,
     curves,
     setCurves,
+    height,
     cellWidth,
     cellHeight,
     alertMessage,
@@ -72,7 +73,7 @@ function CurvesDisplay({
                 </S_HoverInfoIcon>
             </h2>
             {Object.keys(curves).length > 0 ? (
-                <S_ControlledHeightUL>
+                <S_ControlledHeightUL height={height}>
                     {Object.entries(curves).map(([index, curv]) => {
                         return (
                             <li key={index}>

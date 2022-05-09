@@ -4,12 +4,17 @@ import styled from "styled-components";
 import { S_CommandsDropdown } from "./S_CommandsDropdown";
 import { Button } from "./Theme/Button";
 
-function LogIn({ credentials, setCredentials }) {
+//Login component (icon plus menu to log in)
+function LogIn({ setCredentials }) {
+    //If the user has clicked on the icon, a menu to log in appears
     const [clicked, setClicked] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
     const loginButtonRef = useRef();
 
+    //username and password are stored in those states
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    //If the user clicks outside of the component, the log in menu closes
     useEffect(() => {
         function handleClickOutside(event) {
             if (
@@ -24,6 +29,7 @@ function LogIn({ credentials, setCredentials }) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [loginButtonRef, setClicked]);
+
     return (
         <S_LogIn ref={loginButtonRef}>
             <Login onClick={() => setClicked((clicked) => !clicked)} />
@@ -67,6 +73,8 @@ const S_LoginInput = styled.input`
     text-align: center;
 
     &:focus-visible {
+        border-style: none none solid;
+        border-color: ${({ theme }) => theme.colours.bright};
         outline: none;
     }
 `;

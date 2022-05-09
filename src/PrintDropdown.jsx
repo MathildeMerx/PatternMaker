@@ -15,6 +15,8 @@ function PrintDropdown({
 }) {
     //Creating a dropdown menu, enabling the user to customize the printing
     const printButtonRef = useRef();
+
+    //When the menu is open, if the user clicks elsewhere the menu closes
     useEffect(() => {
         function handleClickOutside(event) {
             if (
@@ -32,6 +34,7 @@ function PrintDropdown({
     return (
         <S_PrintMenu ref={printButtonRef}>
             <S_Print onClick={() => setClicked(!clicked)} />
+            {/*The user can pick the size of the cells when printing */}
             <S_CommandsDropdown clicked={clicked}>
                 Cell size: {cellSize}cm
                 <RangeInput
@@ -42,6 +45,7 @@ function PrintDropdown({
                     value={cellSize}
                     onChange={(e) => setCellSize(e.target.value)}
                 />
+                {/*This component makes it possible to print only one component */}
                 <ReactToPrint
                     trigger={() => <S_PrintButton>Print</S_PrintButton>}
                     content={() => printRef.current}

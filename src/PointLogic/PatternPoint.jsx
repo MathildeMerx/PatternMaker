@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 
+//This component renders a pattern point in the grid
 function PatternPoint({
     pointName,
     cellWidth,
@@ -13,12 +14,19 @@ function PatternPoint({
     setDeleteButton,
     mousePositionRef,
 }) {
+    //onMouseDown will set this state to true
     let [isDragging, setIsDragging] = useState(false);
+
+    //we register the position of the mouse onMouseDown. If the position
+    //is the same onMouseUp, then the point is deleted.
     let [mousePosition, setMousePosition] = useState([0, 0]);
 
-    //The localisation of the mouse during drag'n'drop is obtained with this
+    //The localisation of the grid on screen is obtained with this
+    //(it'll be useful to determine the exact mouse location)
     const draggingInfo = SVGRef.current.getBoundingClientRect();
 
+    //When dragging, the position of the point being dragged is
+    //updated every 20ms.
     useEffect(() => {
         const interval = setInterval(() => {
             if (isDragging) {
@@ -107,6 +115,7 @@ function PatternPoint({
     );
 }
 
+//function called when the user is clicking on a point
 function deletePoint(
     pointName,
     setPoints,
@@ -117,12 +126,17 @@ function deletePoint(
     deleteButton,
     setDeleteButton
 ) {
+    //The `deleteButton` variable is true when the point is not dragged
+    //(i.e. mouseUp done at the same place as mouseDown)
+
+    //checking whether this point belongs to a segment
     if (deleteButton) {
         for (let seg in segments) {
             if (
                 segments[seg][0] === pointName ||
                 segments[seg][1] === pointName
             ) {
+                //if yes, the point is not deleted and an alert message is generated
                 setAlertMessage([
                     "deletePointSegment",
                     pointName,
@@ -132,11 +146,13 @@ function deletePoint(
             }
         }
 
+        //checking whether this point belongs to a curve
         for (let curv in curves) {
             if (
                 curves[curv][0] === pointName ||
                 curves[curv][1] === pointName
             ) {
+                //if yes, the point is not deleted and an alert message is generated
                 setAlertMessage([
                     "deletePointCurve",
                     pointName,
@@ -146,11 +162,13 @@ function deletePoint(
             }
         }
 
+        //else, the point is deleted
         setPoints((points) => {
             const { [pointName]: val, ...rest } = points;
             return rest;
         });
 
+        //the name of the point deleted is returned to available point names
         setPossiblePointNames((possiblePointNames) => {
             return [...possiblePointNames, pointName].sort();
         });

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Grid } from "./Grid";
 import { useContainerDimensions } from "./useContainerDimensions";
 import { SegmentsDisplay } from "./SegmentLogic/SegmentsDisplay";
-import { PointsDisplay } from "./PointsDisplay";
+import { PointsDisplay } from "./PointLogic/PointsDisplay";
 import { CurvesDisplay } from "./CurveLogic/CurvesDisplay";
 import styled from "styled-components";
 import { pointNames } from "./alphabet";
@@ -121,8 +121,9 @@ function App() {
             already created by the user */}
                 <S_Aside height={height}>
                     <div>
-                        <PointsDisplay points={points} />
+                        <PointsDisplay points={points} height={height} />
                         <SegmentsDisplay
+                            height={height}
                             points={points}
                             segments={segments}
                             setSegments={setSegments}
@@ -130,6 +131,7 @@ function App() {
                             setAlertMessage={setAlertMessage}
                         />
                         <CurvesDisplay
+                            height={height}
                             points={points}
                             curves={curves}
                             setCurves={setCurves}

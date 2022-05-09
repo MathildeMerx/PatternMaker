@@ -1,13 +1,15 @@
 import { InfoOutlined } from "@mui/icons-material";
-import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
-import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
+import { S_HoverInfoIcon } from "../S_HoverInfoIcon";
 import styled from "styled-components";
 
-function PointsDisplay({ points }) {
+//Displaying the existing points in an unordered list
+function PointsDisplay({ points, height }) {
     return (
         <>
             <h2>
                 Points
+                {/*Hoverable icon to explain the user how points work */}
                 <S_HoverInfoIcon>
                     <InfoOutlined />
                     <div>
@@ -16,8 +18,10 @@ function PointsDisplay({ points }) {
                     </div>
                 </S_HoverInfoIcon>
             </h2>
+            {/*If there are no points, nothing is shown, 
+            else a list of all of them is displayed */}
             {Object.keys(points).length !== 0 ? (
-                <S_ControlledHeightUL>
+                <S_ControlledHeightUL height={height}>
                     {Object.keys(points)
                         .sort()
                         .map((point) => (
@@ -33,7 +37,7 @@ function PointsDisplay({ points }) {
 
 export { PointsDisplay };
 
-//To respect the height of segment display
+//To respect the height of segment display (and improve uniformity)
 const S_li = styled.li`
     height: 28px;
 `;

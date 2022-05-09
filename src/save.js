@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
+//When logged in, the user can save their pattern
 function save(points, segments, curves, pieceName, setSaveAlert, credentials) {
     let headers = new Headers();
     let username = credentials[0];
@@ -24,6 +25,8 @@ function save(points, segments, curves, pieceName, setSaveAlert, credentials) {
     })
         .then((response) => response.json())
         .then((json) => {
+            //If the save is successfull, such message is displayed.
+            //Else, a warning is displayed
             json.description
                 ? setSaveAlert(
                       `You have successfully saved "${json.description}"!`

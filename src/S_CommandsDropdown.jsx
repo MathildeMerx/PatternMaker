@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+//A styled component for dropdown menus in the menu bar
 const S_CommandsDropdown = styled.div`
     background-color: ${({ theme }) => theme.colours.background};
     border: solid 1px;

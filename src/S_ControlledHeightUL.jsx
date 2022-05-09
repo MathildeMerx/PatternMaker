@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
+//A styled component to contain the height of the display components
+//(to display the points, segments and curves)
 const S_ControlledHeightUL = styled.ul`
-    max-height: 130px;
+    /* 425px is a rough estimate of the space taken by titles and the range inputs */
+    max-height: ${({ height }) => (height - 425) / 3}px;
     overflow-y: auto;
 
+    /* We're giving the scrollbar the style of this project */
     &::-webkit-scrollbar {
         background-color: ${({ theme }) => theme.colours.background};
         border: solid 1px ${({ theme }) => theme.colours.backgroundLight};

@@ -1,10 +1,12 @@
 import { useState, useRef, Fragment } from "react";
-import { PatternPoint, deletePoint } from "./PatternPoint";
+import { PatternPoint, deletePoint } from "./PointLogic/PatternPoint";
 import { SegmentPath } from "./SegmentLogic/SegmentPath";
 import { CurvePath } from "./CurveLogic/CurvePath";
 import styled from "styled-components";
 import { useTheme } from "styled-components";
 
+//This grid will: 1) show on-screen the pattern the user is drafting;
+//2) enable the user to modify parts of it (curves and points)
 function Grid({
     numRows,
     numColumns,
@@ -73,8 +75,9 @@ function Grid({
                 </Fragment>
             ))}
 
-            {/*SVG of all the pattern geometrical shapes */}
-            {/* When clicking in the SVG, it creates a new point */}
+            {/*SVG of all the geometrical shapes of the pattern */}
+            {/*When clicking in the SVG, it creates a new point */}
+            {/*The mouse position in the grid is always recorded for drag'n'drops */}
             <svg
                 ref={SVGRef}
                 width={width}

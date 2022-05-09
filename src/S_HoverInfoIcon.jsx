@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+//Styled components of info icons, which when hovered display the text of their child
 const S_HoverInfoIcon = styled.span`
     margin-left: 10px;
     position: relative;

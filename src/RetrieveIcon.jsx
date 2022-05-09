@@ -3,6 +3,7 @@ import { FileDownload } from "@mui/icons-material";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
+//Icon to retrieve the latest pattern from the database
 function RetrieveIcon({
     setPoints,
     setSegments,
@@ -11,8 +12,10 @@ function RetrieveIcon({
     setPieceName,
     credentials,
 }) {
+    //This alert will contain a message specifying whether the retrieve worked or not
     const [retrieveAlert, setRetrieveAlert] = useState(false);
 
+    //After 3 seconds, the alert message will be deleted
     useEffect(() => {
         const alertTimer = setTimeout(() => {
             setRetrieveAlert(false);

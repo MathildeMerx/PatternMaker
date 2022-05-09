@@ -2,6 +2,7 @@ import { Button } from "./Theme/Button";
 import styled from "styled-components";
 import { Edit } from "@mui/icons-material";
 
+//Form to let the user choose the name of the pattern
 function PatternNameForm({
     editingName,
     setEditingName,
@@ -10,13 +11,12 @@ function PatternNameForm({
     PATTERN_TITLE_HEIGHT,
     PATTERN_TITLE_MARGIN,
 }) {
+    //The state `editingName` stores whether the user is currently
+    //editing the name or not
     return (
         <>
             {editingName ? (
-                <form
-                    onSubmit={() => setEditingName(false)}
-                    style={{ textAlign: "center" }}
-                >
+                <S_NameForm onSubmit={() => setEditingName(false)}>
                     <label htmlFor="Title-piece-of-pattern">
                         <S_PatternNameModify
                             PATTERN_TITLE_MARGIN={PATTERN_TITLE_MARGIN}
@@ -34,7 +34,7 @@ function PatternNameForm({
                         ></S_PatternNameModify>
                     </label>
                     <Button type="submit">Submit</Button>
-                </form>
+                </S_NameForm>
             ) : (
                 <S_PatternName>
                     {pieceName}
@@ -49,6 +49,10 @@ function PatternNameForm({
 
 export { PatternNameForm };
 
+const S_NameForm = styled.form`
+    text-align: center;
+`;
+
 const S_PatternNameModify = styled.input`
     background-color: ${({ theme }) => theme.colours.background};
     border: none;
@@ -61,6 +65,8 @@ const S_PatternNameModify = styled.input`
     text-align: center;
 
     &:focus-visible {
+        border-style: none none solid;
+        border-color: ${({ theme }) => theme.colours.bright};
         outline: none;
     }
 `;

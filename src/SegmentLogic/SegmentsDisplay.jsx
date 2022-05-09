@@ -24,6 +24,7 @@ function SegmentsDisplay({
     setSegments,
     alertMessage,
     setAlertMessage,
+    height,
 }) {
     let alert;
 
@@ -55,7 +56,7 @@ function SegmentsDisplay({
             <h2>Segments</h2>
 
             {segments.length > 0 ? (
-                <S_ControlledHeightUL>
+                <S_ControlledHeightUL height={height}>
                     {segments.map((seg) => (
                         <S_li key={seg[0] + seg[1]}>
                             {`[${seg[0]}, ${seg[1]}]`}
