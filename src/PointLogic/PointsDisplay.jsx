@@ -18,6 +18,7 @@ function PointsDisplay({ points, height }) {
                     </div>
                 </S_HoverInfoIcon>
             </h2>
+
             {/*If there are no points, nothing is shown, 
             else a list of all of them is displayed */}
             {Object.keys(points).length !== 0 ? (

@@ -13,37 +13,34 @@ function PatternNameForm({
 }) {
     //The state `editingName` stores whether the user is currently
     //editing the name or not
-    return (
-        <>
-            {editingName ? (
-                <S_NameForm onSubmit={() => setEditingName(false)}>
-                    <label htmlFor="Title-piece-of-pattern">
-                        <S_PatternNameModify
-                            PATTERN_TITLE_MARGIN={PATTERN_TITLE_MARGIN}
-                            PATTERN_TITLE_HEIGHT={PATTERN_TITLE_HEIGHT}
-                            id="Title-piece-of-pattern"
-                            type="text"
-                            value={pieceName}
-                            onChange={(event) =>
-                                setPieceName(
-                                    event.target.value === ""
-                                        ? "Choose a name"
-                                        : event.target.value
-                                )
-                            }
-                        ></S_PatternNameModify>
-                    </label>
-                    <Button type="submit">Submit</Button>
-                </S_NameForm>
-            ) : (
-                <S_PatternName>
-                    {pieceName}
-                    <S_EditIcon>
-                        <Edit onClick={() => setEditingName(true)} />
-                    </S_EditIcon>
-                </S_PatternName>
-            )}
-        </>
+    return editingName ? (
+        <S_NameForm onSubmit={() => setEditingName(false)}>
+            <label htmlFor="Title-piece-of-pattern">
+                <S_PatternNameModify
+                    PATTERN_TITLE_MARGIN={PATTERN_TITLE_MARGIN}
+                    PATTERN_TITLE_HEIGHT={PATTERN_TITLE_HEIGHT}
+                    id="Title-piece-of-pattern"
+                    type="text"
+                    value={pieceName}
+                    onChange={(event) =>
+                        setPieceName(
+                            event.target.value === ""
+                                ? "Choose a name"
+                                : event.target.value
+                        )
+                    }
+                ></S_PatternNameModify>
+            </label>
+
+            <Button type="submit">Submit</Button>
+        </S_NameForm>
+    ) : (
+        <S_PatternName>
+            {pieceName}
+            <S_EditIcon>
+                <Edit onClick={() => setEditingName(true)} />
+            </S_EditIcon>
+        </S_PatternName>
     );
 }
 

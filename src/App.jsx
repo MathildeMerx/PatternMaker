@@ -71,6 +71,7 @@ function App() {
 
     return (
         <S_Content>
+            {/*Header with the title of the project, and the command icons */}
             <S_Header>
                 <S_Title>Pattern designer</S_Title>
                 <S_Commands>
@@ -83,6 +84,7 @@ function App() {
                                 />
                                 Log out
                             </div>
+
                             <SaveIcon
                                 points={points}
                                 segments={segments}
@@ -90,6 +92,7 @@ function App() {
                                 pieceName={pieceName}
                                 credentials={credentials}
                             />
+
                             <RetrieveIcon
                                 setPoints={setPoints}
                                 setSegments={setSegments}
@@ -102,6 +105,7 @@ function App() {
                     ) : (
                         <LogIn setCredentials={setCredentials} />
                     )}
+
                     {/* The print icon is shown whether logged in or not */}
                     <div>
                         <PrintDropdown
@@ -122,6 +126,7 @@ function App() {
                 <S_Aside height={height}>
                     <div>
                         <PointsDisplay points={points} height={height} />
+
                         <SegmentsDisplay
                             height={height}
                             points={points}
@@ -130,6 +135,7 @@ function App() {
                             alertMessage={alertMessage}
                             setAlertMessage={setAlertMessage}
                         />
+
                         <CurvesDisplay
                             height={height}
                             points={points}
@@ -141,6 +147,7 @@ function App() {
                             setAlertMessage={setAlertMessage}
                         />
                     </div>
+
                     <NumCellsInput
                         numColumns={numColumns}
                         setNumColumns={setNumColumns}
@@ -148,6 +155,7 @@ function App() {
                         setNumRows={setNumRows}
                     />
                 </S_Aside>
+
                 <S_DesignContent ref={containerRef}>
                     {/* Form to modify the pattern name */}
                     <PatternNameForm

@@ -43,6 +43,7 @@ function LogIn({ setCredentials }) {
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
                     ></S_LoginInput>
+
                     <label htmlFor="password">Password</label>
                     <S_LoginInput
                         type="password"
@@ -50,6 +51,7 @@ function LogIn({ setCredentials }) {
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                     ></S_LoginInput>
+
                     <Button type="submit">Submit</Button>
                 </form>
             </S_CommandsDropdown>

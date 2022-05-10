@@ -4,20 +4,7 @@ import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
 import { S_AlertMessage } from "../S_AlertMessage";
 import styled from "styled-components";
 
-function clickDeleteSegment(seg, setSegments) {
-    setSegments((segment) =>
-        segment.filter((value) => !(value[0] === seg[0] && value[1] === seg[1]))
-    );
-}
-
-function DeleteSegment({ seg, setSegments }) {
-    return (
-        <S_DeleteOutlined
-            onClick={() => clickDeleteSegment(seg, setSegments)}
-        />
-    );
-}
-
+//A list of the existing segments, displayed aside
 function SegmentsDisplay({
     points,
     segments,
@@ -28,11 +15,12 @@ function SegmentsDisplay({
 }) {
     let alert;
 
+    //When the user is doing an error regarding segments,
+    //this message will be displayed
     if (alertMessage) {
         switch (alertMessage[0]) {
             case "deletePointSegment":
-                alert = `Point ${alertMessage[1]} belongs to segment [${alertMessage[2][0]}, ${alertMessage[2][1]}], delete this
-                    segment first!`;
+                alert = `Point ${alertMessage[1]} belongs to segment [${alertMessage[2][0]}, ${alertMessage[2][1]}], delete this segment first!`;
                 break;
 
             case "nullSegment":
@@ -55,6 +43,7 @@ function SegmentsDisplay({
         <div>
             <h2>Segments</h2>
 
+            {/*A list of the existing segments */}
             {segments.length > 0 ? (
                 <S_ControlledHeightUL height={height}>
                     {segments.map((seg) => (
@@ -68,7 +57,11 @@ function SegmentsDisplay({
                     ))}
                 </S_ControlledHeightUL>
             ) : null}
+
+            {/*The error message if existing */}
             <S_AlertMessage>{alert}</S_AlertMessage>
+
+            {/*A button to add new segments */}
             {Object.keys(points).length > 1 ? (
                 <SegmentAddButton
                     points={points}
@@ -77,6 +70,21 @@ function SegmentsDisplay({
                 />
             ) : null}
         </div>
+    );
+}
+
+//A bin icon to delete a segment
+function DeleteSegment({ seg, setSegments }) {
+    return (
+        <S_DeleteOutlined
+            onClick={() => clickDeleteSegment(seg, setSegments)}
+        />
+    );
+}
+
+function clickDeleteSegment(seg, setSegments) {
+    setSegments((segment) =>
+        segment.filter((value) => !(value[0] === seg[0] && value[1] === seg[1]))
     );
 }
 
@@ -96,5 +104,5 @@ const S_DeleteOutlined = styled(DeleteOutlined)`
 //Needed to remove the scrollbar: otherwise the height doesn't take into
 //account the height of the bin icon and there's always a scroll bar
 const S_li = styled.li`
-    margin-bottom: 2px;
+    margin-bottom: 3px;
 `;

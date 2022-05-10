@@ -64,6 +64,7 @@ function CurvesDisplay({
         <div>
             <h2>
                 Curves
+                {/*Information to help the user understand how curves work */}
                 <S_HoverInfoIcon>
                     <InfoOutlined />
                     <div>
@@ -72,6 +73,8 @@ function CurvesDisplay({
                     </div>
                 </S_HoverInfoIcon>
             </h2>
+
+            {/*The list of the curves */}
             {Object.keys(curves).length > 0 ? (
                 <S_ControlledHeightUL height={height}>
                     {Object.entries(curves).map(([index, curv]) => {
@@ -90,7 +93,11 @@ function CurvesDisplay({
                     })}
                 </S_ControlledHeightUL>
             ) : null}
+
+            {/*The alert message if exsting */}
             <S_AlertMessage>{alert}</S_AlertMessage>
+
+            {/*If there are more than 2 points, a '+' to create new curves */}
             {Object.keys(points).length > 1 ? (
                 <CurveAddButton
                     points={points}

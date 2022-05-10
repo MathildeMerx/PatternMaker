@@ -31,6 +31,7 @@ function PrintDropdown({
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [printButtonRef, setClicked]);
+
     return (
         <S_PrintMenu ref={printButtonRef}>
             <S_Print onClick={() => setClicked(!clicked)} />

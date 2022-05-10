@@ -30,6 +30,7 @@ function PatternPoint({
     useEffect(() => {
         const interval = setInterval(() => {
             if (isDragging) {
+                //parseFloat required because toFixed returns a string
                 setPoints((points) => ({
                     ...points,
                     [pointName]: [
@@ -73,6 +74,7 @@ function PatternPoint({
             pixelsY={positionY * cellHeight}
             onMouseDown={(event) => {
                 setIsDragging(true);
+                //parseFloat required because toFixed returns a string
                 setMousePosition([
                     parseFloat(
                         (
@@ -90,6 +92,7 @@ function PatternPoint({
             }}
             onMouseUp={(event) => {
                 setIsDragging(false);
+                //parseFloat required because toFixed returns a string
                 if (
                     parseFloat(
                         (

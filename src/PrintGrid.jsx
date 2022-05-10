@@ -42,11 +42,10 @@ function PrintGrid({
                 {/*We draw the grid (here the columns) */}
                 {[...Array(colPerPage).keys()].map((index) => (
                     <path
-                        d={`M ${indexPageWidth * colPerPage + index} ${
-                            indexPageHeight * rowPerPage
-                        } L ${indexPageWidth * colPerPage + index} ${
-                            (indexPageHeight + 1) * rowPerPage
-                        } `}
+                        d={`M ${indexPageWidth * colPerPage + index} 
+                              ${indexPageHeight * rowPerPage} 
+                            L ${indexPageWidth * colPerPage + index} 
+                              ${(indexPageHeight + 1) * rowPerPage} `}
                         fill="none"
                         stroke="gainsboro"
                         strokeWidth="0.1"
@@ -57,11 +56,10 @@ function PrintGrid({
                 {/*We draw the grid (here the rows) */}
                 {[...Array(rowPerPage).keys()].map((index) => (
                     <path
-                        d={`M ${indexPageWidth * colPerPage} ${
-                            indexPageHeight * rowPerPage + index
-                        } L ${(indexPageWidth + 1) * colPerPage} ${
-                            indexPageHeight * rowPerPage + index
-                        } `}
+                        d={`M ${indexPageWidth * colPerPage} 
+                              ${indexPageHeight * rowPerPage + index} 
+                            L ${(indexPageWidth + 1) * colPerPage} 
+                              ${indexPageHeight * rowPerPage + index} `}
                         fill="none"
                         stroke="gainsboro"
                         strokeWidth="0.1"
@@ -71,13 +69,12 @@ function PrintGrid({
 
                 {/*We draw the outline */}
                 <path
-                    d={`M  ${(indexPageWidth + 1) * colPerPage} ${
-                        indexPageHeight * rowPerPage
-                    } L ${(indexPageWidth + 1) * colPerPage} ${
-                        (indexPageHeight + 1) * rowPerPage
-                    } L ${indexPageWidth * colPerPage} ${
-                        (indexPageHeight + 1) * rowPerPage
-                    } `}
+                    d={`M ${(indexPageWidth + 1) * colPerPage} 
+                          ${indexPageHeight * rowPerPage} 
+                        L ${(indexPageWidth + 1) * colPerPage} 
+                          ${(indexPageHeight + 1) * rowPerPage} 
+                        L ${indexPageWidth * colPerPage} 
+                          ${(indexPageHeight + 1) * rowPerPage} `}
                     fill="none"
                     stroke="gainsboro"
                     strokeWidth="0.1"
@@ -97,7 +94,10 @@ function PrintGrid({
                 {Object.entries(curves).map(
                     ([key, [startPoint, endPoint, controlX, controlY]]) => (
                         <path
-                            d={`M ${points[startPoint][0]} ${points[startPoint][1]} Q ${controlX} ${controlY} ${points[endPoint][0]} ${points[endPoint][1]}`}
+                            d={`M ${points[startPoint][0]} ${points[startPoint][1]} 
+                                Q ${controlX} ${controlY} 
+                                  ${points[endPoint][0]} 
+                                  ${points[endPoint][1]}`}
                             fill="none"
                             stroke="black"
                             strokeWidth="0.1"
@@ -110,7 +110,7 @@ function PrintGrid({
                 {segments.map(([startPoint, endPoint]) => (
                     <path
                         d={`M ${points[startPoint][0]} ${points[startPoint][1]}
-            L ${points[endPoint][0]} ${points[endPoint][1]}`}
+                            L ${points[endPoint][0]} ${points[endPoint][1]}`}
                         fill="none"
                         stroke="black"
                         strokeWidth="0.1"

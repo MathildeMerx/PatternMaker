@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
+import styled from "styled-components";
 
-//Implementation of the curve in the SVG
+//Implementation of the curve in the SVG (grid)
 function CurvePath({
     curve,
     curveIndex,
@@ -26,7 +27,7 @@ function CurvePath({
     //The control point can be moved by dragging it
     const [isDragging, setIsDragging] = useState(false);
 
-    //The 3 points determining the shape of the curve
+    //These 3 points determining the shape of the curve
     const [startPoint, endPoint, ...controlPoint] = curve;
 
     //The abscissa and ordinate of the 3 points above
@@ -41,11 +42,15 @@ function CurvePath({
         () => controlPoint[1]
     );
 
-    //The localisation of the mouse during drag'n'drop is obtained with this
+    //It'll give the postion of of grid on screen, to determine
+    //the exact position of the mouse
     const draggingInfo = SVGRef.current.getBoundingClientRect();
 
+    //Every 20ms, the position of the mouse in the grid is updated.
     useEffect(() => {
         const interval = setInterval(() => {
+            //If the user is dragging a control point,
+            //the state is updated with its new position
             if (isDragging) {
                 setControlAbscissa(
                     (mousePositionRef.current[0] - draggingInfo.left) /
@@ -67,7 +72,9 @@ function CurvePath({
         draggingInfo.left,
         draggingInfo.top,
     ]);
-    //When the abscissa and ordinate of the control point change, the cusrve state is updated
+
+    //When the abscissa and ordinate of the control point change,
+    //the state representing the curves is updated
     useEffect(() => {
         setCurves((curves) => {
             const currentCurve = curves[curveIndex];
@@ -84,7 +91,8 @@ function CurvePath({
 
     return (
         <>
-            <path
+            {/*Path representing the curve */}
+            <S_PathPointer
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
                 onClick={(event) => {
@@ -92,34 +100,40 @@ function CurvePath({
                     setShowConstructionSegments((value) => !value);
                 }}
                 d={`M ${startAbscissa} ${startOrdinate} 
-  Q ${controlAbscissa * cellWidth} ${
-                    controlOrdinate * cellHeight
-                } ${endAbscissa} ${endOrdinate}`}
+                    Q ${controlAbscissa * cellWidth} 
+                      ${controlOrdinate * cellHeight} 
+                      ${endAbscissa} ${endOrdinate}`}
                 fill="none"
                 stroke={theme.colours.bright}
                 strokeWidth={isHovering ? "6" : "3"}
-                style={{ cursor: "pointer" }}
             />
+
+            {/*The next 3 elements represent the construction parts: control points and 
+            segments linking it to the extremities of the curve */}
             {showConstructionSegments ? (
                 <path
                     d={`M ${startAbscissa} ${startOrdinate} 
-L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
+                        L ${controlAbscissa * cellWidth} 
+                          ${controlOrdinate * cellHeight} `}
                     fill="none"
                     stroke={theme.colours.contrast}
                     strokeDasharray="4"
                     strokeWidth="3"
                 />
             ) : null}
+
             {showConstructionSegments ? (
                 <path
                     d={`M ${endAbscissa} ${endOrdinate} 
-L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
+                        L ${controlAbscissa * cellWidth} 
+                          ${controlOrdinate * cellHeight} `}
                     fill="none"
                     stroke={theme.colours.contrast}
                     strokeDasharray="4"
                     strokeWidth="3"
                 />
             ) : null}
+
             {showConstructionSegments ? (
                 <circle
                     onClick={(event) => event.stopPropagation()}
@@ -138,3 +152,7 @@ L ${controlAbscissa * cellWidth} ${controlOrdinate * cellHeight} `}
 }
 
 export { CurvePath };
+
+const S_PathPointer = styled.path`
+    cursor: pointer;
+`;
