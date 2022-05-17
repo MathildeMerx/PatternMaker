@@ -1,16 +1,16 @@
 import { Button } from "./Theme/Button";
 import styled from "styled-components";
 import { Edit } from "@mui/icons-material";
+import { useState } from "react";
 
 //Form to let the user choose the name of the pattern
 function PatternNameForm({
-    editingName,
-    setEditingName,
     pieceName,
     setPieceName,
     PATTERN_TITLE_HEIGHT,
     PATTERN_TITLE_MARGIN,
 }) {
+    const [editingName, setEditingName] = useState(false);
     //The state `editingName` stores whether the user is currently
     //editing the name or not
     return editingName ? (
@@ -21,14 +21,9 @@ function PatternNameForm({
                     PATTERN_TITLE_HEIGHT={PATTERN_TITLE_HEIGHT}
                     id="Title-piece-of-pattern"
                     type="text"
+                    placeholder="Choose a pattern name"
                     value={pieceName}
-                    onChange={(event) =>
-                        setPieceName(
-                            event.target.value === ""
-                                ? "Choose a name"
-                                : event.target.value
-                        )
-                    }
+                    onChange={(event) => setPieceName(event.target.value)}
                 ></S_PatternNameModify>
             </label>
 

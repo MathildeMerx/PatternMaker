@@ -2,7 +2,7 @@ import { Login } from "@mui/icons-material";
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { S_CommandsDropdown } from "./S_CommandsDropdown";
-import { Button } from "./Theme/Button";
+import { Button } from "../Theme/Button";
 
 //Login component (icon plus menu to log in)
 function LogIn({ setCredentials }) {
@@ -34,7 +34,7 @@ function LogIn({ setCredentials }) {
         <S_LogIn ref={loginButtonRef}>
             <Login onClick={() => setClicked((clicked) => !clicked)} />
             <p>Log in</p>
-            <S_CommandsDropdown clicked={clicked}>
+            <S_CommandsDropdown menuOpen={clicked}>
                 <form onSubmit={() => setCredentials([username, password])}>
                     <label htmlFor="username">Username</label>
                     <S_LoginInput
@@ -42,7 +42,7 @@ function LogIn({ setCredentials }) {
                         id="username"
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
-                    ></S_LoginInput>
+                    />
 
                     <label htmlFor="password">Password</label>
                     <S_LoginInput
@@ -50,7 +50,7 @@ function LogIn({ setCredentials }) {
                         id="password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
-                    ></S_LoginInput>
+                    />
 
                     <Button type="submit">Submit</Button>
                 </form>

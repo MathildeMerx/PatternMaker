@@ -13,6 +13,14 @@ function SegmentsDisplay({
     setAlertMessage,
     height,
 }) {
+    //Deleting a segment - when clicking on the bin button
+    function clickDeleteSegment(seg) {
+        setSegments((segment) =>
+            segment.filter(
+                (value) => !(value[0] === seg[0] && value[1] === seg[1])
+            )
+        );
+    }
     let alert;
 
     //When the user is doing an error regarding segments,
@@ -49,9 +57,8 @@ function SegmentsDisplay({
                     {segments.map((seg) => (
                         <S_li key={seg[0] + seg[1]}>
                             {`[${seg[0]}, ${seg[1]}]`}
-                            <DeleteSegment
-                                seg={seg}
-                                setSegments={setSegments}
+                            <S_DeleteOutlined
+                                onClick={() => clickDeleteSegment(seg)}
                             />
                         </S_li>
                     ))}
@@ -70,21 +77,6 @@ function SegmentsDisplay({
                 />
             ) : null}
         </div>
-    );
-}
-
-//A bin icon to delete a segment
-function DeleteSegment({ seg, setSegments }) {
-    return (
-        <S_DeleteOutlined
-            onClick={() => clickDeleteSegment(seg, setSegments)}
-        />
-    );
-}
-
-function clickDeleteSegment(seg, setSegments) {
-    setSegments((segment) =>
-        segment.filter((value) => !(value[0] === seg[0] && value[1] === seg[1]))
     );
 }
 

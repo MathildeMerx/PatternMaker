@@ -1,3 +1,4 @@
+import { availablePointNames } from "./availablePointNames";
 import { retrieve } from "./retrieve";
 import { FileDownload } from "@mui/icons-material";
 import styled from "styled-components";
@@ -23,20 +24,38 @@ function RetrieveIcon({
 
         return () => clearTimeout(alertTimer);
     }, [setRetrieveAlert, retrieveAlert]);
+    function onRetrieveSuccess(retrievedData) {
+        //If the call is successful, we retrieve the latest save
+        const data = retrievedData.slice(0).sort(function (x, y) {
+            return y.id - x.id;
+        })["0"];
+
+        //The right data is assigned to the right variables
+        setPoints(JSON.parse(JSON.stringify(data["points"])));
+        setSegments(JSON.parse(JSON.stringify(data["segments"])) ?? []);
+        setCurves(JSON.parse(JSON.stringify(data["curves"])) ?? {});
+
+        //We deduce the available point names based on the existing points
+        setPossiblePointNames(
+            availablePointNames(JSON.parse(JSON.stringify(data["points"])))
+        );
+
+        //We retrieve the name of the pattern
+        setPieceName(JSON.parse(JSON.stringify(data["description"])));
+
+        //We specify the retrieving worked
+        setRetrieveAlert(
+            `"${JSON.parse(
+                JSON.stringify(data["description"])
+            )}" successfully retrieved!`
+        );
+    }
 
     return (
         <S_RetrieveIcon>
             <S_FileDownload
                 onClick={() =>
-                    retrieve(
-                        setPoints,
-                        setSegments,
-                        setCurves,
-                        setPossiblePointNames,
-                        setPieceName,
-                        setRetrieveAlert,
-                        credentials
-                    )
+                    retrieve(onRetrieveSuccess, setRetrieveAlert, credentials)
                 }
             />
             <p>Retrieve</p>

@@ -1,6 +1,5 @@
 import { RangeInput } from "./Theme/RangeInput";
-import { InfoOutlined } from "@mui/icons-material";
-import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import { HoverInfo } from "./Theme/HoverInfo";
 
 //To let the user decide how many cells are visible on screen
 function NumCellsInput({ numColumns, setNumColumns, numRows, setNumRows }) {
@@ -8,13 +7,10 @@ function NumCellsInput({ numColumns, setNumColumns, numRows, setNumRows }) {
         <div>
             {/* Here the user will decide on the number of columns*/}
             Number of columns: {numColumns}
-            <S_HoverInfoIcon>
-                <InfoOutlined />
-                <div>
-                    Beware when printing: cells will be square, so what you see
-                    on screen may be distorted!
-                </div>
-            </S_HoverInfoIcon>
+            <HoverInfo>
+                Beware when printing: cells will be square, so what you see on
+                screen may be distorted!
+            </HoverInfo>
             <RangeInput
                 type="range"
                 min="10"
@@ -24,13 +20,10 @@ function NumCellsInput({ numColumns, setNumColumns, numRows, setNumRows }) {
             />
             {/* Here the user will decide on the number of columns*/}
             Number of rows: {numRows}
-            <S_HoverInfoIcon>
-                <InfoOutlined />
-                <div>
-                    Beware when printing: cells will be square, so what you see
-                    on screen may be distorted!
-                </div>
-            </S_HoverInfoIcon>
+            <HoverInfo>
+                Beware when printing: cells will be square, so what you see on
+                screen may be distorted!
+            </HoverInfo>
             <RangeInput
                 type="range"
                 min="10"

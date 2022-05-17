@@ -27,11 +27,13 @@ function save(points, segments, curves, pieceName, setSaveAlert, credentials) {
         .then((json) => {
             //If the save is successfull, such message is displayed.
             //Else, a warning is displayed
-            json.description
-                ? setSaveAlert(
-                      `You have successfully saved "${json.description}"!`
-                  )
-                : setSaveAlert("Warning: unsuccessful save.");
+            if (json.description || json.description === "") {
+                setSaveAlert(
+                    `You have successfully saved "${json.description}"!`
+                );
+            } else {
+                setSaveAlert("Warning: unsuccessful save - wrong credentials.");
+            }
         });
 }
 

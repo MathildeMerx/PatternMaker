@@ -4,10 +4,10 @@ import { useEffect, useState, useRef } from "react";
 function useContainerDimensions() {
     const containerRef = useRef();
 
-    //The dimentions are initialized with the following values
+    //The dimensions are initialized with the following values
     const [dimensions, setDimensions] = useState({ width: 600, height: 600 });
 
-    //When the window is resized, the dimentions are updated
+    //When the window is resized, the dimensions are updated
     useEffect(() => {
         function getDimension() {
             setDimensions({

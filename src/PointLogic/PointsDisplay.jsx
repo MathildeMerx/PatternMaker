@@ -1,6 +1,5 @@
-import { InfoOutlined } from "@mui/icons-material";
 import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
-import { S_HoverInfoIcon } from "../S_HoverInfoIcon";
+import { HoverInfo } from "../Theme/HoverInfo";
 import styled from "styled-components";
 
 //Displaying the existing points in an unordered list
@@ -10,13 +9,10 @@ function PointsDisplay({ points, height }) {
             <h2>
                 Points
                 {/*Hoverable icon to explain the user how points work */}
-                <S_HoverInfoIcon>
-                    <InfoOutlined />
-                    <div>
-                        Click in the grid to create a point. You can drag'n'drop
-                        points, or click on one to delete it.
-                    </div>
-                </S_HoverInfoIcon>
+                <HoverInfo>
+                    Click in the grid to create a point. You can drag'n'drop
+                    points, or click on one to delete it.
+                </HoverInfo>
             </h2>
 
             {/*If there are no points, nothing is shown, 

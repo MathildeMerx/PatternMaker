@@ -12,11 +12,13 @@ function SaveIcon({ points, segments, curves, pieceName, credentials }) {
 
     //After 3 sec, the message is erased
     useEffect(() => {
-        const alertTimer = setTimeout(() => {
-            setSaveAlert(false);
-        }, 3000);
+        if (saveAlert) {
+            const alertTimer = setTimeout(() => {
+                setSaveAlert(false);
+            }, 3000);
 
-        return () => clearTimeout(alertTimer);
+            return () => clearTimeout(alertTimer);
+        }
     }, [setSaveAlert, saveAlert]);
 
     return (

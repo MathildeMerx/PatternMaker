@@ -5,7 +5,7 @@ const S_CommandsDropdown = styled.div`
     background-color: ${({ theme }) => theme.colours.background};
     border: solid 1px;
     color: ${({ theme }) => theme.colours.contrast};
-    display: ${(props) => (props.clicked ? "flex" : "none")};
+    display: ${(props) => (props.menuOpen ? "flex" : "none")};
     flex-direction: column;
     padding: 8px;
     position: absolute;

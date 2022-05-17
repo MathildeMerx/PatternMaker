@@ -1,4 +1,14 @@
 import styled from "styled-components";
+import { InfoOutlined } from "@mui/icons-material";
+
+function HoverInfo({ children }) {
+    return (
+        <S_HoverInfoIcon>
+            <InfoOutlined />
+            <div>{children}</div>
+        </S_HoverInfoIcon>
+    );
+}
 
 //Styled components of info icons, which when hovered display the text of their child
 const S_HoverInfoIcon = styled.span`
@@ -27,4 +37,4 @@ const S_HoverInfoIcon = styled.span`
     }
 `;
 
-export { S_HoverInfoIcon };
+export { HoverInfo };

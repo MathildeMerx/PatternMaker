@@ -1,26 +1,9 @@
-import { DeleteOutlined, InfoOutlined } from "@mui/icons-material";
+import { DeleteOutlined } from "@mui/icons-material";
 import { CurveAddButton } from "./CurveAddButton";
 import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
 import { S_AlertMessage } from "../S_AlertMessage";
-import { S_HoverInfoIcon } from "../S_HoverInfoIcon";
+import { HoverInfo } from "../Theme/HoverInfo";
 import styled from "styled-components";
-
-//Deleting a curve - when clicking on the bin button
-function clickDeleteCurve(curveIndex, setCurves) {
-    setCurves((curves) => {
-        let { [curveIndex]: index, ...rest } = curves;
-        return rest;
-    });
-}
-
-//Bin icon to delete a curve
-function DeleteCurve({ curveIndex, setCurves }) {
-    return (
-        <S_DeleteOutlined
-            onClick={() => clickDeleteCurve(curveIndex, setCurves)}
-        />
-    );
-}
 
 //List of the existing curves
 function CurvesDisplay({
@@ -33,6 +16,13 @@ function CurvesDisplay({
     alertMessage,
     setAlertMessage,
 }) {
+    //Deleting a curve - when clicking on the bin button
+    function clickDeleteCurve(curveIndex) {
+        setCurves((curves) => {
+            let { [curveIndex]: index, ...rest } = curves;
+            return rest;
+        });
+    }
     let alert;
 
     //Message alerting the user in case of misuse
@@ -65,13 +55,10 @@ function CurvesDisplay({
             <h2>
                 Curves
                 {/*Information to help the user understand how curves work */}
-                <S_HoverInfoIcon>
-                    <InfoOutlined />
-                    <div>
-                        To modify the shape of a curve, click on the curve in
-                        the grid to make the control point appear.
-                    </div>
-                </S_HoverInfoIcon>
+                <HoverInfo>
+                    To modify the shape of a curve, click on the curve in the
+                    grid to make the control point appear.
+                </HoverInfo>
             </h2>
 
             {/*The list of the curves */}
@@ -84,9 +71,10 @@ function CurvesDisplay({
                                 <sub>{`(${curv[2].toFixed(
                                     1
                                 )}, ${curv[3].toFixed(1)})`}</sub>
-                                <DeleteCurve
-                                    curveIndex={index}
-                                    setCurves={setCurves}
+                                <S_DeleteOutlined
+                                    onClick={() =>
+                                        clickDeleteCurve(index, setCurves)
+                                    }
                                 />
                             </li>
                         );

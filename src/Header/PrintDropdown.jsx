@@ -1,17 +1,17 @@
 import ReactToPrint from "react-to-print";
 import styled from "styled-components";
 import { useRef, useEffect } from "react";
-import { RangeInput } from "./Theme/RangeInput";
+import { RangeInput } from "../Theme/RangeInput";
 import { S_CommandsDropdown } from "./S_CommandsDropdown";
 import { Print } from "@mui/icons-material";
-import { Button } from "./Theme/Button";
+import { Button } from "../Theme/Button";
 
 function PrintDropdown({
     printRef,
     cellSize,
     setCellSize,
-    clicked,
-    setClicked,
+    printMenuOpen,
+    setPrintMenuOpen,
 }) {
     //Creating a dropdown menu, enabling the user to customize the printing
     const printButtonRef = useRef();
@@ -23,20 +23,20 @@ function PrintDropdown({
                 printButtonRef.current &&
                 !printButtonRef.current.contains(event.target)
             ) {
-                setClicked(false);
+                setPrintMenuOpen(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [printButtonRef, setClicked]);
+    }, [printButtonRef, setPrintMenuOpen]);
 
     return (
         <S_PrintMenu ref={printButtonRef}>
-            <S_Print onClick={() => setClicked(!clicked)} />
+            <S_Print onClick={() => setPrintMenuOpen(!printMenuOpen)} />
             {/*The user can pick the size of the cells when printing */}
-            <S_CommandsDropdown clicked={clicked}>
+            <S_CommandsDropdown menuOpen={printMenuOpen}>
                 Cell size: {cellSize}cm
                 <RangeInput
                     type="range"
@@ -50,7 +50,7 @@ function PrintDropdown({
                 <ReactToPrint
                     trigger={() => <S_PrintButton>Print</S_PrintButton>}
                     content={() => printRef.current}
-                    onAfterPrint={() => setClicked(false)}
+                    onAfterPrint={() => setPrintMenuOpen(false)}
                     pageStyle="@page { size: 21cm 29.7cm }"
                 />
             </S_CommandsDropdown>
