@@ -1,3 +1,5 @@
+//If both end points are filled in, this function will return the middle point
+//Else, it returns a null point
 function midPoint(points, firstPoint, secondPoint) {
     if (firstPoint === null || secondPoint === null) {
         return [null, null];

@@ -1,11 +1,8 @@
 import styled from "styled-components";
 
-const S_DropdownTitle = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-left: 5px;
-`;
+//In this file are different styled elements to make a dropdown menu
 
+//That's the parent element of the whole dropdown
 const S_Dropdown = styled.div`
     border-bottom: solid 1px;
     cursor: pointer;
@@ -14,6 +11,18 @@ const S_Dropdown = styled.div`
     position: relative;
     width: 60px;
 `;
+
+//Each element of the dropdown menu is a clickable button
+const S_DropdownButton = styled.button`
+    background-color: ${({ theme }) => theme.colours.background};
+    color: ${({ theme }) => theme.colours.contrast};
+    width: 100%;
+    &:hover {
+        background-color: ${({ theme }) => theme.colours.background};
+    }
+`;
+
+//All the clickable buttons are contained in this
 const S_DropdownContent = styled.div`
     background-color: ${({ theme }) => theme.colours.backgroundLight};
     border: solid 1px ${({ theme }) => theme.colours.backgroundLight};
@@ -35,6 +44,7 @@ const S_DropdownContent = styled.div`
         text-decoration: none;
     }
 
+    //A scrollbar to the colors of this project
     &::-webkit-scrollbar {
         background-color: ${({ theme }) => theme.colours.background};
         border: double 2px ${({ theme }) => theme.colours.background};
@@ -49,13 +59,11 @@ const S_DropdownContent = styled.div`
     }
 `;
 
-const S_DropdownButton = styled.button`
-    background-color: ${({ theme }) => theme.colours.background};
-    color: ${({ theme }) => theme.colours.contrast};
-    width: 100%;
-    &:hover {
-        background-color: ${({ theme }) => theme.colours.background};
-    }
+//The visible part of the dropdown when it's not dropped
+const S_DropdownTitle = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5px;
 `;
 
 export { S_DropdownButton, S_DropdownContent, S_Dropdown, S_DropdownTitle };

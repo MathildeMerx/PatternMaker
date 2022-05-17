@@ -1,6 +1,7 @@
-import { pointNames } from "./alphabet";
+import { pointNames } from "../alphabet";
 
-//Returns point names qhich aren't used yet
+//Returns point names which aren't used yet - used when retrieving
+//a pattern form the database
 function availablePointNames(points) {
     let existingPoints = Object.keys(points);
 

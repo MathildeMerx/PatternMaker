@@ -1,40 +1,44 @@
 import ReactToPrint from "react-to-print";
 import styled from "styled-components";
 import { useRef, useEffect } from "react";
-import { S_Input } from "./App";
-
+import { RangeInput } from "../Theme/RangeInput";
+import { S_CommandsDropdown } from "./S_CommandsDropdown";
 import { Print } from "@mui/icons-material";
-import { Button } from "./Theme/Button";
+import { Button } from "../Theme/Button";
 
 function PrintDropdown({
     printRef,
     cellSize,
     setCellSize,
-    clicked,
-    setClicked,
+    printMenuOpen,
+    setPrintMenuOpen,
 }) {
     //Creating a dropdown menu, enabling the user to customize the printing
     const printButtonRef = useRef();
+
+    //When the menu is open, if the user clicks elsewhere the menu closes
     useEffect(() => {
         function handleClickOutside(event) {
             if (
                 printButtonRef.current &&
                 !printButtonRef.current.contains(event.target)
             ) {
-                setClicked(false);
+                setPrintMenuOpen(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [printButtonRef, setClicked]);
+    }, [printButtonRef, setPrintMenuOpen]);
+
     return (
         <S_PrintMenu ref={printButtonRef}>
-            <S_Print onClick={() => setClicked(!clicked)} />
-            <S_PrintDropdown clicked={clicked}>
+            <S_Print onClick={() => setPrintMenuOpen(!printMenuOpen)} />
+            {/*The user can pick the size of the cells when printing */}
+            <S_CommandsDropdown menuOpen={printMenuOpen}>
                 Cell size: {cellSize}cm
-                <S_Input
+                <RangeInput
                     type="range"
                     min="0.2"
                     max="2.5"
@@ -42,13 +46,14 @@ function PrintDropdown({
                     value={cellSize}
                     onChange={(e) => setCellSize(e.target.value)}
                 />
+                {/*This component makes it possible to print only one component */}
                 <ReactToPrint
                     trigger={() => <S_PrintButton>Print</S_PrintButton>}
                     content={() => printRef.current}
-                    onAfterPrint={() => setClicked(false)}
+                    onAfterPrint={() => setPrintMenuOpen(false)}
                     pageStyle="@page { size: 21cm 29.7cm }"
                 />
-            </S_PrintDropdown>
+            </S_CommandsDropdown>
         </S_PrintMenu>
     );
 }
@@ -61,20 +66,6 @@ const S_Print = styled(Print)`
 
 const S_PrintMenu = styled.span`
     position: relative;
-`;
-
-const S_PrintDropdown = styled.div`
-    background-color: ${({ theme }) => theme.colours.background};
-    border: solid 1px;
-    color: ${({ theme }) => theme.colours.contrast};
-    display: ${(props) => (props.clicked ? "flex" : "none")};
-    flex-direction: column;
-    padding: 8px;
-    position: absolute;
-    right: 0;
-    top: 24px;
-    width: 175px;
-    z-index: 1;
 `;
 
 const S_PrintButton = styled(Button)`

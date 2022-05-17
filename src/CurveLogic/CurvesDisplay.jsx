@@ -1,37 +1,28 @@
-import { DeleteOutlined, InfoOutlined } from "@mui/icons-material";
+import { DeleteOutlined } from "@mui/icons-material";
 import { CurveAddButton } from "./CurveAddButton";
-import { S_ControlledHeightUL } from "./S_ControlledHeightUL";
-import { S_AlertMessage } from "./S_AlertMessage";
-import { S_HoverInfoIcon } from "./S_HoverInfoIcon";
+import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
+import { S_AlertMessage } from "../S_AlertMessage";
+import { HoverInfo } from "../Theme/HoverInfo";
 import styled from "styled-components";
-
-//Deleting a curve - when clicking on the bin button
-function clickDeleteCurve(curveIndex, setCurves) {
-    setCurves((curves) => {
-        let { [curveIndex]: index, ...rest } = curves;
-        return rest;
-    });
-}
-
-//Bin icon to delete a curve
-function DeleteCurve({ curveIndex, setCurves }) {
-    return (
-        <S_DeleteOutlined
-            onClick={() => clickDeleteCurve(curveIndex, setCurves)}
-        />
-    );
-}
 
 //List of the existing curves
 function CurvesDisplay({
     points,
     curves,
     setCurves,
+    height,
     cellWidth,
     cellHeight,
     alertMessage,
     setAlertMessage,
 }) {
+    //Deleting a curve - when clicking on the bin button
+    function clickDeleteCurve(curveIndex) {
+        setCurves((curves) => {
+            let { [curveIndex]: index, ...rest } = curves;
+            return rest;
+        });
+    }
     let alert;
 
     //Message alerting the user in case of misuse
@@ -63,16 +54,16 @@ function CurvesDisplay({
         <div>
             <h2>
                 Curves
-                <S_HoverInfoIcon>
-                    <InfoOutlined />
-                    <div>
-                        To modify the shape of a curve, click on the curve in
-                        the grid to make the control point appear.
-                    </div>
-                </S_HoverInfoIcon>
+                {/*Information to help the user understand how curves work */}
+                <HoverInfo>
+                    To modify the shape of a curve, click on the curve in the
+                    grid to make the control point appear.
+                </HoverInfo>
             </h2>
+
+            {/*The list of the curves */}
             {Object.keys(curves).length > 0 ? (
-                <S_ControlledHeightUL>
+                <S_ControlledHeightUL height={height}>
                     {Object.entries(curves).map(([index, curv]) => {
                         return (
                             <li key={index}>
@@ -80,16 +71,21 @@ function CurvesDisplay({
                                 <sub>{`(${curv[2].toFixed(
                                     1
                                 )}, ${curv[3].toFixed(1)})`}</sub>
-                                <DeleteCurve
-                                    curveIndex={index}
-                                    setCurves={setCurves}
+                                <S_DeleteOutlined
+                                    onClick={() =>
+                                        clickDeleteCurve(index, setCurves)
+                                    }
                                 />
                             </li>
                         );
                     })}
                 </S_ControlledHeightUL>
             ) : null}
+
+            {/*The alert message if exsting */}
             <S_AlertMessage>{alert}</S_AlertMessage>
+
+            {/*If there are more than 2 points, a '+' to create new curves */}
             {Object.keys(points).length > 1 ? (
                 <CurveAddButton
                     points={points}
