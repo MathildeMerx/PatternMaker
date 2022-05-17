@@ -2,6 +2,8 @@ import { DeleteOutlined } from "@mui/icons-material";
 import { SegmentAddButton } from "./SegmentAddButton";
 import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
 import { S_AlertMessage } from "../S_AlertMessage";
+import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
+import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
 
 //A list of the existing segments, displayed aside
@@ -49,7 +51,9 @@ function SegmentsDisplay({
     }
     return (
         <div>
-            <h2>Segments</h2>
+            <S_DisplaySectionTitle marginTop={true}>
+                Segments
+            </S_DisplaySectionTitle>
 
             {/*A list of the existing segments */}
             {segments.length > 0 ? (
@@ -66,7 +70,7 @@ function SegmentsDisplay({
             ) : null}
 
             {/*The error message if existing */}
-            <S_AlertMessage>{alert}</S_AlertMessage>
+            {alert ? <S_AlertMessage>{alert}</S_AlertMessage> : null}
 
             {/*A button to add new segments */}
             {Object.keys(points).length > 1 ? (
@@ -75,7 +79,11 @@ function SegmentsDisplay({
                     setSegments={setSegments}
                     setAlertMessage={setAlertMessage}
                 />
-            ) : null}
+            ) : (
+                <S_DisplaySectionSubtitle>
+                    Two points needed to create a segment.
+                </S_DisplaySectionSubtitle>
+            )}
         </div>
     );
 }

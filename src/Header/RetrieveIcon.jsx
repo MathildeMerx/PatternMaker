@@ -76,6 +76,7 @@ const S_RetrieveAlert = styled.div`
     position: absolute;
     right: 0px;
     width: 200px;
+    z-index: 1;
 `;
 
 const S_RetrieveIcon = styled.div`

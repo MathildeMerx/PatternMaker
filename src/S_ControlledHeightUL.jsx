@@ -3,8 +3,9 @@ import styled from "styled-components";
 //A styled component to contain the height of the display components
 //(to display the points, segments and curves)
 const S_ControlledHeightUL = styled.ul`
-    /* 425px is a rough estimate of the space taken by titles and the range inputs */
-    max-height: ${({ height }) => (height - 425) / 3}px;
+    /* 350px is a rough estimate of the space taken by titles and the range inputs */
+    margin: 0;
+    max-height: ${({ height }) => (height - 350) / 3}px;
     overflow-y: auto;
 
     /* We're giving the scrollbar the style of this project */

@@ -2,7 +2,8 @@ import { DeleteOutlined } from "@mui/icons-material";
 import { CurveAddButton } from "./CurveAddButton";
 import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
 import { S_AlertMessage } from "../S_AlertMessage";
-import { HoverInfo } from "../Theme/HoverInfo";
+import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
+import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
 
 //List of the existing curves
@@ -52,15 +53,12 @@ function CurvesDisplay({
 
     return (
         <div>
-            <h2>
+            <S_DisplaySectionTitle marginTop={true}>
                 Curves
-                {/*Information to help the user understand how curves work */}
-                <HoverInfo>
-                    To modify the shape of a curve, click on the curve in the
-                    grid to make the control point appear.
-                </HoverInfo>
-            </h2>
-
+            </S_DisplaySectionTitle>
+            <S_DisplaySectionSubtitle>
+                Click on the curve in the grid to make the control point appear.
+            </S_DisplaySectionSubtitle>
             {/*The list of the curves */}
             {Object.keys(curves).length > 0 ? (
                 <S_ControlledHeightUL height={height}>
@@ -81,10 +79,8 @@ function CurvesDisplay({
                     })}
                 </S_ControlledHeightUL>
             ) : null}
-
             {/*The alert message if exsting */}
-            <S_AlertMessage>{alert}</S_AlertMessage>
-
+            {alert ? <S_AlertMessage>{alert}</S_AlertMessage> : null}
             {/*If there are more than 2 points, a '+' to create new curves */}
             {Object.keys(points).length > 1 ? (
                 <CurveAddButton
@@ -94,7 +90,11 @@ function CurvesDisplay({
                     cellWidth={cellWidth}
                     setAlertMessage={setAlertMessage}
                 />
-            ) : null}
+            ) : (
+                <S_DisplaySectionSubtitle>
+                    Two points needed to create a curve.
+                </S_DisplaySectionSubtitle>
+            )}
         </div>
     );
 }

@@ -1,19 +1,18 @@
 import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
-import { HoverInfo } from "../Theme/HoverInfo";
+import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
+import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
 
 //Displaying the existing points in an unordered list
 function PointsDisplay({ points, height }) {
     return (
         <>
-            <h2>
+            <S_DisplaySectionTitle marginTop={false}>
                 Points
-                {/*Hoverable icon to explain the user how points work */}
-                <HoverInfo>
-                    Click in the grid to create a point. You can drag'n'drop
-                    points, or click on one to delete it.
-                </HoverInfo>
-            </h2>
+            </S_DisplaySectionTitle>
+            <S_DisplaySectionSubtitle>
+                Click on a point to delete it. Drag'n'drop a point to move it.
+            </S_DisplaySectionSubtitle>
 
             {/*If there are no points, nothing is shown, 
             else a list of all of them is displayed */}

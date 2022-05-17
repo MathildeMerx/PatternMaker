@@ -2,14 +2,10 @@ import { Button } from "./Theme/Button";
 import styled from "styled-components";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
+import { PATTERN_TITLE_MARGIN, PATTERN_TITLE_HEIGHT } from "./Theme/constants";
 
 //Form to let the user choose the name of the pattern
-function PatternNameForm({
-    pieceName,
-    setPieceName,
-    PATTERN_TITLE_HEIGHT,
-    PATTERN_TITLE_MARGIN,
-}) {
+function PatternNameForm({ pieceName, setPieceName }) {
     const [editingName, setEditingName] = useState(false);
     //The state `editingName` stores whether the user is currently
     //editing the name or not
@@ -17,8 +13,6 @@ function PatternNameForm({
         <S_NameForm onSubmit={() => setEditingName(false)}>
             <label htmlFor="Title-piece-of-pattern">
                 <S_PatternNameModify
-                    PATTERN_TITLE_MARGIN={PATTERN_TITLE_MARGIN}
-                    PATTERN_TITLE_HEIGHT={PATTERN_TITLE_HEIGHT}
                     id="Title-piece-of-pattern"
                     type="text"
                     placeholder="Choose a pattern name"
@@ -51,8 +45,8 @@ const S_PatternNameModify = styled.input`
     border-bottom: 3px solid;
     color: ${({ theme }) => theme.colours.contrast};
     font-size: 1.5rem;
-    line-height: ${(props) => props.PATTERN_TITLE_HEIGHT}px;
-    margin: ${(props) => props.PATTERN_TITLE_MARGIN - 4}px auto;
+    line-height: ${PATTERN_TITLE_HEIGHT}px;
+    margin: ${PATTERN_TITLE_MARGIN - 4}px auto;
     margin-right: 8px;
     text-align: center;
 
@@ -64,8 +58,8 @@ const S_PatternNameModify = styled.input`
 `;
 
 const S_PatternName = styled.h2`
-    line-height: ${(props) => props.PATTERN_TITLE_HEIGHT}px;
-    margin: ${(props) => props.PATTERN_TITLE_MARGIN}px auto;
+    line-height: ${PATTERN_TITLE_HEIGHT}px;
+    margin: 0px auto ${PATTERN_TITLE_MARGIN}px;
     text-align: center;
 `;
 
