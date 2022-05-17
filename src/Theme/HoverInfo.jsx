@@ -26,6 +26,7 @@ const S_HoverInfoIcon = styled.span`
         position: absolute;
         left: 20px;
         width: 200px;
+        z-index: 1;
     }
 
     h2 &:hover div {

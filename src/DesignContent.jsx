@@ -32,8 +32,6 @@ function DesignContent({
             <PatternNameForm
                 pieceName={pieceName}
                 setPieceName={setPieceName}
-                PATTERN_TITLE_HEIGHT={PATTERN_TITLE_HEIGHT}
-                PATTERN_TITLE_MARGIN={PATTERN_TITLE_MARGIN}
             />
 
             {/* Grid in which the user can design their pattern, and see it */}

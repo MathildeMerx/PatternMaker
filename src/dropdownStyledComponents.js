@@ -29,7 +29,7 @@ const S_DropdownContent = styled.div`
     border-radius: 4px;
     display: ${(props) => (props.clicked ? "block" : "none")};
     left: -1px;
-    max-height: 150px;
+    max-height: 125px;
     min-width: 60px;
     overflow-y: auto;
     position: absolute;
