@@ -103,13 +103,13 @@ function addCurve(
                     areArraysEqual([end, start, ...rest], futureCurve)
             )
         ) {
-            setAlertMessage(["existingCurve", futureCurve]);
+            setAlertMessage({ alertType: "existingCurve" });
             return prevCurves;
         } else if (futureCurve[0] === null || futureCurve[1] === null) {
-            setAlertMessage(["nullCurve", futureCurve]);
+            setAlertMessage({ alertType: "nullCurve" });
             return prevCurves;
         } else if (futureCurve[0] === futureCurve[1]) {
-            setAlertMessage(["uniqueCurve", futureCurve]);
+            setAlertMessage({ alertType: "uniquePointCurve" });
             return prevCurves;
         } else {
             return { ...prevCurves, [uuidv4()]: futureCurve };

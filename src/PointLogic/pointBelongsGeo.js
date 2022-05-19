@@ -4,7 +4,11 @@ function PointBelongsSegment(segments, pointName, setAlertMessage) {
         if (segments[seg][0] === pointName || segments[seg][1] === pointName) {
             // If the point belongs to a segment,
             // the point is not deleted and an alert message is generated
-            setAlertMessage(["deletePointSegment", pointName, segments[seg]]);
+            setAlertMessage({
+                alertType: "deletePointSegment",
+                point: pointName,
+                segment: segments[seg],
+            });
             return true;
         }
     }
@@ -16,11 +20,11 @@ function PointBelongsCurve(curves, pointName, setAlertMessage) {
         if (curves[curv][0] === pointName || curves[curv][1] === pointName) {
             // If the point belongs to a curve,
             // the point is not deleted and an alert message is generated
-            setAlertMessage([
-                "deletePointCurve",
-                pointName,
-                curves[curv].slice(0, 2),
-            ]);
+            setAlertMessage({
+                alertType: "deletePointCurve",
+                point: pointName,
+                curve: curves[curv].slice(0, 2),
+            });
             return true;
         }
     }

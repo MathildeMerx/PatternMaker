@@ -5,6 +5,7 @@ import S_AlertMessage from "../S_AlertMessage";
 import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
 import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
+import alertMessageReadable from "../alertMessageReadable";
 
 //List of the existing curves
 function CurvesDisplay({
@@ -24,32 +25,10 @@ function CurvesDisplay({
             return rest;
         });
     }
-    let alert;
 
-    //Message alerting the user in case of misuse
-    if (alertMessage) {
-        switch (alertMessage[0]) {
-            case "deletePointCurve":
-                alert = `Point ${alertMessage[1]} belongs to curve (${alertMessage[2][0]}, ${alertMessage[2][1]}), delete this
-                    curve first!`;
-                break;
-
-            case "nullCurve":
-                alert = "Fill in a value for both ends of the curve!";
-                break;
-
-            case "existingCurve":
-                alert = "A perfectly similar curve already exists!";
-                break;
-
-            case "uniqueCurve":
-                alert = "The start and end points should be different!";
-                break;
-
-            default:
-                alert = "";
-        }
-    }
+    let alert = alertMessage.alertType.includes("Curve")
+        ? alertMessageReadable(alertMessage)
+        : null;
 
     return (
         <div>

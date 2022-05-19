@@ -46,12 +46,12 @@ function AppWorking() {
 
     // When a user makes a construction error, this state will contain
     // the error message
-    const [alertMessage, setAlertMessage] = useState(null);
+    const [alertMessage, setAlertMessage] = useState({ alertType: "" });
 
     // This useEffect erases said error message after 5 sec
     useEffect(() => {
         const alertTimer = setTimeout(() => {
-            setAlertMessage(null);
+            setAlertMessage({ alertType: "" });
         }, 5000);
 
         return () => clearTimeout(alertTimer);

@@ -82,13 +82,13 @@ function addSegment(
                     (b === newSegment[0]) & (a === newSegment[1])
             )
         ) {
-            setAlertMessage(["existingSegment", newSegment]);
+            setAlertMessage({ alertType: "existingSegment" });
             return segments;
         } else if (newSegment[0] === null || newSegment[1] === null) {
-            setAlertMessage(["nullSegment", newSegment]);
+            setAlertMessage({ alertType: "nullSegment" });
             return segments;
         } else if (newSegment[0] === newSegment[1]) {
-            setAlertMessage(["uniqueSegment", newSegment]);
+            setAlertMessage({ alertType: "uniquePointSegment" });
             return segments;
         } else {
             let segmentsCopy = segments.slice();
