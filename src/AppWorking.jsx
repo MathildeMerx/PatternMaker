@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import useContainerDimensions from "./useContainerDimensions";
 import styled from "styled-components";
 import pointNames from "./alphabet";
-import PrintGrid from "./PrintGrid";
+import PrintGrid from "./Print/PrintGrid";
 import Header from "./Header/Header";
 import {
     PATTERN_TITLE_MARGIN,

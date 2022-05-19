@@ -35,20 +35,16 @@ function CurvePath({
     const startOrdinate = points[startPoint][1] * cellHeight;
     const endAbscissa = points[endPoint][0] * cellWidth;
     const endOrdinate = points[endPoint][1] * cellHeight;
-    const [controlAbscissa, setControlAbscissa] = useState(
-        () => controlPoint[0]
-    );
-    const [controlOrdinate, setControlOrdinate] = useState(
-        () => controlPoint[1]
-    );
-
-    //It'll give the postion of of grid on screen, to determine
-    //the exact position of the mouse
-    const draggingInfo = SVGRef.current.getBoundingClientRect();
+    const [controlAbscissa, setControlAbscissa] = useState(controlPoint[0]);
+    const [controlOrdinate, setControlOrdinate] = useState(controlPoint[1]);
 
     //Every 20ms, the position of the mouse in the grid is updated.
     useEffect(() => {
         const interval = setInterval(() => {
+            //It'll give the postion of of grid on screen, to determine
+            //the exact position of the mouse
+            const draggingInfo = SVGRef.current.getBoundingClientRect();
+
             //If the user is dragging a control point,
             //the state is updated with its new position
             if (isDragging) {
@@ -64,14 +60,7 @@ function CurvePath({
         }, 20);
 
         return () => clearInterval(interval);
-    }, [
-        isDragging,
-        mousePositionRef,
-        cellWidth,
-        cellHeight,
-        draggingInfo.left,
-        draggingInfo.top,
-    ]);
+    }, [isDragging, mousePositionRef, cellWidth, cellHeight, SVGRef]);
 
     //When the abscissa and ordinate of the control point change,
     //the state representing the curves is updated

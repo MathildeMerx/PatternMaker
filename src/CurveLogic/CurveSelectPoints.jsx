@@ -42,7 +42,7 @@ function CurveSelectPoints({
                 />
             </div>
 
-            <Submit>
+            <S_Submit>
                 <S_CancelButton
                     onClick={(event) => {
                         event.preventDefault();
@@ -68,7 +68,7 @@ function CurveSelectPoints({
                 >
                     Validate
                 </S_ValidateButton>
-            </Submit>
+            </S_Submit>
         </>
     );
 }
@@ -92,29 +92,27 @@ function addCurve(
         ...midPoint(points, newCurve[0], newCurve[1], cellWidth, cellHeight),
     ];
 
-    setCurves((curves) => {
+    setCurves((prevCurves) => {
         //If the new curve is wrong (one point hasn't been filled in,
         //or both end points are the same, or the curve already exists),
         //no new curve is added. And a relevant error message is issued
         if (
-            Object.values(curves).some(
+            Object.values(prevCurves).some(
                 ([start, end, ...rest]) =>
                     areArraysEqual([start, end, ...rest], futureCurve) ||
                     areArraysEqual([end, start, ...rest], futureCurve)
             )
         ) {
             setAlertMessage(["existingCurve", futureCurve]);
-            return curves;
+            return prevCurves;
         } else if (futureCurve[0] === null || futureCurve[1] === null) {
             setAlertMessage(["nullCurve", futureCurve]);
-            return curves;
+            return prevCurves;
         } else if (futureCurve[0] === futureCurve[1]) {
             setAlertMessage(["uniqueCurve", futureCurve]);
-            return curves;
+            return prevCurves;
         } else {
-            let curvesCopy = JSON.parse(JSON.stringify(curves));
-            curvesCopy[uuidv4()] = futureCurve;
-            return curvesCopy;
+            return { ...prevCurves, [uuidv4()]: futureCurve };
         }
     });
     setAddingCurve(false);
@@ -174,7 +172,7 @@ function clickMenu(event, setNewCurve, index) {
     });
 }
 
-const Submit = styled.div`
+const S_Submit = styled.div`
     margin-top: 8px;
 `;
 

@@ -11,6 +11,10 @@ const TITLE_HEIGHT = 2;
 
 const URL = "https://sewpat.tsango.com/api/patterns/4/drawings/";
 
+//That's the size of an A4 page
+const PAPER_PAGE_WIDTH = 21;
+const PAPER_PAGE_HEIGHT = 29.7;
+
 export {
     TITLE_MARGIN,
     TITLE_HEIGHT,
@@ -20,4 +24,6 @@ export {
     MIN_WNDOW_HEIGHT,
     MIN_WNDOW_WIDTH,
     URL,
+    PAPER_PAGE_HEIGHT,
+    PAPER_PAGE_WIDTH,
 };
