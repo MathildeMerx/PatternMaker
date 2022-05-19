@@ -151,8 +151,8 @@ function CurvePath({
     );
 }
 
-export { CurvePath };
-
 const S_PathPointer = styled.path`
     cursor: pointer;
 `;
+
+export default CurvePath;

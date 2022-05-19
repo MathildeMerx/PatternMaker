@@ -7,4 +7,4 @@ const S_AlertMessage = styled.p`
     font-size: 0.8rem;
 `;
 
-export { S_AlertMessage };
+export default S_AlertMessage;

@@ -1,4 +1,4 @@
-import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
+import S_ControlledHeightUL from "../S_ControlledHeightUL";
 import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
 import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
@@ -31,9 +31,9 @@ function PointsDisplay({ points, height }) {
     );
 }
 
-export { PointsDisplay };
-
 //To respect the height of segment display (and improve uniformity)
 const S_li = styled.li`
     height: 28px;
 `;
+
+export default PointsDisplay;

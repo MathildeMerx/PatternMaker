@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useContainerDimensions } from "./useContainerDimensions";
+import useContainerDimensions from "./useContainerDimensions";
 import styled from "styled-components";
-import { pointNames } from "./alphabet";
-import { PrintGrid } from "./PrintGrid";
+import pointNames from "./alphabet";
+import PrintGrid from "./PrintGrid";
 import Header from "./Header/Header";
 import {
     PATTERN_TITLE_MARGIN,
@@ -71,7 +71,11 @@ function AppWorking() {
 
     // This state contains the username and password of the user, while waiting
     // for another better method
-    const [credentials, setCredentials] = useState(false);
+    const [credentials, setCredentials] = useState({
+        username: "",
+        password: "",
+        loggedIn: false,
+    });
 
     return (
         <S_Content>

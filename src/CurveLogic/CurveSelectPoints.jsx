@@ -1,7 +1,7 @@
 import { ExpandMore } from "@mui/icons-material";
-import { useState, useEffect, useRef } from "react";
-import { areArraysEqual } from "./areArraysEqual";
-import { midPoint } from "./midPoint";
+import { useState } from "react";
+import areArraysEqual from "./areArraysEqual";
+import midPoint from "./midPoint";
 import {
     S_DropdownButton,
     S_DropdownContent,
@@ -11,6 +11,7 @@ import {
 import { S_CancelButton, S_ValidateButton } from "../Theme/Button";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import useCloseClickOutside from "../useCloseClickOutside";
 
 //Interface to create a new curve: two dropdown menus, one for each end point
 function CurveSelectPoints({
@@ -121,28 +122,9 @@ function addCurve(
 
 //Dropdown menu to select both end points of a new curve
 function DropdownMenu({ points, newCurve, setNewCurve, index }) {
-    //Referencing the dropdown menu
-    const dropdownRef = useRef();
-
-    //Knowing whether the menu is open or not
-    const [clicked, setClicked] = useState(false);
-
-    //When the menu is down, clicking elsewhere will close it.
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
-                setClicked(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [dropdownRef, setClicked]);
-
+    // Knowing whether the menu is open or not,
+    // to close it when a user clicks outside of it
+    const [[clicked, setClicked], dropdownRef] = useCloseClickOutside();
     return (
         <S_Dropdown ref={dropdownRef} onClick={() => setClicked(!clicked)}>
             {/*When the menu is closed, it'll show the chosen point
@@ -196,4 +178,4 @@ const Submit = styled.div`
     margin-top: 8px;
 `;
 
-export { CurveSelectPoints };
+export default CurveSelectPoints;

@@ -142,4 +142,4 @@ function PrintGrid({
     );
 }
 
-export { PrintGrid };
+export default PrintGrid;

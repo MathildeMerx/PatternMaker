@@ -1,10 +1,11 @@
 import ReactToPrint from "react-to-print";
 import styled from "styled-components";
-import { useRef, useEffect } from "react";
-import { RangeInput } from "../Theme/RangeInput";
-import { S_CommandsDropdown } from "./S_CommandsDropdown";
+import { useRef } from "react";
+import RangeInput from "../Theme/RangeInput";
+import S_CommandsDropdown from "./S_CommandsDropdown";
 import { Print } from "@mui/icons-material";
-import { Button } from "../Theme/Button";
+import Button from "../Theme/Button";
+import { useEffectCloseClickOutside } from "../useCloseClickOutside";
 
 function PrintDropdown({
     printRef,
@@ -13,24 +14,11 @@ function PrintDropdown({
     printMenuOpen,
     setPrintMenuOpen,
 }) {
-    //Creating a dropdown menu, enabling the user to customize the printing
     const printButtonRef = useRef();
 
-    //When the menu is open, if the user clicks elsewhere the menu closes
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                printButtonRef.current &&
-                !printButtonRef.current.contains(event.target)
-            ) {
-                setPrintMenuOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [printButtonRef, setPrintMenuOpen]);
+    // When someone clicks outside of the menu while it's open,
+    // the menu gets closed
+    useEffectCloseClickOutside(printButtonRef, setPrintMenuOpen);
 
     return (
         <S_PrintMenu ref={printButtonRef}>
@@ -57,9 +45,6 @@ function PrintDropdown({
         </S_PrintMenu>
     );
 }
-
-export { PrintDropdown };
-
 const S_Print = styled(Print)`
     cursor: pointer;
 `;
@@ -71,3 +56,5 @@ const S_PrintMenu = styled.span`
 const S_PrintButton = styled(Button)`
     margin-left: auto;
 `;
+
+export default PrintDropdown;

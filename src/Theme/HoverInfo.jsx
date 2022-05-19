@@ -38,4 +38,4 @@ const S_HoverInfoIcon = styled.span`
     }
 `;
 
-export { HoverInfo };
+export default HoverInfo;

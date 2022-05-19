@@ -28,4 +28,5 @@ const S_ValidateButton = styled(Button)`
     color: ${({ theme }) => theme.colours.background};
 `;
 
-export { Button, S_CancelButton, S_ValidateButton };
+export default Button;
+export { S_CancelButton, S_ValidateButton };

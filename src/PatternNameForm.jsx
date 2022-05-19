@@ -1,4 +1,4 @@
-import { Button } from "./Theme/Button";
+import Button from "./Theme/Button";
 import styled from "styled-components";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
@@ -32,8 +32,6 @@ function PatternNameForm({ pieceName, setPieceName }) {
         </S_PatternName>
     );
 }
-
-export { PatternNameForm };
 
 const S_NameForm = styled.form`
     text-align: center;
@@ -73,3 +71,5 @@ const S_EditIcon = styled.span`
         color: ${({ theme }) => theme.colours.bright};
     }
 `;
+
+export default PatternNameForm;

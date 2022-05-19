@@ -25,4 +25,4 @@ function useContainerDimensions() {
     return [dimensions, containerRef];
 }
 
-export { useContainerDimensions };
+export default useContainerDimensions;

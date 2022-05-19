@@ -44,4 +44,4 @@ const RangeInput = styled.input`
     }
 `;
 
-export { RangeInput };
+export default RangeInput;

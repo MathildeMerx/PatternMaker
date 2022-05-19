@@ -1,7 +1,7 @@
 import { useState, useRef, Fragment } from "react";
-import { PatternPoint, deletePoint } from "./PointLogic/PatternPoint";
-import { SegmentPath } from "./SegmentLogic/SegmentPath";
-import { CurvePath } from "./CurveLogic/CurvePath";
+import PatternPoint, { deletePoint } from "./PointLogic/PatternPoint";
+import SegmentPath from "./SegmentLogic/SegmentPath";
+import CurvePath from "./CurveLogic/CurvePath";
 import styled from "styled-components";
 import { useTheme } from "styled-components";
 
@@ -237,4 +237,4 @@ const S_RowIndex = styled.div`
     top: ${(props) => props.top}px;
 `;
 
-export { Grid };
+export default Grid;

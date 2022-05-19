@@ -1,13 +1,7 @@
 import styled from "styled-components";
-import { Grid } from "./Grid";
-import { PatternNameForm } from "./PatternNameForm";
-import {
-    GRID_MARGIN,
-    TITLE_MARGIN,
-    TITLE_HEIGHT,
-    PATTERN_TITLE_HEIGHT,
-    PATTERN_TITLE_MARGIN,
-} from "./Theme/constants";
+import Grid from "./Grid";
+import PatternNameForm from "./PatternNameForm";
+import { GRID_MARGIN, TITLE_MARGIN, TITLE_HEIGHT } from "./Theme/constants";
 
 function DesignContent({
     containerRef,

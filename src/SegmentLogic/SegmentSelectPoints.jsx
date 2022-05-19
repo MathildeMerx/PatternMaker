@@ -1,5 +1,5 @@
 import { ExpandMore } from "@mui/icons-material";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { S_CancelButton, S_ValidateButton } from "../Theme/Button";
 import styled from "styled-components";
 import {
@@ -8,8 +8,9 @@ import {
     S_Dropdown,
     S_DropdownTitle,
 } from "../dropdownStyledComponents";
+import useCloseClickOutside from "../useCloseClickOutside";
 
-//Interface to create a new segment: two dropdown menus, one for each end point
+// Interface to create a new segment: two dropdown menus, one for each end point
 function SegmentSelectPoints({
     points,
     setSegments,
@@ -60,7 +61,7 @@ function SegmentSelectPoints({
     );
 }
 
-//This function is called when the user validates the creation of a segment
+// This function is called when the user validates the creation of a segment
 function addSegment(
     event,
     newSegment,
@@ -71,9 +72,9 @@ function addSegment(
     event.preventDefault();
 
     setSegments((segments) => {
-        //If the new segment is wrong (one point hasn't been filled in,
-        //or both end points are the same, or the segment already exists),
-        //no new segment is added. And a relevant error message is issued
+        // If the new segment is wrong (one point hasn't been filled in,
+        // or both end points are the same, or the segment already exists),
+        // no new segment is added. And a relevant error message is issued
         if (
             segments.some(
                 ([a, b]) =>
@@ -98,29 +99,11 @@ function addSegment(
     setAddingSegment(false);
 }
 
-//Dropdown menu to select both end points of a new segment
+// Dropdown menu to select both end points of a new segment
 function DropdownMenu({ points, newSegment, setNewSegment, index }) {
-    //Referencing the dropdown menu
-    const dropdownRef = useRef();
-
-    //Knowing whether the menu is open or not
-    const [clicked, setClicked] = useState(false);
-
-    //When the menu is down, clicking elsewhere will close it.
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
-                setClicked(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [dropdownRef, setClicked]);
+    // Knowing whether the menu is open or not,
+    // to close it when a user clicks outside of it
+    const [[clicked, setClicked], dropdownRef] = useCloseClickOutside();
 
     return (
         <S_Dropdown ref={dropdownRef} onClick={() => setClicked(!clicked)}>
@@ -148,7 +131,7 @@ function DropdownMenu({ points, newSegment, setNewSegment, index }) {
     );
 }
 
-//All the possible points in the dropdown menu
+// All the possible points in the dropdown menu
 function DropdownItem({ pointName, setNewSegment, index }) {
     return (
         <S_DropdownButton
@@ -160,8 +143,8 @@ function DropdownItem({ pointName, setNewSegment, index }) {
     );
 }
 
-//When clicking on a point in the dropdown menu,
-//it pick an end point for the new segment
+// When clicking on a point in the dropdown menu,
+// it pick an end point for the new segment
 function clickMenu(event, setNewSegment, index) {
     event.preventDefault();
     setNewSegment((newSegment) => {
@@ -175,4 +158,4 @@ const Submit = styled.div`
     margin-top: 8px;
 `;
 
-export { SegmentSelectPoints };
+export default SegmentSelectPoints;

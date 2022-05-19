@@ -26,4 +26,4 @@ const S_ControlledHeightUL = styled.ul`
     }
 `;
 
-export { S_ControlledHeightUL };
+export default S_ControlledHeightUL;

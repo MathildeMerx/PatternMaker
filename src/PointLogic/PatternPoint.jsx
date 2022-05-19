@@ -211,4 +211,5 @@ const S_PointName = styled.div`
     left: ${(props) => props.cellWidth / 5}px;
 `;
 
-export { PatternPoint, deletePoint };
+export default PatternPoint;
+export { deletePoint };

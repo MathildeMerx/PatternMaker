@@ -23,4 +23,4 @@ function SegmentPath({ segment, points, cellWidth, cellHeight }) {
     );
 }
 
-export { SegmentPath };
+export default SegmentPath;

@@ -13,4 +13,4 @@ function areArraysEqual(arr1, arr2) {
     return res;
 }
 
-export { areArraysEqual };
+export default areArraysEqual;

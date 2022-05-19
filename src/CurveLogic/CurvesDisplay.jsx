@@ -1,7 +1,7 @@
 import { DeleteOutlined } from "@mui/icons-material";
-import { CurveAddButton } from "./CurveAddButton";
-import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
-import { S_AlertMessage } from "../S_AlertMessage";
+import CurveAddButton from "./CurveAddButton";
+import S_ControlledHeightUL from "../S_ControlledHeightUL";
+import S_AlertMessage from "../S_AlertMessage";
 import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
 import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
@@ -99,8 +99,6 @@ function CurvesDisplay({
     );
 }
 
-export { CurvesDisplay };
-
 const S_DeleteOutlined = styled(DeleteOutlined)`
     cursor: pointer;
     margin-left: 8px;
@@ -111,3 +109,5 @@ const S_DeleteOutlined = styled(DeleteOutlined)`
         color: ${({ theme }) => theme.colours.negative};
     }
 `;
+
+export default CurvesDisplay;

@@ -1,7 +1,7 @@
 import { DeleteOutlined } from "@mui/icons-material";
-import { SegmentAddButton } from "./SegmentAddButton";
-import { S_ControlledHeightUL } from "../S_ControlledHeightUL";
-import { S_AlertMessage } from "../S_AlertMessage";
+import SegmentAddButton from "./SegmentAddButton";
+import S_ControlledHeightUL from "../S_ControlledHeightUL";
+import S_AlertMessage from "../S_AlertMessage";
 import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
 import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
@@ -88,8 +88,6 @@ function SegmentsDisplay({
     );
 }
 
-export { SegmentsDisplay };
-
 const S_DeleteOutlined = styled(DeleteOutlined)`
     cursor: pointer;
     margin-left: 8px;
@@ -106,3 +104,5 @@ const S_DeleteOutlined = styled(DeleteOutlined)`
 const S_li = styled.li`
     margin-bottom: 3px;
 `;
+
+export default SegmentsDisplay;

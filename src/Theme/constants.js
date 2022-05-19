@@ -9,6 +9,8 @@ const PATTERN_TITLE_HEIGHT = 32;
 const TITLE_MARGIN = 32;
 const TITLE_HEIGHT = 2;
 
+const URL = "https://sewpat.tsango.com/api/patterns/4/drawings/";
+
 export {
     TITLE_MARGIN,
     TITLE_HEIGHT,
@@ -17,4 +19,5 @@ export {
     GRID_MARGIN,
     MIN_WNDOW_HEIGHT,
     MIN_WNDOW_WIDTH,
+    URL,
 };
