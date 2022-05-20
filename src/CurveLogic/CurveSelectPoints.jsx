@@ -1,6 +1,6 @@
 import { ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
-import areArraysEqual from "./areArraysEqual";
+import areCurvesEqual from "./areCurvesEqual";
 import midPoint from "./midPoint";
 import {
     S_DropdownButton,
@@ -86,11 +86,17 @@ function addCurve(
     event.preventDefault();
 
     //That's the default control point: the middle between both end points
-    const futureCurve = [
-        newCurve[0],
-        newCurve[1],
-        ...midPoint(points, newCurve[0], newCurve[1], cellWidth, cellHeight),
-    ];
+    const futureCurve = {
+        startPoint: newCurve[0],
+        endPoint: newCurve[1],
+        controlPoint: midPoint(
+            points,
+            newCurve[0],
+            newCurve[1],
+            cellWidth,
+            cellHeight
+        ),
+    };
 
     setCurves((prevCurves) => {
         //If the new curve is wrong (one point hasn't been filled in,
@@ -98,17 +104,20 @@ function addCurve(
         //no new curve is added. And a relevant error message is issued
         if (
             Object.values(prevCurves).some(
-                ([start, end, ...rest]) =>
-                    areArraysEqual([start, end, ...rest], futureCurve) ||
-                    areArraysEqual([end, start, ...rest], futureCurve)
+                (existingCurve) =>
+                    areCurvesEqual(existingCurve, futureCurve) ||
+                    areCurvesEqual(existingCurve, futureCurve)
             )
         ) {
             setAlertMessage({ alertType: "existingCurve" });
             return prevCurves;
-        } else if (futureCurve[0] === null || futureCurve[1] === null) {
+        } else if (
+            futureCurve.startPoint === null ||
+            futureCurve.endPoint === null
+        ) {
             setAlertMessage({ alertType: "nullCurve" });
             return prevCurves;
-        } else if (futureCurve[0] === futureCurve[1]) {
+        } else if (futureCurve.startPoint === futureCurve.endPoint) {
             setAlertMessage({ alertType: "uniquePointCurve" });
             return prevCurves;
         } else {

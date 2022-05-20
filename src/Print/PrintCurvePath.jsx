@@ -1,12 +1,9 @@
 function PrintCurvePath({ curveData, points }) {
-    const startPoint = curveData[0];
-    const endPoint = curveData[1];
-    const controlX = curveData[2];
-    const controlY = curveData[3];
+    const { startPoint, endPoint, controlPoint } = curveData;
     return (
         <path
             d={`M ${points[startPoint][0]} ${points[startPoint][1]} 
-              Q ${controlX} ${controlY} 
+              Q ${controlPoint[0]} ${controlPoint[1]} 
                 ${points[endPoint][0]} 
                 ${points[endPoint][1]}`}
             fill="none"

@@ -44,10 +44,10 @@ function CurvesDisplay({
                     {Object.entries(curves).map(([index, curv]) => {
                         return (
                             <li key={index}>
-                                {`[${curv[0]}, ${curv[1]}]`}
-                                <sub>{`(${curv[2].toFixed(
+                                {`[${curv.startPoint}, ${curv.endPoint}]`}
+                                <sub>{`(${curv.controlPoint[0].toFixed(
                                     1
-                                )}, ${curv[3].toFixed(1)})`}</sub>
+                                )}, ${curv.controlPoint[1].toFixed(1)})`}</sub>
                                 <S_DeleteOutlined
                                     onClick={() =>
                                         clickDeleteCurve(index, setCurves)

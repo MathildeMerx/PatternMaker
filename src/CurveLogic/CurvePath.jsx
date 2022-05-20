@@ -28,7 +28,7 @@ function CurvePath({
     const [isDragging, setIsDragging] = useState(false);
 
     //These 3 points determining the shape of the curve
-    const [startPoint, endPoint, ...controlPoint] = curve;
+    const { startPoint, endPoint, controlPoint } = curve;
 
     //The abscissa and ordinate of the 3 points above
     const startAbscissa = points[startPoint][0] * cellWidth;
@@ -66,11 +66,8 @@ function CurvePath({
     //the state representing the curves is updated
     useEffect(() => {
         setCurves((curves) => {
-            const currentCurve = curves[curveIndex];
             let curvesCopy = JSON.parse(JSON.stringify(curves));
-            curvesCopy[curveIndex] = [
-                currentCurve[0],
-                currentCurve[1],
+            curvesCopy[curveIndex].controlPoint = [
                 controlAbscissa,
                 controlOrdinate,
             ];

@@ -17,7 +17,10 @@ function PointBelongsSegment(segments, pointName, setAlertMessage) {
 function PointBelongsCurve(curves, pointName, setAlertMessage) {
     // Checking whether this point belongs to a curve
     for (let curv in curves) {
-        if (curves[curv][0] === pointName || curves[curv][1] === pointName) {
+        if (
+            curves[curv].startPoint === pointName ||
+            curves[curv].endPoint === pointName
+        ) {
             // If the point belongs to a curve,
             // the point is not deleted and an alert message is generated
             setAlertMessage({
