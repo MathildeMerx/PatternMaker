@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import styled from "styled-components";
+import useMousePositionGrid from "../useMousePositionGrid";
 
 //Implementation of the curve in the SVG (grid)
 function CurvePath({
@@ -38,29 +39,27 @@ function CurvePath({
     const [controlAbscissa, setControlAbscissa] = useState(controlPoint[0]);
     const [controlOrdinate, setControlOrdinate] = useState(controlPoint[1]);
 
+    const onDragControlPoint = useCallback(() => {
+        //It'll give the postion of of grid on screen, to determine
+        //the exact position of the mouse
+        const draggingInfo = SVGRef.current.getBoundingClientRect();
+        setControlAbscissa(
+            (mousePositionRef.current[0] - draggingInfo.left) / cellWidth
+        );
+        setControlOrdinate(
+            (mousePositionRef.current[1] - draggingInfo.top) / cellHeight
+        );
+    }, [
+        SVGRef,
+        setControlAbscissa,
+        setControlOrdinate,
+        mousePositionRef,
+        cellHeight,
+        cellWidth,
+    ]);
+
     //Every 20ms, the position of the mouse in the grid is updated.
-    useEffect(() => {
-        const interval = setInterval(() => {
-            //It'll give the postion of of grid on screen, to determine
-            //the exact position of the mouse
-            const draggingInfo = SVGRef.current.getBoundingClientRect();
-
-            //If the user is dragging a control point,
-            //the state is updated with its new position
-            if (isDragging) {
-                setControlAbscissa(
-                    (mousePositionRef.current[0] - draggingInfo.left) /
-                        cellWidth
-                );
-                setControlOrdinate(
-                    (mousePositionRef.current[1] - draggingInfo.top) /
-                        cellHeight
-                );
-            }
-        }, 20);
-
-        return () => clearInterval(interval);
-    }, [isDragging, mousePositionRef, cellWidth, cellHeight, SVGRef]);
+    useMousePositionGrid(isDragging, onDragControlPoint);
 
     //When the abscissa and ordinate of the control point change,
     //the state representing the curves is updated

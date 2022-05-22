@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
+import useMousePositionGrid from "../useMousePositionGrid";
 
 // This component renders a pattern point in the SVG grid
 function PatternPoint({
@@ -14,23 +15,20 @@ function PatternPoint({
     onClick,
     setDeletingButton,
 }) {
-    const mousePositionToCoordinate = useCallback(
-        (mousePosition, horizontalBoolean) => {
-            // The localisation of the grid on screen is obtained with this
-            // (so as to determine the exact mouse location)
-            const draggingInfo = SVGRef.current.getBoundingClientRect();
-            return parseFloat(
-                (
-                    (mousePosition -
-                        (horizontalBoolean
-                            ? draggingInfo.left
-                            : draggingInfo.top)) /
-                    (horizontalBoolean ? cellWidth : cellHeight)
-                ).toFixed(1)
-            );
-        },
-        [SVGRef, cellHeight, cellWidth]
-    );
+    function mousePositionToCoordinate(mousePosition, horizontalBoolean) {
+        // The localisation of the grid on screen is obtained with this
+        // (so as to determine the exact mouse location)
+        const draggingInfo = SVGRef.current.getBoundingClientRect();
+        return parseFloat(
+            (
+                (mousePosition -
+                    (horizontalBoolean
+                        ? draggingInfo.left
+                        : draggingInfo.top)) /
+                (horizontalBoolean ? cellWidth : cellHeight)
+            ).toFixed(1)
+        );
+    }
 
     // onMouseDown will set this state to true
     let [isDragging, setIsDragging] = useState(false);
@@ -39,35 +37,17 @@ function PatternPoint({
     // is the same onMouseUp, then the point is deleted.
     let [mousePosition, setMousePosition] = useState([0, 0]);
 
-    // When dragging, the position of the point being dragged is
-    // updated every 20ms.
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (isDragging) {
-                setPoints((points) => ({
-                    ...points,
-                    [pointName]: [
-                        mousePositionToCoordinate(
-                            mousePositionRef.current[0],
-                            true
-                        ),
-                        mousePositionToCoordinate(
-                            mousePositionRef.current[1],
-                            false
-                        ),
-                    ],
-                }));
-            }
-        }, 20);
+    const onDragUpdatePoint = useCallback(() => {
+        setPoints((points) => ({
+            ...points,
+            [pointName]: [
+                mousePositionToCoordinate(mousePositionRef.current[0], true),
+                mousePositionToCoordinate(mousePositionRef.current[1], false),
+            ],
+        }));
+    }, [setPoints, pointName, mousePositionToCoordinate, mousePositionRef]);
 
-        return () => clearInterval(interval);
-    }, [
-        isDragging,
-        mousePositionRef,
-        setPoints,
-        pointName,
-        mousePositionToCoordinate,
-    ]);
+    useMousePositionGrid(isDragging, onDragUpdatePoint);
 
     return (
         <S_PatternPoint
