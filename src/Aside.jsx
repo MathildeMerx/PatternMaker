@@ -1,7 +1,7 @@
-import { CurvesDisplay } from "./CurveLogic/CurvesDisplay";
-import { NumCellsInput } from "./NumCellsInput";
-import { PointsDisplay } from "./PointLogic/PointsDisplay";
-import { SegmentsDisplay } from "./SegmentLogic/SegmentsDisplay";
+import CurvesDisplay from "./CurveLogic/CurvesDisplay";
+import NumCellsInput from "./NumCellsInput";
+import PointsDisplay from "./PointLogic/PointsDisplay";
+import SegmentsDisplay from "./SegmentLogic/SegmentsDisplay";
 import styled from "styled-components";
 
 function Aside({

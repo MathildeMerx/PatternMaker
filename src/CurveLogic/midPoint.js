@@ -14,4 +14,4 @@ function midPoint(points, firstPoint, secondPoint) {
     return [midAbscissa, midOrdinate];
 }
 
-export { midPoint };
+export default midPoint;

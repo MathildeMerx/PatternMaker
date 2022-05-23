@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useContainerDimensions } from "./useContainerDimensions";
+import useContainerDimensions from "./useContainerDimensions";
 import styled from "styled-components";
-import { pointNames } from "./alphabet";
-import { PrintGrid } from "./PrintGrid";
+import pointNames from "./alphabet";
+import PrintGrid from "./Print/PrintGrid";
 import Header from "./Header/Header";
 import {
     PATTERN_TITLE_MARGIN,
@@ -46,12 +46,12 @@ function AppWorking() {
 
     // When a user makes a construction error, this state will contain
     // the error message
-    const [alertMessage, setAlertMessage] = useState(null);
+    const [alertMessage, setAlertMessage] = useState({ alertType: "" });
 
     // This useEffect erases said error message after 5 sec
     useEffect(() => {
         const alertTimer = setTimeout(() => {
-            setAlertMessage(null);
+            setAlertMessage({ alertType: "" });
         }, 5000);
 
         return () => clearTimeout(alertTimer);
@@ -71,7 +71,11 @@ function AppWorking() {
 
     // This state contains the username and password of the user, while waiting
     // for another better method
-    const [credentials, setCredentials] = useState(false);
+    const [credentials, setCredentials] = useState({
+        username: "",
+        password: "",
+        loggedIn: false,
+    });
 
     return (
         <S_Content>

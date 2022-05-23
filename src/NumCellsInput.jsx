@@ -1,5 +1,5 @@
-import { RangeInput } from "./Theme/RangeInput";
-import { HoverInfo } from "./Theme/HoverInfo";
+import RangeInput from "./Theme/RangeInput";
+import HoverInfo from "./Theme/HoverInfo";
 
 //To let the user decide how many cells are visible on screen
 function NumCellsInput({ numColumns, setNumColumns, numRows, setNumRows }) {
@@ -35,4 +35,4 @@ function NumCellsInput({ numColumns, setNumColumns, numRows, setNumRows }) {
     );
 }
 
-export { NumCellsInput };
+export default NumCellsInput;

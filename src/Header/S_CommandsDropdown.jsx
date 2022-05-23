@@ -15,4 +15,4 @@ const S_CommandsDropdown = styled.div`
     z-index: 1;
 `;
 
-export { S_CommandsDropdown };
+export default S_CommandsDropdown;

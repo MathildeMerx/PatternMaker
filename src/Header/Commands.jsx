@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { Logout } from "@mui/icons-material";
-import { SaveIcon } from "./SaveIcon";
-import { RetrieveIcon } from "./RetrieveIcon";
-import { LogIn } from "./LogIn";
-import { PrintDropdown } from "./PrintDropdown";
+import SaveIcon from "./SaveIcon";
+import RetrieveIcon from "./RetrieveIcon";
+import LogIn from "./LogIn";
+import PrintDropdown from "./PrintDropdown";
 
 function Commands({
     credentials,
@@ -26,10 +26,18 @@ function Commands({
     return (
         <S_Commands>
             {/* If the user is connected, we want to see a log out, save and retrieve icons. Else, only a log in icon. */}
-            {credentials ? (
+            {credentials.loggedIn ? (
                 <>
                     <div>
-                        <S_Logout onClick={() => setCredentials(false)} />
+                        <S_Logout
+                            onClick={() =>
+                                setCredentials({
+                                    username: "",
+                                    password: "",
+                                    loggedIn: false,
+                                })
+                            }
+                        />
                         Log out
                     </div>
 

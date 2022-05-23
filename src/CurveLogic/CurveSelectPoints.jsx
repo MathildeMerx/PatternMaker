@@ -1,7 +1,7 @@
 import { ExpandMore } from "@mui/icons-material";
-import { useState, useEffect, useRef } from "react";
-import { areArraysEqual } from "./areArraysEqual";
-import { midPoint } from "./midPoint";
+import { useState } from "react";
+import areCurvesEqual from "./areCurvesEqual";
+import midPoint from "./midPoint";
 import {
     S_DropdownButton,
     S_DropdownContent,
@@ -11,6 +11,7 @@ import {
 import { S_CancelButton, S_ValidateButton } from "../Theme/Button";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import useCloseClickOutside from "../useCloseClickOutside";
 
 //Interface to create a new curve: two dropdown menus, one for each end point
 function CurveSelectPoints({
@@ -41,7 +42,7 @@ function CurveSelectPoints({
                 />
             </div>
 
-            <Submit>
+            <S_Submit>
                 <S_CancelButton
                     onClick={(event) => {
                         event.preventDefault();
@@ -67,7 +68,7 @@ function CurveSelectPoints({
                 >
                     Validate
                 </S_ValidateButton>
-            </Submit>
+            </S_Submit>
         </>
     );
 }
@@ -85,35 +86,42 @@ function addCurve(
     event.preventDefault();
 
     //That's the default control point: the middle between both end points
-    const futureCurve = [
-        newCurve[0],
-        newCurve[1],
-        ...midPoint(points, newCurve[0], newCurve[1], cellWidth, cellHeight),
-    ];
+    const futureCurve = {
+        startPoint: newCurve[0],
+        endPoint: newCurve[1],
+        controlPoint: midPoint(
+            points,
+            newCurve[0],
+            newCurve[1],
+            cellWidth,
+            cellHeight
+        ),
+    };
 
-    setCurves((curves) => {
+    setCurves((prevCurves) => {
         //If the new curve is wrong (one point hasn't been filled in,
         //or both end points are the same, or the curve already exists),
         //no new curve is added. And a relevant error message is issued
         if (
-            Object.values(curves).some(
-                ([start, end, ...rest]) =>
-                    areArraysEqual([start, end, ...rest], futureCurve) ||
-                    areArraysEqual([end, start, ...rest], futureCurve)
+            Object.values(prevCurves).some(
+                (existingCurve) =>
+                    areCurvesEqual(existingCurve, futureCurve) ||
+                    areCurvesEqual(existingCurve, futureCurve)
             )
         ) {
-            setAlertMessage(["existingCurve", futureCurve]);
-            return curves;
-        } else if (futureCurve[0] === null || futureCurve[1] === null) {
-            setAlertMessage(["nullCurve", futureCurve]);
-            return curves;
-        } else if (futureCurve[0] === futureCurve[1]) {
-            setAlertMessage(["uniqueCurve", futureCurve]);
-            return curves;
+            setAlertMessage({ alertType: "existingCurve" });
+            return prevCurves;
+        } else if (
+            futureCurve.startPoint === null ||
+            futureCurve.endPoint === null
+        ) {
+            setAlertMessage({ alertType: "nullCurve" });
+            return prevCurves;
+        } else if (futureCurve.startPoint === futureCurve.endPoint) {
+            setAlertMessage({ alertType: "uniquePointCurve" });
+            return prevCurves;
         } else {
-            let curvesCopy = JSON.parse(JSON.stringify(curves));
-            curvesCopy[uuidv4()] = futureCurve;
-            return curvesCopy;
+            return { ...prevCurves, [uuidv4()]: futureCurve };
         }
     });
     setAddingCurve(false);
@@ -121,28 +129,9 @@ function addCurve(
 
 //Dropdown menu to select both end points of a new curve
 function DropdownMenu({ points, newCurve, setNewCurve, index }) {
-    //Referencing the dropdown menu
-    const dropdownRef = useRef();
-
-    //Knowing whether the menu is open or not
-    const [clicked, setClicked] = useState(false);
-
-    //When the menu is down, clicking elsewhere will close it.
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
-                setClicked(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [dropdownRef, setClicked]);
-
+    // Knowing whether the menu is open or not,
+    // to close it when a user clicks outside of it
+    const [[clicked, setClicked], dropdownRef] = useCloseClickOutside();
     return (
         <S_Dropdown ref={dropdownRef} onClick={() => setClicked(!clicked)}>
             {/*When the menu is closed, it'll show the chosen point
@@ -192,8 +181,8 @@ function clickMenu(event, setNewCurve, index) {
     });
 }
 
-const Submit = styled.div`
+const S_Submit = styled.div`
     margin-top: 8px;
 `;
 
-export { CurveSelectPoints };
+export default CurveSelectPoints;

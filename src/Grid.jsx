@@ -1,9 +1,15 @@
-import { useState, useRef, Fragment } from "react";
-import { PatternPoint, deletePoint } from "./PointLogic/PatternPoint";
-import { SegmentPath } from "./SegmentLogic/SegmentPath";
-import { CurvePath } from "./CurveLogic/CurvePath";
+import { useRef, useState } from "react";
+import PatternPoint from "./PointLogic/PatternPoint";
+import SegmentPath from "./SegmentLogic/SegmentPath";
+import CurvePath from "./CurveLogic/CurvePath";
 import styled from "styled-components";
-import { useTheme } from "styled-components";
+import Column from "./Column";
+import Row from "./Row";
+import NoPointText from "./NoPointText";
+import {
+    PointBelongsCurve,
+    PointBelongsSegment,
+} from "./PointLogic/pointBelongsGeo";
 
 //This grid will: 1) show on-screen the pattern the user is drafting;
 //2) enable the user to modify parts of it (curves and points)
@@ -21,9 +27,6 @@ function Grid({
     setCurves,
     setAlertMessage,
 }) {
-    //This theme will be used for the colors of the SVG points
-    const theme = useTheme();
-
     //Ref for the drag'n'drop (specifies where the grid is positioned on screen)
     const SVGRef = useRef();
 
@@ -35,44 +38,92 @@ function Grid({
     const width = numColumns * cellWidth;
     const height = numRows * cellHeight;
 
-    //State specifying if someone is trying to delete a button belonging to a
-    //segment / curve (and forbid it)
-    const [deleteButton, setDeleteButton] = useState(false);
-
     //The position of the mouse is used for drag'n'drops
     const mousePositionRef = useRef([0, 0]);
+
+    function mousePositionToCoordinate(
+        mousePosition,
+        parentPosition,
+        cellDimension
+    ) {
+        return parseFloat(
+            ((mousePosition - parentPosition) / cellDimension).toFixed(1)
+        );
+    }
+
+    // When onMouseUp the button is at the same place as it was onMouseDown,
+    // it means the user wants to delete it. `deletingButton` then becomes true.
+    const [deletingButton, setDeletingButton] = useState(false);
+
+    function onClickPoint(pointName) {
+        // When onMouseUp the button is at the same place as it was onMouseDown,
+        // it means the user wants to delete it. `deletingButton` then becomes true.
+        // Before deleting a point, we check whether it belongs to a segment / curve
+        if (deletingButton) {
+            const pointInSegment = PointBelongsSegment(
+                segments,
+                pointName,
+                setAlertMessage
+            );
+            const pointInCurve = PointBelongsCurve(
+                curves,
+                pointName,
+                setAlertMessage
+            );
+
+            if (!pointInSegment && !pointInCurve) {
+                // If the point doesn't belong to anything, it is deleted
+                setPoints((points) => {
+                    const { [pointName]: val, ...rest } = points;
+                    return rest;
+                });
+
+                // The name of the point deleted is returned to available point names
+                setPossiblePointNames((possiblePointNames) => {
+                    return [...possiblePointNames, pointName].sort();
+                });
+            }
+            setDeletingButton(false);
+        }
+    }
+
+    function createNewPoint(event) {
+        let pointName = possiblePointNames[0];
+        setPoints((points) => ({
+            ...points,
+            [pointName]: [
+                mousePositionToCoordinate(
+                    event.clientX,
+                    event.target.getBoundingClientRect().left,
+                    cellWidth
+                ),
+                mousePositionToCoordinate(
+                    event.clientY,
+                    event.target.getBoundingClientRect().top,
+                    cellHeight
+                ),
+            ],
+        }));
+        setPossiblePointNames((possiblePointNames) =>
+            possiblePointNames.slice(1)
+        );
+    }
 
     return (
         <S_DesignGrid width={width} height={height}>
             {/* These are the vertical lines of the grid. Each line in 5 has a legend */}
             {arrWidth.map((line) => (
-                <Fragment key={`colFrag${line}`}>
-                    <S_Column key={`col${line}`} left={line * cellWidth} />
-                    {line % 5 === 0 ? (
-                        <S_ColumnIndex
-                            key={`col${line}index`}
-                            left={line * cellWidth + (line === 5 ? 4 : 0)}
-                        >
-                            {line}
-                        </S_ColumnIndex>
-                    ) : null}
-                </Fragment>
+                <Column key={`col${line}`} line={line} cellWidth={cellWidth} />
             ))}
 
             {/* These are the horizontal lines of the grid. Each line in 5 has a legend */}
             {arrHeight.map((line) => (
-                <Fragment key={`rowFrag${line}`}>
-                    <S_Row key={`row${line}`} top={line * cellHeight} />
-                    {line % 5 === 0 ? (
-                        <S_RowIndex
-                            key={`row${line}index`}
-                            right={width}
-                            top={line * cellHeight}
-                        >
-                            {line}
-                        </S_RowIndex>
-                    ) : null}
-                </Fragment>
+                <Row
+                    key={`row${line}`}
+                    line={line}
+                    cellHeight={cellHeight}
+                    width={width}
+                />
             ))}
 
             {/*SVG of all the geometrical shapes of the pattern */}
@@ -86,47 +137,12 @@ function Grid({
                 onMouseMove={(event) =>
                     (mousePositionRef.current = [event.clientX, event.clientY])
                 }
-                onClick={(event) => {
-                    let pointName = possiblePointNames[0];
-                    setPoints((points) => ({
-                        ...points,
-                        [pointName]: [
-                            parseFloat(
-                                (
-                                    (event.clientX -
-                                        event.target.getBoundingClientRect()
-                                            .left) /
-                                    cellWidth
-                                ).toFixed(1)
-                            ),
-
-                            parseFloat(
-                                (
-                                    (event.clientY -
-                                        event.target.getBoundingClientRect()
-                                            .top) /
-                                    cellHeight
-                                ).toFixed(1)
-                            ),
-                        ],
-                    }));
-                    setPossiblePointNames((possiblePointNames) =>
-                        possiblePointNames.slice(1)
-                    );
-                }}
+                onClick={(event) => createNewPoint(event)}
             >
                 {/* If there are no points tell the user they can
                 click on the grid to create points */}
                 {Object.keys(points).length === 0 ? (
-                    <text
-                        x={`${width / 20}`}
-                        y={`${height / 3}`}
-                        textLength={`${width * 0.9}`}
-                        fontSize={`${width / 20}`}
-                        fill={theme.colours.bright}
-                    >
-                        Click on this grid to create a point!
-                    </text>
+                    <NoPointText width={width} height={height} />
                 ) : null}
 
                 {/* Here all the segments are rendered in the grid */}
@@ -171,20 +187,9 @@ function Grid({
                             SVGRef={SVGRef}
                             key={pointName}
                             setPoints={setPoints}
-                            setDeleteButton={setDeleteButton}
                             mousePositionRef={mousePositionRef}
-                            onClick={() => {
-                                deletePoint(
-                                    pointName,
-                                    setPoints,
-                                    setPossiblePointNames,
-                                    segments,
-                                    curves,
-                                    setAlertMessage,
-                                    deleteButton,
-                                    setDeleteButton
-                                );
-                            }}
+                            onClick={() => onClickPoint(pointName)}
+                            setDeletingButton={setDeletingButton}
                         />
                     );
                 }
@@ -192,24 +197,6 @@ function Grid({
         </S_DesignGrid>
     );
 }
-
-const S_Column = styled.div`
-    background-color: ${({ theme }) => theme.colours.backgroundLight};
-    height: 100%;
-    left: ${(props) => props.left}px;
-    position: absolute;
-    top: 0;
-    width: 1px;
-    z-index: -1;
-`;
-
-const S_ColumnIndex = styled.div`
-    color: ${({ theme }) => theme.colours.contrast};
-    font-size: 0.8em;
-    left: ${(props) => props.left - 6}px;
-    position: absolute;
-    top: -8px;
-`;
 
 const S_DesignGrid = styled.div`
     cursor: pointer;
@@ -219,22 +206,4 @@ const S_DesignGrid = styled.div`
     width: ${(props) => props.width}px;
 `;
 
-const S_Row = styled.div`
-    background-color: ${({ theme }) => theme.colours.backgroundLight};
-    height: 1px;
-    left: 0;
-    position: absolute;
-    top: ${(props) => props.top}px;
-    width: 100%;
-    z-index: -1;
-`;
-
-const S_RowIndex = styled.div`
-    color: ${({ theme }) => theme.colours.contrast};
-    font-size: 0.8em;
-    position: absolute;
-    right: ${(props) => props.right + 4}px;
-    top: ${(props) => props.top}px;
-`;
-
-export { Grid };
+export default Grid;

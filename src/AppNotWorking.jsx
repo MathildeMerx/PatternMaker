@@ -21,8 +21,6 @@ function AppNotWorking({ width, height }) {
     );
 }
 
-export default AppNotWorking;
-
 const S_NoAppContent = styled.div`
     background-color: ${({ theme }) => theme.colours.background};
     height: 100vh;
@@ -39,3 +37,5 @@ const S_NotWorkingSubtitle = styled.h2`
     color: ${({ theme }) => theme.colours.contrast};
     padding-left: 32px;
 `;
+
+export default AppNotWorking;

@@ -1,10 +1,11 @@
-import { availablePointNames } from "./availablePointNames";
-import { retrieve } from "./retrieve";
+import availablePointNames from "./availablePointNames";
 import { FileDownload } from "@mui/icons-material";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { URL } from "../Theme/constants";
+import fetchHeader from "./fetchHeader";
+import useAPICallAlert from "./useAPICallAlert";
 
-//Icon to retrieve the latest pattern from the database
+// Icon to retrieve the latest pattern from the database
 function RetrieveIcon({
     setPoints,
     setSegments,
@@ -13,37 +14,54 @@ function RetrieveIcon({
     setPieceName,
     credentials,
 }) {
-    //This alert will contain a message specifying whether the retrieve worked or not
-    const [retrieveAlert, setRetrieveAlert] = useState(false);
+    // Function to retrieve the latest saved pattern
+    function retrieve() {
+        // Creating a header for the GET call, in `retrieving` mode
+        let headers = fetchHeader(credentials, "retrieving");
 
-    //After 3 seconds, the alert message will be deleted
-    useEffect(() => {
-        const alertTimer = setTimeout(() => {
-            setRetrieveAlert(false);
-        }, 3000);
+        fetch(URL, { method: "GET", headers: headers })
+            .then((response) => {
+                return response.json();
+            })
+            // When wrong credentials are given, the json object has a detail key
+            .then((json) => {
+                if (json.detail) {
+                    setRetrieveAlert(
+                        "Warning: retrieve failed - wrong credentials."
+                    );
+                } else {
+                    // Function affecting data to the right variables - see below
+                    onRetrieveSuccess(json);
+                }
+            })
+            // If there is an error, an alert message will be displayed
+            .catch((error) => console.log(error));
+    }
 
-        return () => clearTimeout(alertTimer);
-    }, [setRetrieveAlert, retrieveAlert]);
+    // This alert will contain a message specifying whether the retrieve worked or not
+    const [retrieveAlert, setRetrieveAlert] = useAPICallAlert();
+
+    // When retrieving succeeded, the data obtained are affected to the relevant states
     function onRetrieveSuccess(retrievedData) {
-        //If the call is successful, we retrieve the latest save
+        // First we retrieve the latest save(that's the one with the highest ID)
         const data = retrievedData.slice(0).sort(function (x, y) {
             return y.id - x.id;
         })["0"];
 
-        //The right data is assigned to the right variables
+        // The right data is assigned to the right variables
         setPoints(JSON.parse(JSON.stringify(data["points"])));
         setSegments(JSON.parse(JSON.stringify(data["segments"])) ?? []);
         setCurves(JSON.parse(JSON.stringify(data["curves"])) ?? {});
 
-        //We deduce the available point names based on the existing points
+        // We deduce the available point names based on the existing points
         setPossiblePointNames(
             availablePointNames(JSON.parse(JSON.stringify(data["points"])))
         );
 
-        //We retrieve the name of the pattern
+        // We retrieve the name of the pattern
         setPieceName(JSON.parse(JSON.stringify(data["description"])));
 
-        //We specify the retrieving worked
+        // We specify the retrieving worked
         setRetrieveAlert(
             `"${JSON.parse(
                 JSON.stringify(data["description"])
@@ -66,8 +84,6 @@ function RetrieveIcon({
     );
 }
 
-export { RetrieveIcon };
-
 const S_RetrieveAlert = styled.div`
     background-color: ${({ theme }) => theme.colours.background};
     border: solid 1px ${({ theme }) => theme.colours.contrast};
@@ -86,3 +102,5 @@ const S_RetrieveIcon = styled.div`
 const S_FileDownload = styled(FileDownload)`
     cursor: pointer;
 `;
+
+export default RetrieveIcon;

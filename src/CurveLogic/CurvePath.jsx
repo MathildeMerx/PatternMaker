@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import styled from "styled-components";
+import useMousePositionGrid from "../useMousePositionGrid";
 
 //Implementation of the curve in the SVG (grid)
 function CurvePath({
@@ -28,60 +29,44 @@ function CurvePath({
     const [isDragging, setIsDragging] = useState(false);
 
     //These 3 points determining the shape of the curve
-    const [startPoint, endPoint, ...controlPoint] = curve;
+    const { startPoint, endPoint, controlPoint } = curve;
 
     //The abscissa and ordinate of the 3 points above
     const startAbscissa = points[startPoint][0] * cellWidth;
     const startOrdinate = points[startPoint][1] * cellHeight;
     const endAbscissa = points[endPoint][0] * cellWidth;
     const endOrdinate = points[endPoint][1] * cellHeight;
-    const [controlAbscissa, setControlAbscissa] = useState(
-        () => controlPoint[0]
-    );
-    const [controlOrdinate, setControlOrdinate] = useState(
-        () => controlPoint[1]
-    );
+    const [controlAbscissa, setControlAbscissa] = useState(controlPoint[0]);
+    const [controlOrdinate, setControlOrdinate] = useState(controlPoint[1]);
 
-    //It'll give the postion of of grid on screen, to determine
-    //the exact position of the mouse
-    const draggingInfo = SVGRef.current.getBoundingClientRect();
+    const onDragControlPoint = useCallback(() => {
+        //It'll give the postion of of grid on screen, to determine
+        //the exact position of the mouse
+        const draggingInfo = SVGRef.current.getBoundingClientRect();
+        setControlAbscissa(
+            (mousePositionRef.current[0] - draggingInfo.left) / cellWidth
+        );
+        setControlOrdinate(
+            (mousePositionRef.current[1] - draggingInfo.top) / cellHeight
+        );
+    }, [
+        SVGRef,
+        setControlAbscissa,
+        setControlOrdinate,
+        mousePositionRef,
+        cellHeight,
+        cellWidth,
+    ]);
 
     //Every 20ms, the position of the mouse in the grid is updated.
-    useEffect(() => {
-        const interval = setInterval(() => {
-            //If the user is dragging a control point,
-            //the state is updated with its new position
-            if (isDragging) {
-                setControlAbscissa(
-                    (mousePositionRef.current[0] - draggingInfo.left) /
-                        cellWidth
-                );
-                setControlOrdinate(
-                    (mousePositionRef.current[1] - draggingInfo.top) /
-                        cellHeight
-                );
-            }
-        }, 20);
-
-        return () => clearInterval(interval);
-    }, [
-        isDragging,
-        mousePositionRef,
-        cellWidth,
-        cellHeight,
-        draggingInfo.left,
-        draggingInfo.top,
-    ]);
+    useMousePositionGrid(isDragging, onDragControlPoint);
 
     //When the abscissa and ordinate of the control point change,
     //the state representing the curves is updated
     useEffect(() => {
         setCurves((curves) => {
-            const currentCurve = curves[curveIndex];
             let curvesCopy = JSON.parse(JSON.stringify(curves));
-            curvesCopy[curveIndex] = [
-                currentCurve[0],
-                currentCurve[1],
+            curvesCopy[curveIndex].controlPoint = [
                 controlAbscissa,
                 controlOrdinate,
             ];
@@ -151,8 +136,8 @@ function CurvePath({
     );
 }
 
-export { CurvePath };
-
 const S_PathPointer = styled.path`
     cursor: pointer;
 `;
+
+export default CurvePath;

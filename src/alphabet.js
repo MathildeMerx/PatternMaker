@@ -4,4 +4,4 @@ const indexes = [...Array(26).keys()];
 //pattern, I'll probably add more in the future to be safe
 const pointNames = indexes.map((x) => String.fromCharCode(65 + x));
 
-export { pointNames };
+export default pointNames;
