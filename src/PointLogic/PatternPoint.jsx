@@ -15,20 +15,23 @@ function PatternPoint({
     onClick,
     setDeletingButton,
 }) {
-    function mousePositionToCoordinate(mousePosition, horizontalBoolean) {
-        // The localisation of the grid on screen is obtained with this
-        // (so as to determine the exact mouse location)
-        const draggingInfo = SVGRef.current.getBoundingClientRect();
-        return parseFloat(
-            (
-                (mousePosition -
-                    (horizontalBoolean
-                        ? draggingInfo.left
-                        : draggingInfo.top)) /
-                (horizontalBoolean ? cellWidth : cellHeight)
-            ).toFixed(1)
-        );
-    }
+    const mousePositionToCoordinate = useCallback(
+        (mousePosition, horizontalBoolean) => {
+            // The localisation of the grid on screen is obtained with this
+            // (so as to determine the exact mouse location)
+            const draggingInfo = SVGRef.current.getBoundingClientRect();
+            return parseFloat(
+                (
+                    (mousePosition -
+                        (horizontalBoolean
+                            ? draggingInfo.left
+                            : draggingInfo.top)) /
+                    (horizontalBoolean ? cellWidth : cellHeight)
+                ).toFixed(1)
+            );
+        },
+        [SVGRef, cellHeight, cellWidth]
+    );
 
     // onMouseDown will set this state to true
     let [isDragging, setIsDragging] = useState(false);
