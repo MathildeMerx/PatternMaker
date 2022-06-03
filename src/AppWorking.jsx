@@ -11,6 +11,7 @@ import {
 } from "./Theme/constants";
 import Aside from "./Aside";
 import DesignContent from "./DesignContent";
+import useLocalStorage from "./useLocalStorage";
 
 function AppWorking() {
     //  Custom hook to determine the space available for the grid
@@ -37,9 +38,9 @@ function AppWorking() {
 
     // These states will contain the points, segments and curves necessary to draw
     // the pattern
-    const [points, setPoints] = useState({});
-    const [segments, setSegments] = useState([]);
-    const [curves, setCurves] = useState({});
+    const [points, setPoints] = useLocalStorage("points", {});
+    const [segments, setSegments] = useLocalStorage("segments", []);
+    const [curves, setCurves] = useLocalStorage("curves", {});
 
     // A list of available point names
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
@@ -71,7 +72,7 @@ function AppWorking() {
 
     // This state contains the username and password of the user, while waiting
     // for another better method
-    const [credentials, setCredentials] = useState({
+    const [credentials, setCredentials] = useLocalStorage("credentials", {
         username: "",
         password: "",
         loggedIn: false,
