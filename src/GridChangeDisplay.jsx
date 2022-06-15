@@ -46,12 +46,12 @@ function GridChangeDisplay({
     function onClickMoveDown() {
         setVerticalGridPosition((verticalGridPosition) => {
             if (
-                verticalGridPosition + Math.floor(numCells * 1.1) >
+                verticalGridPosition + numCells + Math.floor(numCells * 0.1) >
                 NUM_CELLS_MAX
             ) {
                 return NUM_CELLS_MAX - numCells;
             }
-            return verticalGridPosition + Math.floor(numCells * 1.1);
+            return verticalGridPosition + Math.floor(numCells * 0.1);
         });
     }
 
