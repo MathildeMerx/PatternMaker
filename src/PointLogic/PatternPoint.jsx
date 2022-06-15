@@ -13,6 +13,8 @@ function PatternPoint({
     mousePositionRef,
     onClick,
     setDeletingButton,
+    verticalGridPosition,
+    horizontalGridPosition,
 }) {
     //This theme will be used for the colors of the SVG points
     const theme = useTheme();
@@ -22,14 +24,19 @@ function PatternPoint({
             // The localisation of the grid on screen is obtained with this
             // (so as to determine the exact mouse location)
             const draggingInfo = SVGRef.current.getBoundingClientRect();
-            return parseFloat(
-                (
-                    (mousePosition -
-                        (horizontalBoolean
-                            ? draggingInfo.left
-                            : draggingInfo.top)) /
-                    cellSize
-                ).toFixed(1)
+            return (
+                parseFloat(
+                    (
+                        (mousePosition -
+                            (horizontalBoolean
+                                ? draggingInfo.left
+                                : draggingInfo.top)) /
+                        cellSize
+                    ).toFixed(1)
+                ) +
+                (horizontalBoolean
+                    ? horizontalGridPosition
+                    : verticalGridPosition)
             );
         },
         [SVGRef, cellSize]

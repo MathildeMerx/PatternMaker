@@ -151,7 +151,6 @@ function AppWorking() {
                     points={points}
                     segments={segments}
                     curves={curves}
-                    numCells={numCells}
                     cellSizePrinting={cellSizePrinting}
                 />
             </S_PrintGridContainer>

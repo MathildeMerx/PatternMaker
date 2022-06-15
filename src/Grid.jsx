@@ -43,10 +43,13 @@ function Grid({
     function mousePositionToCoordinate(
         mousePosition,
         parentPosition,
-        cellDimension
+        cellDimension,
+        xCoordinate
     ) {
-        return parseFloat(
-            ((mousePosition - parentPosition) / cellDimension).toFixed(1)
+        return (
+            parseFloat(
+                ((mousePosition - parentPosition) / cellDimension).toFixed(1)
+            ) + (xCoordinate ? horizontalGridPosition : verticalGridPosition)
         );
     }
 
@@ -96,12 +99,14 @@ function Grid({
                 mousePositionToCoordinate(
                     event.clientX,
                     SVGRef.current.parentElement.getBoundingClientRect().left,
-                    cellSize
+                    cellSize,
+                    true
                 ),
                 mousePositionToCoordinate(
                     event.clientY,
                     SVGRef.current.parentElement.getBoundingClientRect().top,
-                    cellSize
+                    cellSize,
+                    false
                 ),
             ],
         }));
@@ -121,13 +126,15 @@ function Grid({
                         event.clientX,
                         SVGRef.current.parentElement.getBoundingClientRect()
                             .left,
-                        cellSize
+                        cellSize,
+                        true
                     ),
                     mousePositionToCoordinate(
                         event.clientY,
                         SVGRef.current.parentElement.getBoundingClientRect()
                             .top,
-                        cellSize
+                        cellSize,
+                        false
                     ),
                 ],
                 points
@@ -202,6 +209,8 @@ function Grid({
                             setCurves={setCurves}
                             cellSize={cellSize}
                             mousePositionRef={mousePositionRef}
+                            verticalGridPosition={verticalGridPosition}
+                            horizontalGridPosition={horizontalGridPosition}
                             key={index}
                         />
                     );
@@ -221,6 +230,8 @@ function Grid({
                                 mousePositionRef={mousePositionRef}
                                 onClick={() => onClickPoint(pointName)}
                                 setDeletingButton={setDeletingButton}
+                                verticalGridPosition={verticalGridPosition}
+                                horizontalGridPosition={horizontalGridPosition}
                             />
                         );
                     }

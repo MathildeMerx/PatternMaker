@@ -1,4 +1,8 @@
-import { PAPER_PAGE_HEIGHT, PAPER_PAGE_WIDTH } from "../Theme/constants";
+import {
+    NUM_CELLS_MAX,
+    PAPER_PAGE_HEIGHT,
+    PAPER_PAGE_WIDTH,
+} from "../Theme/constants";
 import PrintColumn from "./PrintColumn";
 import PrintCurvePath from "./PrintCurvePath";
 import PrintPageIndication from "./PrintPageIndication";
@@ -7,7 +11,7 @@ import PrintRow from "./PrintRow";
 import PrintSegmentPath from "./PrintSegmentPath";
 
 //This component is the pattern to be printed, at the right size
-function PrintGrid({ points, segments, curves, numCells, cellSizePrinting }) {
+function PrintGrid({ points, segments, curves, cellSizePrinting }) {
     //Maximum number of columns / rows which can be shown per page
     //(with no need to split the last one with the next page)
     const colPerPage = Math.floor(PAPER_PAGE_WIDTH / cellSizePrinting);
@@ -18,8 +22,8 @@ function PrintGrid({ points, segments, curves, numCells, cellSizePrinting }) {
     let height = rowPerPage * cellSizePrinting;
 
     //The number of pages required to cover the width / height of the pattern
-    let numPagesWidth = Math.ceil(numCells / colPerPage);
-    let numPagesHeight = Math.ceil(numCells / rowPerPage);
+    let numPagesWidth = Math.ceil(NUM_CELLS_MAX / colPerPage);
+    let numPagesHeight = Math.ceil(NUM_CELLS_MAX / rowPerPage);
 
     //A matrix of the pages to print
     let pages = Array(numPagesHeight).fill([...Array(numPagesWidth).keys()]);

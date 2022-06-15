@@ -12,6 +12,8 @@ function CurvePath({
     setCurves,
     cellSize,
     mousePositionRef,
+    verticalGridPosition,
+    horizontalGridPosition,
 }) {
     const theme = useTheme();
 
@@ -43,10 +45,12 @@ function CurvePath({
         //the exact position of the mouse
         const draggingInfo = SVGRef.current.getBoundingClientRect();
         setControlAbscissa(
-            (mousePositionRef.current[0] - draggingInfo.left) / cellSize
+            (mousePositionRef.current[0] - draggingInfo.left) / cellSize +
+                horizontalGridPosition
         );
         setControlOrdinate(
-            (mousePositionRef.current[1] - draggingInfo.top) / cellSize
+            (mousePositionRef.current[1] - draggingInfo.top) / cellSize +
+                verticalGridPosition
         );
     }, [
         SVGRef,
@@ -54,6 +58,8 @@ function CurvePath({
         setControlOrdinate,
         mousePositionRef,
         cellSize,
+        horizontalGridPosition,
+        verticalGridPosition,
     ]);
 
     //Every 20ms, the position of the mouse in the grid is updated.
