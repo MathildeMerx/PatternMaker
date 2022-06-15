@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import styled from "styled-components";
 
-function Column({ line, cellSize }) {
+function Column({ line, cellSize, horizontalGridPosition }) {
     return (
         <Fragment>
             <S_Column left={line * cellSize} />
             {line % 5 === 0 ? (
                 <S_ColumnIndex left={line * cellSize + (line === 5 ? 4 : 0)}>
-                    {line}
+                    {line + horizontalGridPosition}
                 </S_ColumnIndex>
             ) : null}
         </Fragment>

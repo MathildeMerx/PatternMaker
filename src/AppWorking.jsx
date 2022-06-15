@@ -19,7 +19,15 @@ function AppWorking() {
 
     // The user will be able to choose the number of visible columns and rows
     // in the grid with this state
-    const [numCells, setNumCells] = useState(10);
+    const [numCells, setNumCells] = useLocalStorage("numCells", 10);
+    const [verticalGridPosition, setVerticalGridPosition] = useLocalStorage(
+        "verticalGridPosition",
+        0
+    );
+    const [horizontalGridPosition, setHorizontalGridPosition] = useLocalStorage(
+        "horizontalGridPosition",
+        0
+    );
 
     // Determining the size of the cell based on their number and the space available
 
@@ -114,6 +122,8 @@ function AppWorking() {
                     cellSize={cellSize}
                     numCells={numCells}
                     setNumCells={setNumCells}
+                    setHorizontalGridPosition={setHorizontalGridPosition}
+                    setVerticalGridPosition={setVerticalGridPosition}
                 />
 
                 <DesignContent
@@ -130,6 +140,8 @@ function AppWorking() {
                     curves={curves}
                     setCurves={setCurves}
                     setAlertMessage={setAlertMessage}
+                    verticalGridPosition={verticalGridPosition}
+                    horizontalGridPosition={horizontalGridPosition}
                 />
             </S_GridDisplay>
 

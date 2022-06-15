@@ -17,6 +17,8 @@ function DesignContent({
     curves,
     setCurves,
     setAlertMessage,
+    verticalGridPosition,
+    horizontalGridPosition,
 }) {
     return (
         <S_DesignContent ref={containerRef}>
@@ -39,6 +41,8 @@ function DesignContent({
                     curves={curves}
                     setCurves={setCurves}
                     setAlertMessage={setAlertMessage}
+                    verticalGridPosition={verticalGridPosition}
+                    horizontalGridPosition={horizontalGridPosition}
                 />
             </S_DrawGrid>
         </S_DesignContent>

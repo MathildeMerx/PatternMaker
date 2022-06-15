@@ -25,6 +25,8 @@ function Grid({
     curves,
     setCurves,
     setAlertMessage,
+    verticalGridPosition,
+    horizontalGridPosition,
 }) {
     //Ref for the drag'n'drop (specifies where the grid is positioned on screen)
     const SVGRef = useRef();
@@ -84,6 +86,8 @@ function Grid({
         }
     }
 
+    // Will be used onClick in the grid (if the user wants to create a new point,
+    // it's created at the right location with the right name)
     function createNewPoint(event) {
         let pointName = possiblePointNames[0];
         setPoints((points) => ({
@@ -105,7 +109,9 @@ function Grid({
             possiblePointNames.slice(1)
         );
     }
-
+    // When the user clicks in the grid, if that's not on a point (which would be
+    // to delete it) or to drag a point (onMouseUp it's exactly over a point)
+    // a point is created
     function onClickGrid(event) {
         if (
             !deletingButton &&
@@ -135,7 +141,12 @@ function Grid({
         <S_DesignGrid gridSize={gridSize}>
             {/* These are the vertical lines of the grid. Each line in 5 has a legend */}
             {arrCellsPerLine.map((line) => (
-                <Column key={`col${line}`} line={line} cellSize={cellSize} />
+                <Column
+                    key={`col${line}`}
+                    line={line}
+                    cellSize={cellSize}
+                    horizontalGridPosition={horizontalGridPosition}
+                />
             ))}
 
             {/* These are the horizontal lines of the grid. Each line in 5 has a legend */}
@@ -145,6 +156,7 @@ function Grid({
                     line={line}
                     cellSize={cellSize}
                     gridSize={gridSize}
+                    verticalGridPosition={verticalGridPosition}
                 />
             ))}
 
@@ -155,7 +167,9 @@ function Grid({
                 ref={SVGRef}
                 width={gridSize}
                 height={gridSize}
-                viewBox={`0 0 ${gridSize} ${gridSize} `}
+                viewBox={`${horizontalGridPosition * cellSize} ${
+                    verticalGridPosition * cellSize
+                } ${gridSize} ${gridSize} `}
                 onMouseMove={(event) =>
                     (mousePositionRef.current = [event.clientX, event.clientY])
                 }

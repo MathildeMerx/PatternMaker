@@ -1,5 +1,5 @@
 import CurvesDisplay from "./CurveLogic/CurvesDisplay";
-import ZoomButton from "./ZoomButton";
+import GridChangeDisplay from "./GridChangeDisplay";
 import PointsDisplay from "./PointLogic/PointsDisplay";
 import SegmentsDisplay from "./SegmentLogic/SegmentsDisplay";
 import styled from "styled-components";
@@ -16,6 +16,8 @@ function Aside({
     cellSize,
     numCells,
     setNumCells,
+    setVerticalGridPosition,
+    setHorizontalGridPosition,
 }) {
     return (
         <S_Aside height={height}>
@@ -42,7 +44,12 @@ function Aside({
                 />
             </div>
 
-            <ZoomButton setNumCells={setNumCells} />
+            <GridChangeDisplay
+                setNumCells={setNumCells}
+                numCells={numCells}
+                setHorizontalGridPosition={setHorizontalGridPosition}
+                setVerticalGridPosition={setVerticalGridPosition}
+            />
         </S_Aside>
     );
 }
