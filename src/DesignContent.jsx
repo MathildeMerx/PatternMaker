@@ -7,12 +7,10 @@ function DesignContent({
     containerRef,
     pieceName,
     setPieceName,
-    numColumns,
-    numRows,
+    numCells,
     points,
     setPoints,
-    cellHeight,
-    cellWidth,
+    cellSize,
     possiblePointNames,
     setPossiblePointNames,
     segments,
@@ -31,12 +29,10 @@ function DesignContent({
             {/* Grid in which the user can design their pattern, and see it */}
             <S_DrawGrid>
                 <Grid
-                    numColumns={numColumns}
-                    numRows={numRows}
+                    numCells={numCells}
                     points={points}
                     setPoints={setPoints}
-                    cellHeight={cellHeight}
-                    cellWidth={cellWidth}
+                    cellSize={cellSize}
                     possiblePointNames={possiblePointNames}
                     setPossiblePointNames={setPossiblePointNames}
                     segments={segments}

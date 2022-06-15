@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import styled from "styled-components";
 
-function Row({ line, cellHeight, width }) {
+function Row({ line, cellSize, gridSize }) {
     return (
         <Fragment>
-            <S_Row top={line * cellHeight} />
+            <S_Row top={line * cellSize} />
             {line % 5 === 0 ? (
-                <S_RowIndex right={width} top={line * cellHeight}>
+                <S_RowIndex right={gridSize} top={line * cellSize}>
                     {line}
                 </S_RowIndex>
             ) : null}

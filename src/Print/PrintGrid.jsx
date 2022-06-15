@@ -7,26 +7,19 @@ import PrintRow from "./PrintRow";
 import PrintSegmentPath from "./PrintSegmentPath";
 
 //This component is the pattern to be printed, at the right size
-function PrintGrid({
-    points,
-    segments,
-    curves,
-    numColumns,
-    numRows,
-    cellSize,
-}) {
+function PrintGrid({ points, segments, curves, numCells, cellSizePrinting }) {
     //Maximum number of columns / rows which can be shown per page
     //(with no need to split the last one with the next page)
-    const colPerPage = Math.floor(PAPER_PAGE_WIDTH / cellSize);
-    const rowPerPage = Math.floor(PAPER_PAGE_HEIGHT / cellSize);
+    const colPerPage = Math.floor(PAPER_PAGE_WIDTH / cellSizePrinting);
+    const rowPerPage = Math.floor(PAPER_PAGE_HEIGHT / cellSizePrinting);
 
     //The size the component will take on the page
-    let width = colPerPage * cellSize;
-    let height = rowPerPage * cellSize;
+    let width = colPerPage * cellSizePrinting;
+    let height = rowPerPage * cellSizePrinting;
 
     //The number of pages required to cover the width / height of the pattern
-    let numPagesWidth = Math.ceil(numColumns / colPerPage);
-    let numPagesHeight = Math.ceil(numRows / rowPerPage);
+    let numPagesWidth = Math.ceil(numCells / colPerPage);
+    let numPagesHeight = Math.ceil(numCells / rowPerPage);
 
     //A matrix of the pages to print
     let pages = Array(numPagesHeight).fill([...Array(numPagesWidth).keys()]);
@@ -67,8 +60,8 @@ function PrintGrid({
                 ))}
 
                 {/*We draw the points */}
-                {Object.entries(points).map(([, point]) => (
-                    <PrintPoint point={point} key={point} />
+                {Object.entries(points).map(([pointName, point]) => (
+                    <PrintPoint point={point} key={pointName} />
                 ))}
 
                 {/*We draw the curves */}
@@ -90,7 +83,7 @@ function PrintGrid({
                     indexPageWidth={indexPageWidth}
                     colPerPage={colPerPage}
                     width={width}
-                    cellSize={cellSize}
+                    cellSizePrinting={cellSizePrinting}
                     indexPageHeight={indexPageHeight}
                     rowPerPage={rowPerPage}
                     height={height}

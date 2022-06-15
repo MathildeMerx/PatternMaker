@@ -10,16 +10,15 @@ import {
     PointBelongsCurve,
     PointBelongsSegment,
 } from "./PointLogic/pointBelongsGeo";
+import samePlacePoint from "./samePlacePoint";
 
 //This grid will: 1) show on-screen the pattern the user is drafting;
 //2) enable the user to modify parts of it (curves and points)
 function Grid({
-    numRows,
-    numColumns,
+    numCells,
     points,
     setPoints,
-    cellHeight,
-    cellWidth,
+    cellSize,
     possiblePointNames,
     setPossiblePointNames,
     segments,
@@ -31,12 +30,10 @@ function Grid({
     const SVGRef = useRef();
 
     //Arrays which will be used for the grid lines
-    const arrWidth = [...Array(numColumns + 1).keys()];
-    const arrHeight = [...Array(numRows + 1).keys()];
+    const arrCellsPerLine = [...Array(numCells + 1).keys()];
 
     //Width and height of the grid
-    const width = numColumns * cellWidth;
-    const height = numRows * cellHeight;
+    const gridSize = numCells * cellSize;
 
     //The position of the mouse is used for drag'n'drops
     const mousePositionRef = useRef([0, 0]);
@@ -94,13 +91,13 @@ function Grid({
             [pointName]: [
                 mousePositionToCoordinate(
                     event.clientX,
-                    event.target.getBoundingClientRect().left,
-                    cellWidth
+                    SVGRef.current.parentElement.getBoundingClientRect().left,
+                    cellSize
                 ),
                 mousePositionToCoordinate(
                     event.clientY,
-                    event.target.getBoundingClientRect().top,
-                    cellHeight
+                    SVGRef.current.parentElement.getBoundingClientRect().top,
+                    cellSize
                 ),
             ],
         }));
@@ -109,20 +106,45 @@ function Grid({
         );
     }
 
+    function onClickGrid(event) {
+        if (
+            !deletingButton &&
+            !samePlacePoint(
+                [
+                    mousePositionToCoordinate(
+                        event.clientX,
+                        SVGRef.current.parentElement.getBoundingClientRect()
+                            .left,
+                        cellSize
+                    ),
+                    mousePositionToCoordinate(
+                        event.clientY,
+                        SVGRef.current.parentElement.getBoundingClientRect()
+                            .top,
+                        cellSize
+                    ),
+                ],
+                points
+            )
+        ) {
+            createNewPoint(event);
+        }
+    }
+
     return (
-        <S_DesignGrid width={width} height={height}>
+        <S_DesignGrid gridSize={gridSize}>
             {/* These are the vertical lines of the grid. Each line in 5 has a legend */}
-            {arrWidth.map((line) => (
-                <Column key={`col${line}`} line={line} cellWidth={cellWidth} />
+            {arrCellsPerLine.map((line) => (
+                <Column key={`col${line}`} line={line} cellSize={cellSize} />
             ))}
 
             {/* These are the horizontal lines of the grid. Each line in 5 has a legend */}
-            {arrHeight.map((line) => (
+            {arrCellsPerLine.map((line) => (
                 <Row
                     key={`row${line}`}
                     line={line}
-                    cellHeight={cellHeight}
-                    width={width}
+                    cellSize={cellSize}
+                    gridSize={gridSize}
                 />
             ))}
 
@@ -131,18 +153,18 @@ function Grid({
             {/*The mouse position in the grid is always recorded for drag'n'drops */}
             <svg
                 ref={SVGRef}
-                width={width}
-                height={height}
-                viewBox={`0 0 ${width} ${height} `}
+                width={gridSize}
+                height={gridSize}
+                viewBox={`0 0 ${gridSize} ${gridSize} `}
                 onMouseMove={(event) =>
                     (mousePositionRef.current = [event.clientX, event.clientY])
                 }
-                onClick={(event) => createNewPoint(event)}
+                onClick={(event) => onClickGrid(event)}
             >
                 {/* If there are no points tell the user they can
                 click on the grid to create points */}
                 {Object.keys(points).length === 0 ? (
-                    <NoPointText width={width} height={height} />
+                    <NoPointText gridSize={gridSize} />
                 ) : null}
 
                 {/* Here all the segments are rendered in the grid */}
@@ -151,8 +173,7 @@ function Grid({
                         key={seg[0] + seg[1]}
                         segment={seg}
                         points={points}
-                        cellHeight={cellHeight}
-                        cellWidth={cellWidth}
+                        cellSize={cellSize}
                     />
                 ))}
 
@@ -165,45 +186,42 @@ function Grid({
                             points={points}
                             SVGRef={SVGRef}
                             setCurves={setCurves}
-                            cellHeight={cellHeight}
-                            cellWidth={cellWidth}
+                            cellSize={cellSize}
                             mousePositionRef={mousePositionRef}
                             key={index}
                         />
                     );
                 })}
-            </svg>
 
-            {/* Here all the points are rendered in the grid */}
-            {Object.entries(points).map(
-                ([pointName, [positionX, positionY]]) => {
-                    return (
-                        <PatternPoint
-                            pointName={pointName}
-                            cellWidth={cellWidth}
-                            cellHeight={cellHeight}
-                            positionX={positionX}
-                            positionY={positionY}
-                            SVGRef={SVGRef}
-                            key={pointName}
-                            setPoints={setPoints}
-                            mousePositionRef={mousePositionRef}
-                            onClick={() => onClickPoint(pointName)}
-                            setDeletingButton={setDeletingButton}
-                        />
-                    );
-                }
-            )}
+                {Object.entries(points).map(
+                    ([pointName, [positionX, positionY]]) => {
+                        return (
+                            <PatternPoint
+                                pointName={pointName}
+                                cellSize={cellSize}
+                                positionX={positionX}
+                                positionY={positionY}
+                                SVGRef={SVGRef}
+                                key={pointName}
+                                setPoints={setPoints}
+                                mousePositionRef={mousePositionRef}
+                                onClick={() => onClickPoint(pointName)}
+                                setDeletingButton={setDeletingButton}
+                            />
+                        );
+                    }
+                )}
+            </svg>
         </S_DesignGrid>
     );
 }
 
 const S_DesignGrid = styled.div`
     cursor: pointer;
-    width: ${(props) => props.width}px;
+    height: ${(props) => props.gridSize}px;
     margin: auto;
     position: relative;
-    width: ${(props) => props.width}px;
+    width: ${(props) => props.gridSize}px;
 `;
 
 export default Grid;

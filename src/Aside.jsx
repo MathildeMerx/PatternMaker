@@ -1,5 +1,5 @@
 import CurvesDisplay from "./CurveLogic/CurvesDisplay";
-import NumCellsInput from "./NumCellsInput";
+import ZoomButton from "./ZoomButton";
 import PointsDisplay from "./PointLogic/PointsDisplay";
 import SegmentsDisplay from "./SegmentLogic/SegmentsDisplay";
 import styled from "styled-components";
@@ -13,12 +13,9 @@ function Aside({
     setAlertMessage,
     curves,
     setCurves,
-    cellHeight,
-    cellWidth,
-    numColumns,
-    setNumColumns,
-    numRows,
-    setNumRows,
+    cellSize,
+    numCells,
+    setNumCells,
 }) {
     return (
         <S_Aside height={height}>
@@ -39,19 +36,13 @@ function Aside({
                     points={points}
                     curves={curves}
                     setCurves={setCurves}
-                    cellHeight={cellHeight}
-                    cellWidth={cellWidth}
+                    cellSize={cellSize}
                     alertMessage={alertMessage}
                     setAlertMessage={setAlertMessage}
                 />
             </div>
 
-            <NumCellsInput
-                numColumns={numColumns}
-                setNumColumns={setNumColumns}
-                numRows={numRows}
-                setNumRows={setNumRows}
-            />
+            <ZoomButton setNumCells={setNumCells} />
         </S_Aside>
     );
 }

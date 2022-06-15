@@ -14,8 +14,8 @@ function Header({
     setCurves,
     setPossiblePointNames,
     setPieceName,
-    cellSize,
-    setCellSize,
+    cellSizePrinting,
+    setCellSizePrinting,
     printRef,
     printMenuOpen,
     setPrintMenuOpen,
@@ -35,8 +35,8 @@ function Header({
                 setCurves={setCurves}
                 setPossiblePointNames={setPossiblePointNames}
                 setPieceName={setPieceName}
-                cellSize={cellSize}
-                setCellSize={setCellSize}
+                cellSizePrinting={cellSizePrinting}
+                setCellSizePrinting={setCellSizePrinting}
                 printRef={printRef}
                 printMenuOpen={printMenuOpen}
                 setPrintMenuOpen={setPrintMenuOpen}

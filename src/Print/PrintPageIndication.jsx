@@ -2,7 +2,7 @@ function PrintPageIndication({
     indexPageWidth,
     colPerPage,
     width,
-    cellSize,
+    cellSizePrinting,
     indexPageHeight,
     rowPerPage,
     height,
@@ -13,22 +13,28 @@ function PrintPageIndication({
         <>
             <text
                 x={`${
-                    indexPageWidth * colPerPage + (2 * width) / (5 * cellSize)
+                    indexPageWidth * colPerPage +
+                    (2 * width) / (5 * cellSizePrinting)
                 }`}
-                y={`${indexPageHeight * rowPerPage + height / (3 * cellSize)}`}
-                fontSize={`${width / (20 * cellSize)}`}
+                y={`${
+                    indexPageHeight * rowPerPage +
+                    height / (3 * cellSizePrinting)
+                }`}
+                fontSize={`${width / (20 * cellSizePrinting)}`}
                 fill="darkGray"
             >
                 {`Col ${indexPageWidth + 1}/${numPagesWidth}`}
             </text>
             <text
                 x={`${
-                    indexPageWidth * colPerPage + (2 * width) / (5 * cellSize)
+                    indexPageWidth * colPerPage +
+                    (2 * width) / (5 * cellSizePrinting)
                 }`}
                 y={`${
-                    indexPageHeight * rowPerPage + (2 * height) / (3 * cellSize)
+                    indexPageHeight * rowPerPage +
+                    (2 * height) / (3 * cellSizePrinting)
                 }`}
-                fontSize={`${width / (20 * cellSize)}`}
+                fontSize={`${width / (20 * cellSizePrinting)}`}
                 fill="darkGray"
             >
                 {`Row ${indexPageHeight + 1}/${numPagesHeight}`}

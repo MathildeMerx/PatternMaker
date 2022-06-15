@@ -10,8 +10,7 @@ function CurvePath({
     points,
     SVGRef,
     setCurves,
-    cellHeight,
-    cellWidth,
+    cellSize,
     mousePositionRef,
 }) {
     const theme = useTheme();
@@ -32,10 +31,10 @@ function CurvePath({
     const { startPoint, endPoint, controlPoint } = curve;
 
     //The abscissa and ordinate of the 3 points above
-    const startAbscissa = points[startPoint][0] * cellWidth;
-    const startOrdinate = points[startPoint][1] * cellHeight;
-    const endAbscissa = points[endPoint][0] * cellWidth;
-    const endOrdinate = points[endPoint][1] * cellHeight;
+    const startAbscissa = points[startPoint][0] * cellSize;
+    const startOrdinate = points[startPoint][1] * cellSize;
+    const endAbscissa = points[endPoint][0] * cellSize;
+    const endOrdinate = points[endPoint][1] * cellSize;
     const [controlAbscissa, setControlAbscissa] = useState(controlPoint[0]);
     const [controlOrdinate, setControlOrdinate] = useState(controlPoint[1]);
 
@@ -44,18 +43,17 @@ function CurvePath({
         //the exact position of the mouse
         const draggingInfo = SVGRef.current.getBoundingClientRect();
         setControlAbscissa(
-            (mousePositionRef.current[0] - draggingInfo.left) / cellWidth
+            (mousePositionRef.current[0] - draggingInfo.left) / cellSize
         );
         setControlOrdinate(
-            (mousePositionRef.current[1] - draggingInfo.top) / cellHeight
+            (mousePositionRef.current[1] - draggingInfo.top) / cellSize
         );
     }, [
         SVGRef,
         setControlAbscissa,
         setControlOrdinate,
         mousePositionRef,
-        cellHeight,
-        cellWidth,
+        cellSize,
     ]);
 
     //Every 20ms, the position of the mouse in the grid is updated.
@@ -85,8 +83,8 @@ function CurvePath({
                     setShowConstructionSegments((value) => !value);
                 }}
                 d={`M ${startAbscissa} ${startOrdinate} 
-                    Q ${controlAbscissa * cellWidth} 
-                      ${controlOrdinate * cellHeight} 
+                    Q ${controlAbscissa * cellSize} 
+                      ${controlOrdinate * cellSize} 
                       ${endAbscissa} ${endOrdinate}`}
                 fill="none"
                 stroke={theme.colours.bright}
@@ -98,8 +96,8 @@ function CurvePath({
             {showConstructionSegments ? (
                 <path
                     d={`M ${startAbscissa} ${startOrdinate} 
-                        L ${controlAbscissa * cellWidth} 
-                          ${controlOrdinate * cellHeight} `}
+                        L ${controlAbscissa * cellSize} 
+                          ${controlOrdinate * cellSize} `}
                     fill="none"
                     stroke={theme.colours.contrast}
                     strokeDasharray="4"
@@ -110,8 +108,8 @@ function CurvePath({
             {showConstructionSegments ? (
                 <path
                     d={`M ${endAbscissa} ${endOrdinate} 
-                        L ${controlAbscissa * cellWidth} 
-                          ${controlOrdinate * cellHeight} `}
+                        L ${controlAbscissa * cellSize} 
+                          ${controlOrdinate * cellSize} `}
                     fill="none"
                     stroke={theme.colours.contrast}
                     strokeDasharray="4"
@@ -126,8 +124,8 @@ function CurvePath({
                     onMouseUp={(event) => {
                         setIsDragging(false);
                     }}
-                    cx={controlAbscissa * cellWidth}
-                    cy={controlOrdinate * cellHeight}
+                    cx={controlAbscissa * cellSize}
+                    cy={controlOrdinate * cellSize}
                     r="5"
                     fill={theme.colours.contrast}
                 />

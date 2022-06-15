@@ -13,8 +13,7 @@ function CurvesDisplay({
     curves,
     setCurves,
     height,
-    cellWidth,
-    cellHeight,
+    cellSize,
     alertMessage,
     setAlertMessage,
 }) {
@@ -65,8 +64,7 @@ function CurvesDisplay({
                 <CurveAddButton
                     points={points}
                     setCurves={setCurves}
-                    cellHeight={cellHeight}
-                    cellWidth={cellWidth}
+                    cellSize={cellSize}
                     setAlertMessage={setAlertMessage}
                 />
             ) : (

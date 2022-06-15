@@ -18,8 +18,7 @@ function CurveSelectPoints({
     points,
     setCurves,
     setAddingCurve,
-    cellWidth,
-    cellHeight,
+    cellSize,
     setAlertMessage,
 }) {
     const [newCurve, setNewCurve] = useState([null, null, null, null]);
@@ -60,8 +59,7 @@ function CurveSelectPoints({
                             setCurves,
                             setAddingCurve,
                             points,
-                            cellWidth,
-                            cellHeight,
+                            cellSize,
                             setAlertMessage
                         )
                     }
@@ -79,8 +77,7 @@ function addCurve(
     setCurves,
     setAddingCurve,
     points,
-    cellWidth,
-    cellHeight,
+    cellSize,
     setAlertMessage
 ) {
     event.preventDefault();
@@ -89,13 +86,7 @@ function addCurve(
     const futureCurve = {
         startPoint: newCurve[0],
         endPoint: newCurve[1],
-        controlPoint: midPoint(
-            points,
-            newCurve[0],
-            newCurve[1],
-            cellWidth,
-            cellHeight
-        ),
+        controlPoint: midPoint(points, newCurve[0], newCurve[1]),
     };
 
     setCurves((prevCurves) => {

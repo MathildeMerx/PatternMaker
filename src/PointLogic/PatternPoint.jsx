@@ -1,12 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import styled from "styled-components";
+import { useState, useCallback, Fragment } from "react";
+import { useTheme } from "styled-components";
 import useMousePositionGrid from "../useMousePositionGrid";
 
 // This component renders a pattern point in the SVG grid
 function PatternPoint({
     pointName,
-    cellWidth,
-    cellHeight,
+    cellSize,
     positionX,
     positionY,
     SVGRef,
@@ -15,6 +14,9 @@ function PatternPoint({
     onClick,
     setDeletingButton,
 }) {
+    //This theme will be used for the colors of the SVG points
+    const theme = useTheme();
+
     const mousePositionToCoordinate = useCallback(
         (mousePosition, horizontalBoolean) => {
             // The localisation of the grid on screen is obtained with this
@@ -26,11 +28,11 @@ function PatternPoint({
                         (horizontalBoolean
                             ? draggingInfo.left
                             : draggingInfo.top)) /
-                    (horizontalBoolean ? cellWidth : cellHeight)
+                    cellSize
                 ).toFixed(1)
             );
         },
-        [SVGRef, cellHeight, cellWidth]
+        [SVGRef, cellSize]
     );
 
     // onMouseDown will set this state to true
@@ -52,69 +54,54 @@ function PatternPoint({
 
     useMousePositionGrid(isDragging, onDragUpdatePoint);
 
+    const [mouseEnter, setMouseEnter] = useState(false);
+
     return (
-        <S_PatternPoint
-            cellHeight={cellHeight}
-            cellWidth={cellWidth}
-            onClick={onClick}
-            pixelsX={positionX * cellWidth}
-            pixelsY={positionY * cellHeight}
-            onMouseDown={(event) => {
-                setIsDragging(true);
-                setMousePosition([
-                    mousePositionToCoordinate(event.clientX, true),
-                    mousePositionToCoordinate(event.clientY, false),
-                ]);
-            }}
-            onMouseUp={(event) => {
-                setIsDragging(false);
-                if (
-                    mousePositionToCoordinate(event.clientX, true) ===
-                        mousePosition[0] &&
-                    mousePositionToCoordinate(event.clientY, false) ===
-                        mousePosition[1]
-                ) {
-                    setDeletingButton(true);
+        <Fragment key={`point${pointName}`}>
+            <circle
+                onClick={onClick}
+                cx={(positionX * cellSize).toString()}
+                cy={(positionY * cellSize).toString()}
+                r={cellSize / 10}
+                fill={
+                    mouseEnter ? theme.colours.contrast : theme.colours.bright
                 }
-            }}
-        >
-            <S_PointName cellHeight={cellHeight} cellWidth={cellWidth}>
-                {pointName}
-            </S_PointName>
-        </S_PatternPoint>
+                onMouseDown={(event) => {
+                    setIsDragging(true);
+                    setMousePosition([
+                        mousePositionToCoordinate(event.clientX, true),
+                        mousePositionToCoordinate(event.clientY, false),
+                    ]);
+                }}
+                onMouseUp={(event) => {
+                    setIsDragging(false);
+                    if (
+                        mousePositionToCoordinate(event.clientX, true) ===
+                            mousePosition[0] &&
+                        mousePositionToCoordinate(event.clientY, false) ===
+                            mousePosition[1]
+                    ) {
+                        setDeletingButton(true);
+                    }
+                }}
+                onMouseLeave={() => setMouseEnter(false)}
+                onMouseEnter={() => setMouseEnter(true)}
+            ></circle>
+            {cellSize > 10 ? (
+                <text
+                    x={(positionX * cellSize + cellSize / 10).toString()}
+                    y={(positionY * cellSize + cellSize / 10).toString()}
+                    fill={
+                        mouseEnter
+                            ? theme.colours.contrast
+                            : theme.colours.bright
+                    }
+                >
+                    {pointName}
+                </text>
+            ) : null}
+        </Fragment>
     );
 }
-
-const S_PatternPoint = styled.div`
-    background-color: ${({ theme }) => theme.colours.bright};
-    cursor: pointer;
-    font-size: ${(props) =>
-        Math.max(0.75, Math.min(props.cellWidth, props.cellHeight) / 60)}rem;
-    font-weight: bold;
-    height: ${(props) =>
-        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5)}px;
-    left: ${(props) =>
-        props.pixelsX -
-        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5) / 2}px;
-    opacity: 1;
-    position: absolute;
-    border-radius: 50%;
-    text-align: center;
-    top: ${(props) =>
-        props.pixelsY -
-        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5) / 2}px;
-    width: ${(props) =>
-        Math.max(6, Math.max(props.cellHeight, props.cellWidth) / 5)}px;
-
-    &:hover {
-        background-color: ${({ theme }) => theme.colours.contrast};
-    }
-`;
-
-const S_PointName = styled.div`
-    position: relative;
-    top: ${(props) => props.cellHeight / 5}px;
-    left: ${(props) => props.cellWidth / 5}px;
-`;
 
 export default PatternPoint;

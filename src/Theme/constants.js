@@ -15,6 +15,9 @@ const URL = "https://sewpat.tsango.com/api/patterns/4/drawings/";
 const PAPER_PAGE_WIDTH = 21;
 const PAPER_PAGE_HEIGHT = 29.7;
 
+const NUM_CELLS_MAX = 100;
+const NUM_CELLS_MIN = 10;
+
 export {
     TITLE_MARGIN,
     TITLE_HEIGHT,
@@ -26,4 +29,6 @@ export {
     URL,
     PAPER_PAGE_HEIGHT,
     PAPER_PAGE_WIDTH,
+    NUM_CELLS_MAX,
+    NUM_CELLS_MIN,
 };

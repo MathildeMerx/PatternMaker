@@ -19,21 +19,18 @@ function AppWorking() {
 
     // The user will be able to choose the number of visible columns and rows
     // in the grid with this state
-    const [numColumns, setNumColumns] = useState(10);
-    const [numRows, setNumRows] = useState(10);
+    const [numCells, setNumCells] = useState(10);
 
     // Determining the size of the cell based on their number and the space available
 
     // `cellWidth` is the space horizontally available for the grid
     // (the width of its parent minus its margin) divided by the number of columns
-    const cellWidth = Math.floor((width - GRID_MARGIN * 2) / numColumns);
-
-    // `cellHeight` is the space vertically availablefor the grid
-    // (the height of its parent minus its margin and the height of the title)
-    // divided by the number of rows
-    // I added 8px for some bottom margin
-    const cellHeight = Math.floor(
-        (height - (PATTERN_TITLE_MARGIN + PATTERN_TITLE_HEIGHT + 8)) / numRows
+    const cellSize = Math.min(
+        Math.floor((width - GRID_MARGIN * 2) / numCells),
+        Math.floor(
+            (height - (PATTERN_TITLE_MARGIN + PATTERN_TITLE_HEIGHT + 8)) /
+                numCells
+        )
     );
 
     // These states will contain the points, segments and curves necessary to draw
@@ -43,7 +40,9 @@ function AppWorking() {
     const [curves, setCurves] = useLocalStorage("curves", {});
 
     // A list of available point names
-    const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
+    const [possiblePointNames, setPossiblePointNames] = useState(
+        pointNames.filter((name) => !Object.keys(points).includes(name))
+    );
 
     // When a user makes a construction error, this state will contain
     // the error message
@@ -65,7 +64,7 @@ function AppWorking() {
     let printRef = useRef();
 
     // This state lets the user specify the size of a cell when printing
-    const [cellSize, setCellSize] = useState(1);
+    const [cellSizePrinting, setCellSizePrinting] = useState(1);
 
     // This state reflects whether the print menu should be open or not
     const [printMenuOpen, setPrintMenuOpen] = useState(false);
@@ -93,8 +92,8 @@ function AppWorking() {
                 setCurves={setCurves}
                 setPossiblePointNames={setPossiblePointNames}
                 setPieceName={setPieceName}
-                cellSize={cellSize}
-                setCellSize={setCellSize}
+                cellSizePrinting={cellSizePrinting}
+                setCellSizePrinting={setCellSizePrinting}
                 printRef={printRef}
                 printMenuOpen={printMenuOpen}
                 setPrintMenuOpen={setPrintMenuOpen}
@@ -112,24 +111,19 @@ function AppWorking() {
                     setAlertMessage={setAlertMessage}
                     curves={curves}
                     setCurves={setCurves}
-                    cellHeight={cellHeight}
-                    cellWidth={cellWidth}
-                    numColumns={numColumns}
-                    setNumColumns={setNumColumns}
-                    numRows={numRows}
-                    setNumRows={setNumRows}
+                    cellSize={cellSize}
+                    numCells={numCells}
+                    setNumCells={setNumCells}
                 />
 
                 <DesignContent
                     containerRef={containerRef}
                     pieceName={pieceName}
                     setPieceName={setPieceName}
-                    numColumns={numColumns}
-                    numRows={numRows}
+                    numCells={numCells}
                     points={points}
                     setPoints={setPoints}
-                    cellHeight={cellHeight}
-                    cellWidth={cellWidth}
+                    cellSize={cellSize}
                     possiblePointNames={possiblePointNames}
                     setPossiblePointNames={setPossiblePointNames}
                     segments={segments}
@@ -145,9 +139,8 @@ function AppWorking() {
                     points={points}
                     segments={segments}
                     curves={curves}
-                    numColumns={numColumns}
-                    numRows={numRows}
-                    cellSize={cellSize}
+                    numCells={numCells}
+                    cellSizePrinting={cellSizePrinting}
                 />
             </S_PrintGridContainer>
         </S_Content>

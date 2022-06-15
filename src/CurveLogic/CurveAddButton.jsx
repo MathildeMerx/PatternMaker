@@ -4,13 +4,7 @@ import CurveSelectPoints from "./CurveSelectPoints";
 import styled from "styled-components";
 
 //A "+" button to create new curves
-function CurveAddButton({
-    setCurves,
-    points,
-    cellWidth,
-    cellHeight,
-    setAlertMessage,
-}) {
+function CurveAddButton({ setCurves, points, cellSize, setAlertMessage }) {
     //This variable specifies whether the user is inputting a new curve -
     //in that case, the "+" disappears
     const [addingCurve, setAddingCurve] = useState(false);
@@ -21,8 +15,7 @@ function CurveAddButton({
             points={points}
             setCurves={setCurves}
             setAddingCurve={setAddingCurve}
-            cellHeight={cellHeight}
-            cellWidth={cellWidth}
+            cellSize={cellSize}
             setAlertMessage={setAlertMessage}
         />
     );

@@ -9,8 +9,8 @@ import { useEffectCloseClickOutside } from "../useCloseClickOutside";
 
 function PrintDropdown({
     printRef,
-    cellSize,
-    setCellSize,
+    cellSizePrinting,
+    setCellSizePrinting,
     printMenuOpen,
     setPrintMenuOpen,
 }) {
@@ -25,14 +25,14 @@ function PrintDropdown({
             <S_Print onClick={() => setPrintMenuOpen(!printMenuOpen)} />
             {/*The user can pick the size of the cells when printing */}
             <S_CommandsDropdown menuOpen={printMenuOpen}>
-                Cell size: {cellSize}cm
+                Cell size: {cellSizePrinting}cm
                 <RangeInput
                     type="range"
                     min="0.2"
                     max="2.5"
                     step="0.05"
-                    value={cellSize}
-                    onChange={(e) => setCellSize(e.target.value)}
+                    value={cellSizePrinting}
+                    onChange={(e) => setCellSizePrinting(e.target.value)}
                 />
                 {/*This component makes it possible to print only one component */}
                 <ReactToPrint

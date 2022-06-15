@@ -26,7 +26,7 @@ function PointBelongsCurve(curves, pointName, setAlertMessage) {
             setAlertMessage({
                 alertType: "deletePointCurve",
                 point: pointName,
-                curve: curves[curv].slice(0, 2),
+                curve: [curves[curv].startPoint, curves[curv].endPoint],
             });
             return true;
         }

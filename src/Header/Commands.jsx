@@ -17,8 +17,8 @@ function Commands({
     setCurves,
     setPossiblePointNames,
     setPieceName,
-    cellSize,
-    setCellSize,
+    cellSizePrinting,
+    setCellSizePrinting,
     printRef,
     printMenuOpen,
     setPrintMenuOpen,
@@ -65,8 +65,8 @@ function Commands({
             {/* The print icon is shown whether logged in or not */}
             <div>
                 <PrintDropdown
-                    cellSize={cellSize}
-                    setCellSize={setCellSize}
+                    cellSizePrinting={cellSizePrinting}
+                    setCellSizePrinting={setCellSizePrinting}
                     printRef={printRef}
                     printMenuOpen={printMenuOpen}
                     setPrintMenuOpen={setPrintMenuOpen}
