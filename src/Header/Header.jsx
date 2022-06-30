@@ -49,8 +49,6 @@ const S_Header = styled.header`
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin-left: -32px;
-    padding-left: 32px;
     padding-right: 64px;
 `;
 

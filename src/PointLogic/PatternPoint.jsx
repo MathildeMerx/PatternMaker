@@ -39,7 +39,7 @@ function PatternPoint({
                     : verticalGridPosition)
             );
         },
-        [SVGRef, cellSize]
+        [SVGRef, cellSize, horizontalGridPosition, verticalGridPosition]
     );
 
     // onMouseDown will set this state to true
