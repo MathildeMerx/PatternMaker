@@ -1,11 +1,29 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "incremental": true,
-        "jsx": "preserve",
-        "baseUrl": "src/"
-    },
-    "exclude": ["node_modules"],
-
-    "include": ["**/*.ts", "**/*.tsx"]
+  "compilerOptions": {
+    "allowJs": true,
+    "incremental": true,
+    "jsx": "preserve",
+    "baseUrl": "src/",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
