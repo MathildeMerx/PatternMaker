@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "incremental": true,
+        "jsx": "preserve",
+        "baseUrl": "src/"
+    },
+    "exclude": ["node_modules"],
+
+    "include": ["**/*.ts", "**/*.tsx"]
+}

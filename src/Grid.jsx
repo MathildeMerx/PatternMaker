@@ -10,7 +10,7 @@ import {
     PointBelongsCurve,
     PointBelongsSegment,
 } from "./PointLogic/pointBelongsGeo";
-import samePlacePoint from "./samePlacePoint.ts";
+import samePlacePoint from "./samePlacePoint";
 
 //This grid will: 1) show on-screen the pattern the user is drafting;
 //2) enable the user to modify parts of it (curves and points)
