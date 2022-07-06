@@ -1,6 +1,9 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { MIN_WNDOW_HEIGHT, MIN_WNDOW_WIDTH } from "Theme/constants";
 
+const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 function useWindowDimensions() {
     function getWindowDimension() {
         return { width: window.innerWidth, height: window.innerHeight };
@@ -11,7 +14,7 @@ function useWindowDimensions() {
         height: MIN_WNDOW_HEIGHT,
     });
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         setWindowDimensions(getWindowDimension());
     }, []);
 
