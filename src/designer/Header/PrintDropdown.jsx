@@ -1,10 +1,10 @@
 import ReactToPrint from "react-to-print";
 import styled from "styled-components";
 import { useRef } from "react";
-import RangeInput from "../Theme/RangeInput";
+import RangeInput from "../../Theme/RangeInput";
 import S_CommandsDropdown from "./S_CommandsDropdown";
 import { Print } from "@mui/icons-material";
-import Button from "../Theme/Button";
+import Button from "../../Theme/Button";
 import { useEffectCloseClickOutside } from "../useCloseClickOutside";
 
 function PrintDropdown({

@@ -2,7 +2,7 @@ import {
     NUM_CELLS_MAX,
     PAPER_PAGE_HEIGHT,
     PAPER_PAGE_WIDTH,
-} from "../Theme/constants";
+} from "../../Theme/constants";
 import PrintColumn from "./PrintColumn";
 import PrintCurvePath from "./PrintCurvePath";
 import PrintPageIndication from "./PrintPageIndication";

@@ -8,7 +8,7 @@ import {
     S_Dropdown,
     S_DropdownTitle,
 } from "../dropdownStyledComponents";
-import { S_CancelButton, S_ValidateButton } from "../Theme/Button";
+import { S_CancelButton, S_ValidateButton } from "../../Theme/Button";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import useCloseClickOutside from "../useCloseClickOutside";

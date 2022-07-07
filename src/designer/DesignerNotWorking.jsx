@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { MIN_WNDOW_HEIGHT, MIN_WNDOW_WIDTH } from "./Theme/constants";
+import { MIN_WNDOW_HEIGHT, MIN_WNDOW_WIDTH } from "../Theme/constants";
 
-function AppNotWorking({ width, height }) {
+function DesignerNotWorking({ width, height }) {
     return (
-        <S_NoAppContent>
+        <S_NoDesignerContent>
             <S_NotWorkingTitle>
                 Sorry, your window is too small. Try resizing it to use the app!
             </S_NotWorkingTitle>
@@ -17,11 +17,11 @@ function AppNotWorking({ width, height }) {
                     {`Minimum height: ${MIN_WNDOW_HEIGHT} - your height: ${height}.`}
                 </S_NotWorkingSubtitle>
             ) : null}
-        </S_NoAppContent>
+        </S_NoDesignerContent>
     );
 }
 
-const S_NoAppContent = styled.div`
+const S_NoDesignerContent = styled.div`
     background-color: ${({ theme }) => theme.colours.background};
     height: 100vh;
     position: fixed;
@@ -38,4 +38,4 @@ const S_NotWorkingSubtitle = styled.h2`
     padding-left: 32px;
 `;
 
-export default AppNotWorking;
+export default DesignerNotWorking;

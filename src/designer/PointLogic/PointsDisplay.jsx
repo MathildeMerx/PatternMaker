@@ -1,6 +1,6 @@
 import S_ControlledHeightUL from "../S_ControlledHeightUL";
-import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
-import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
+import S_DisplaySectionTitle from "../../Theme/S_DisplaySectionTitle";
+import S_DisplaySectionSubtitle from "../../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
 
 //Displaying the existing points in an unordered list

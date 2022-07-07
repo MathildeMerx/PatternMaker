@@ -26,7 +26,7 @@ function Commands({
     return (
         <S_Commands>
             {/* If the user is connected, we want to see a log out, save and retrieve icons. Else, only a log in icon. */}
-            {credentials.loggedIn ? (
+            {credentials?.loggedIn ? (
                 <>
                     <div>
                         <S_Logout

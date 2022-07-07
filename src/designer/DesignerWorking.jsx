@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import useContainerDimensions from "./useContainerDimensions";
 import styled from "styled-components";
 import pointNames from "./alphabet";
@@ -8,12 +8,15 @@ import {
     PATTERN_TITLE_MARGIN,
     PATTERN_TITLE_HEIGHT,
     GRID_MARGIN,
-} from "./Theme/constants";
+} from "../Theme/constants";
 import Aside from "./Aside";
 import DesignContent from "./DesignContent";
 import useLocalStorage from "./useLocalStorage";
 
-function AppWorking() {
+const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+function DesignerWorking() {
     //  Custom hook to determine the space available for the grid
     let [{ width, height }, containerRef] = useContainerDimensions();
 
@@ -48,9 +51,18 @@ function AppWorking() {
     const [curves, setCurves] = useLocalStorage("curves", {});
 
     // A list of available point names
-    const [possiblePointNames, setPossiblePointNames] = useState(
-        pointNames.filter((name) => !Object.keys(points).includes(name))
-    );
+    const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
+
+    const isFirstInitialization = useRef(true);
+    useIsomorphicLayoutEffect(() => {
+        if (isFirstInitialization.current && Object.keys(points).length > 0) {
+            setPossiblePointNames(
+                pointNames.filter((name) => !Object.keys(points).includes(name))
+            );
+
+            isFirstInitialization.current = false;
+        }
+    }, [pointNames, points]);
 
     // When a user makes a construction error, this state will contain
     // the error message
@@ -181,4 +193,4 @@ const S_PrintGridContainer = styled.div`
     display: ${(props) => (props.printMenuOpen ? "block" : "none")};
 `;
 
-export default AppWorking;
+export default DesignerWorking;
