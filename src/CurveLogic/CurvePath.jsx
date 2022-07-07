@@ -69,6 +69,9 @@ function CurvePath({
     //the state representing the curves is updated
     useEffect(() => {
         setCurves((curves) => {
+            if (Object.keys(curves).length === 0) {
+                return curves;
+            }
             let curvesCopy = JSON.parse(JSON.stringify(curves));
             curvesCopy[curveIndex].controlPoint = [
                 controlAbscissa,
