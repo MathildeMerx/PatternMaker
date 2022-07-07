@@ -8,10 +8,14 @@ function useLocalStorage(storageName, initialState) {
 
     const isFirstRender = useRef(true);
 
-    useEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const localStorageData = window.localStorage.getItem(storageName);
 
-        if (localStorageData !== undefined && isFirstRender.current) {
+        if (
+            localStorageData !== undefined &&
+            localStorageData !== null &&
+            isFirstRender.current
+        ) {
             setData(JSON.parse(localStorageData));
         }
 
