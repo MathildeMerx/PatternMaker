@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -6,10 +6,16 @@ const useIsomorphicLayoutEffect =
 function useLocalStorage(storageName, initialState) {
     let [data, setData] = useState(initialState);
 
-    useIsomorphicLayoutEffect(() => {
-        setData(
-            JSON.parse(window.localStorage.getItem(storageName)) ?? initialState
-        );
+    const isFirstRender = useRef(true);
+
+    useEffect(() => {
+        const localStorageData = window.localStorage.getItem(storageName);
+
+        if (localStorageData !== undefined && isFirstRender.current) {
+            setData(JSON.parse(localStorageData));
+        }
+
+        isFirstRender.current = false;
     }, []);
 
     useEffect(() => {
