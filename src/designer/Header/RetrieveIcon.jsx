@@ -1,7 +1,7 @@
 import availablePointNames from "./availablePointNames";
 import { FileDownload } from "@mui/icons-material";
 import styled from "styled-components";
-import { URL } from "../Theme/constants";
+import { URL } from "../../Theme/constants";
 import fetchHeader from "./fetchHeader";
 import useAPICallAlert from "./useAPICallAlert";
 

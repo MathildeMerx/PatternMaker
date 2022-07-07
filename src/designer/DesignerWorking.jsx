@@ -8,12 +8,12 @@ import {
     PATTERN_TITLE_MARGIN,
     PATTERN_TITLE_HEIGHT,
     GRID_MARGIN,
-} from "./Theme/constants";
+} from "../Theme/constants";
 import Aside from "./Aside";
 import DesignContent from "./DesignContent";
 import useLocalStorage from "./useLocalStorage";
 
-function AppWorking() {
+function DesignerWorking() {
     //  Custom hook to determine the space available for the grid
     let [{ width, height }, containerRef] = useContainerDimensions();
 
@@ -181,4 +181,4 @@ const S_PrintGridContainer = styled.div`
     display: ${(props) => (props.printMenuOpen ? "block" : "none")};
 `;
 
-export default AppWorking;
+export default DesignerWorking;

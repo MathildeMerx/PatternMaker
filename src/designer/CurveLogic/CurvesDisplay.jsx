@@ -2,8 +2,8 @@ import { DeleteOutlined } from "@mui/icons-material";
 import CurveAddButton from "./CurveAddButton";
 import S_ControlledHeightUL from "../S_ControlledHeightUL";
 import S_AlertMessage from "../S_AlertMessage";
-import S_DisplaySectionTitle from "../Theme/S_DisplaySectionTitle";
-import S_DisplaySectionSubtitle from "../Theme/S_DisplaySectionSubtitle";
+import S_DisplaySectionTitle from "../../Theme/S_DisplaySectionTitle";
+import S_DisplaySectionSubtitle from "../../Theme/S_DisplaySectionSubtitle";
 import styled from "styled-components";
 import alertMessageReadable from "../alertMessageReadable";
 

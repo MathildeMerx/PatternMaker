@@ -1,6 +1,6 @@
 import Commands from "./Commands";
 import styled from "styled-components";
-import { TITLE_MARGIN, TITLE_HEIGHT } from "../Theme/constants";
+import { TITLE_MARGIN, TITLE_HEIGHT } from "../../Theme/constants";
 
 function Header({
     credentials,

@@ -1,8 +1,8 @@
-import Button from "./Theme/Button";
+import Button from "../Theme/Button";
 import styled from "styled-components";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
-import { PATTERN_TITLE_MARGIN, PATTERN_TITLE_HEIGHT } from "./Theme/constants";
+import { PATTERN_TITLE_MARGIN, PATTERN_TITLE_HEIGHT } from "../Theme/constants";
 
 //Form to let the user choose the name of the pattern
 function PatternNameForm({ pieceName, setPieceName }) {
