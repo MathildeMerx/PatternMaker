@@ -82,7 +82,15 @@ function Grid({
 
                 // The name of the point deleted is returned to available point names
                 setPossiblePointNames((possiblePointNames) => {
-                    return [...possiblePointNames, pointName].sort();
+                    return [...possiblePointNames, pointName].sort((a, b) => {
+                        if (a.length === b.length) {
+                            if (a[0] === b[0] || a.length === 1) {
+                                return a < b ? -1 : 1;
+                            }
+                            return a[1] < b[1] ? -1 : 1;
+                        }
+                        return a.length < b.length ? -1 : 1;
+                    });
                 });
             }
             setDeletingButton(false);

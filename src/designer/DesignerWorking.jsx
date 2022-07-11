@@ -52,6 +52,7 @@ function DesignerWorking() {
 
     // A list of available point names
     const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
+    console.log(possiblePointNames);
 
     const isFirstInitialization = useRef(true);
     useIsomorphicLayoutEffect(() => {
