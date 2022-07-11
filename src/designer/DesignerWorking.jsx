@@ -64,8 +64,11 @@ function DesignerWorking() {
     }, [alertMessage]);
 
     // These states let the user choose the name of the pattern
-    const [pieceName, setPieceName] = useState("Piece of pattern name");
 
+    const [pieceName, setPieceName] = useLocalStorage(
+        "pieceName",
+        "Piece of pattern name"
+    );
     // This is the ref of grid to be printed (if desired)
     let printRef = useRef();
 
