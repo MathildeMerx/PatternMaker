@@ -2,7 +2,7 @@ const indexes = [...Array(26).keys()];
 
 //An array of all letters in alphabetical order. It should be enough for a single
 //pattern, I'll probably add more in the future to be safe
-const pointNames = indexes
+const pointNamesList = indexes
     .flatMap(
         (x) =>
             [...Array(11).keys()].map(
@@ -19,4 +19,6 @@ const pointNames = indexes
         }
         return a.length < b.length ? -1 : 1;
     });
-export default pointNames;
+
+console.log(pointNamesList);
+export default pointNamesList;

@@ -50,21 +50,6 @@ function DesignerWorking() {
     const [segments, setSegments] = useLocalStorage("segments", []);
     const [curves, setCurves] = useLocalStorage("curves", {});
 
-    // A list of available point names
-    const [possiblePointNames, setPossiblePointNames] = useState(pointNames);
-    console.log(possiblePointNames);
-
-    const isFirstInitialization = useRef(true);
-    useIsomorphicLayoutEffect(() => {
-        if (isFirstInitialization.current && Object.keys(points).length > 0) {
-            setPossiblePointNames(
-                pointNames.filter((name) => !Object.keys(points).includes(name))
-            );
-
-            isFirstInitialization.current = false;
-        }
-    }, [pointNames, points]);
-
     // When a user makes a construction error, this state will contain
     // the error message
     const [alertMessage, setAlertMessage] = useState({ alertType: "" });
@@ -111,7 +96,6 @@ function DesignerWorking() {
                 setPoints={setPoints}
                 setSegments={setSegments}
                 setCurves={setCurves}
-                setPossiblePointNames={setPossiblePointNames}
                 setPieceName={setPieceName}
                 cellSizePrinting={cellSizePrinting}
                 setCellSizePrinting={setCellSizePrinting}
@@ -147,8 +131,6 @@ function DesignerWorking() {
                     points={points}
                     setPoints={setPoints}
                     cellSize={cellSize}
-                    possiblePointNames={possiblePointNames}
-                    setPossiblePointNames={setPossiblePointNames}
                     segments={segments}
                     curves={curves}
                     setCurves={setCurves}

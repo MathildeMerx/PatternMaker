@@ -11,8 +11,6 @@ function DesignContent({
     points,
     setPoints,
     cellSize,
-    possiblePointNames,
-    setPossiblePointNames,
     segments,
     curves,
     setCurves,
@@ -35,8 +33,6 @@ function DesignContent({
                     points={points}
                     setPoints={setPoints}
                     cellSize={cellSize}
-                    possiblePointNames={possiblePointNames}
-                    setPossiblePointNames={setPossiblePointNames}
                     segments={segments}
                     curves={curves}
                     setCurves={setCurves}
