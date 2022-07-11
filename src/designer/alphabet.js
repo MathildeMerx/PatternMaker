@@ -20,5 +20,4 @@ const pointNamesList = indexes
         return a.length < b.length ? -1 : 1;
     });
 
-console.log(pointNamesList);
 export default pointNamesList;

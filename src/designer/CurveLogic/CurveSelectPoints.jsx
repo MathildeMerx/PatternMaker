@@ -138,7 +138,7 @@ function DropdownMenu({ points, newCurve, setNewCurve, index }) {
                         return (
                             <DropdownItem
                                 pointName={pointName}
-                                key={pointName[0]}
+                                key={pointName}
                                 setNewCurve={setNewCurve}
                                 index={index}
                             />
@@ -153,10 +153,10 @@ function DropdownMenu({ points, newCurve, setNewCurve, index }) {
 function DropdownItem({ pointName, setNewCurve, index }) {
     return (
         <S_DropdownButton
-            name={pointName[0]}
+            name={pointName}
             onClick={(e) => clickMenu(e, setNewCurve, index)}
         >
-            {pointName[0]}
+            {pointName}
         </S_DropdownButton>
     );
 }
