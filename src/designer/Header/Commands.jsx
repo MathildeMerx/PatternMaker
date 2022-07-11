@@ -15,7 +15,6 @@ function Commands({
     setPoints,
     setSegments,
     setCurves,
-    setPossiblePointNames,
     setPieceName,
     cellSizePrinting,
     setCellSizePrinting,
@@ -53,7 +52,6 @@ function Commands({
                         setPoints={setPoints}
                         setSegments={setSegments}
                         setCurves={setCurves}
-                        setPossiblePointNames={setPossiblePointNames}
                         setPieceName={setPieceName}
                         credentials={credentials}
                     />

@@ -10,7 +10,6 @@ function RetrieveIcon({
     setPoints,
     setSegments,
     setCurves,
-    setPossiblePointNames,
     setPieceName,
     credentials,
 }) {
@@ -52,11 +51,6 @@ function RetrieveIcon({
         setPoints(JSON.parse(JSON.stringify(data["points"])));
         setSegments(JSON.parse(JSON.stringify(data["segments"])) ?? []);
         setCurves(JSON.parse(JSON.stringify(data["curves"])) ?? {});
-
-        // We deduce the available point names based on the existing points
-        setPossiblePointNames(
-            availablePointNames(JSON.parse(JSON.stringify(data["points"])))
-        );
 
         // We retrieve the name of the pattern
         setPieceName(JSON.parse(JSON.stringify(data["description"])));

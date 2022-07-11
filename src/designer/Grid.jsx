@@ -11,6 +11,7 @@ import {
     PointBelongsSegment,
 } from "./PointLogic/pointBelongsGeo";
 import samePlacePoint from "./samePlacePoint";
+import pointNamesList from "./alphabet";
 
 //This grid will: 1) show on-screen the pattern the user is drafting;
 //2) enable the user to modify parts of it (curves and points)
@@ -19,8 +20,6 @@ function Grid({
     points,
     setPoints,
     cellSize,
-    possiblePointNames,
-    setPossiblePointNames,
     segments,
     curves,
     setCurves,
@@ -79,11 +78,6 @@ function Grid({
                     const { [pointName]: val, ...rest } = points;
                     return rest;
                 });
-
-                // The name of the point deleted is returned to available point names
-                setPossiblePointNames((possiblePointNames) => {
-                    return [...possiblePointNames, pointName].sort();
-                });
             }
             setDeletingButton(false);
         }
@@ -92,27 +86,31 @@ function Grid({
     // Will be used onClick in the grid (if the user wants to create a new point,
     // it's created at the right location with the right name)
     function createNewPoint(event) {
-        let pointName = possiblePointNames[0];
-        setPoints((points) => ({
-            ...points,
-            [pointName]: [
-                mousePositionToCoordinate(
-                    event.clientX,
-                    SVGRef.current.parentElement.getBoundingClientRect().left,
-                    cellSize,
-                    true
-                ),
-                mousePositionToCoordinate(
-                    event.clientY,
-                    SVGRef.current.parentElement.getBoundingClientRect().top,
-                    cellSize,
-                    false
-                ),
-            ],
-        }));
-        setPossiblePointNames((possiblePointNames) =>
-            possiblePointNames.slice(1)
-        );
+        setPoints((points) => {
+            const pointName = pointNamesList.filter(
+                (possiblePointName) =>
+                    !Object.keys(points).includes(possiblePointName)
+            )[0];
+            return {
+                ...points,
+                [pointName]: [
+                    mousePositionToCoordinate(
+                        event.clientX,
+                        SVGRef.current.parentElement.getBoundingClientRect()
+                            .left,
+                        cellSize,
+                        true
+                    ),
+                    mousePositionToCoordinate(
+                        event.clientY,
+                        SVGRef.current.parentElement.getBoundingClientRect()
+                            .top,
+                        cellSize,
+                        false
+                    ),
+                ],
+            };
+        });
     }
     // When the user clicks in the grid, if that's not on a point (which would be
     // to delete it) or to drag a point (onMouseUp it's exactly over a point)

@@ -12,7 +12,6 @@ function Header({
     setPoints,
     setSegments,
     setCurves,
-    setPossiblePointNames,
     setPieceName,
     cellSizePrinting,
     setCellSizePrinting,
@@ -33,7 +32,6 @@ function Header({
                 setPoints={setPoints}
                 setSegments={setSegments}
                 setCurves={setCurves}
-                setPossiblePointNames={setPossiblePointNames}
                 setPieceName={setPieceName}
                 cellSizePrinting={cellSizePrinting}
                 setCellSizePrinting={setCellSizePrinting}
