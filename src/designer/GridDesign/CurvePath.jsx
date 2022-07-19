@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import styled from "styled-components";
-import useMousePositionGrid from "../useMousePositionGrid";
+import useMousePositionGrid from "../General/useMousePositionGrid";
 
 //Implementation of the curve in the SVG (grid)
 function CurvePath({

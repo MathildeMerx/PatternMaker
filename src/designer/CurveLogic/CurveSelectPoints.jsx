@@ -7,11 +7,11 @@ import {
     S_DropdownContent,
     S_Dropdown,
     S_DropdownTitle,
-} from "../dropdownStyledComponents";
+} from "../General/dropdownStyledComponents";
 import { S_CancelButton, S_ValidateButton } from "../../Theme/Button";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import useCloseClickOutside from "../useCloseClickOutside";
+import useCloseClickOutside from "../General/useCloseClickOutside";
 
 //Interface to create a new curve: two dropdown menus, one for each end point
 function CurveSelectPoints({

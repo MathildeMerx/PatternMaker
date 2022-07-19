@@ -1,7 +1,7 @@
-import CurvesDisplay from "./CurveLogic/CurvesDisplay";
+import CurvesDisplay from "../CurveLogic/CurvesDisplay";
 import GridChangeDisplay from "./GridChangeDisplay";
-import PointsDisplay from "./PointLogic/PointsDisplay";
-import SegmentsDisplay from "./SegmentLogic/SegmentsDisplay";
+import PointsDisplay from "../PointLogic/PointsDisplay";
+import SegmentsDisplay from "../SegmentLogic/SegmentsDisplay";
 import styled from "styled-components";
 
 function Aside({

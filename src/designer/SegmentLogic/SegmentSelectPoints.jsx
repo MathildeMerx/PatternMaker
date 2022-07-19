@@ -7,8 +7,8 @@ import {
     S_DropdownContent,
     S_Dropdown,
     S_DropdownTitle,
-} from "../dropdownStyledComponents";
-import useCloseClickOutside from "../useCloseClickOutside";
+} from "../General/dropdownStyledComponents";
+import useCloseClickOutside from "../General/useCloseClickOutside";
 
 // Interface to create a new segment: two dropdown menus, one for each end point
 function SegmentSelectPoints({

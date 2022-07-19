@@ -1,4 +1,3 @@
-import availablePointNames from "./availablePointNames";
 import { FileDownload } from "@mui/icons-material";
 import styled from "styled-components";
 import { URL } from "../../Theme/constants";

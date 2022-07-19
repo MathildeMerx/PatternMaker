@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import PatternPoint from "./PointLogic/PatternPoint";
-import SegmentPath from "./SegmentLogic/SegmentPath";
-import CurvePath from "./CurveLogic/CurvePath";
+import PatternPoint from "./PatternPoint";
+import SegmentPath from "./SegmentPath";
+import CurvePath from "./CurvePath";
 import styled from "styled-components";
 import Column from "./Column";
 import Row from "./Row";
@@ -9,7 +9,7 @@ import NoPointText from "./NoPointText";
 import {
     PointBelongsCurve,
     PointBelongsSegment,
-} from "./PointLogic/pointBelongsGeo";
+} from "../PointLogic/pointBelongsGeo";
 import samePlacePoint from "./samePlacePoint";
 import pointNamesList from "./alphabet";
 

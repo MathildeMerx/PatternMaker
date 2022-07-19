@@ -3,7 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import S_CommandsDropdown from "./S_CommandsDropdown";
 import Button from "../../Theme/Button";
-import useCloseClickOutside from "../useCloseClickOutside";
+import useCloseClickOutside from "../General/useCloseClickOutside";
 
 //Login component (icon plus menu to log in)
 function LogIn({ setCredentials }) {

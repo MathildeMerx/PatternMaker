@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import useContainerDimensions from "./useContainerDimensions";
 import styled from "styled-components";
-import pointNames from "./alphabet";
-import PrintGrid from "./Print/PrintGrid";
-import Header from "./Header/Header";
+import PrintGrid from "../Print/PrintGrid";
+import Header from "../Header/Header";
 import {
     PATTERN_TITLE_MARGIN,
     PATTERN_TITLE_HEIGHT,
     GRID_MARGIN,
-} from "../Theme/constants";
+} from "../../Theme/constants";
 import Aside from "./Aside";
-import DesignContent from "./DesignContent";
+import DesignContent from "../GridDesign/DesignContent";
 import useLocalStorage from "./useLocalStorage";
 
 const useIsomorphicLayoutEffect =

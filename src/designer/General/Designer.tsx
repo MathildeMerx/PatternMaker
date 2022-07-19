@@ -1,7 +1,7 @@
 import DesignerWorking from "./DesignerWorking";
 import DesignerNotWorking from "./DesignerNotWorking";
 import useWindowDimensions from "./useWindowDimensions";
-import { MIN_WNDOW_HEIGHT, MIN_WNDOW_WIDTH } from "../Theme/constants";
+import { MIN_WNDOW_HEIGHT, MIN_WNDOW_WIDTH } from "../../Theme/constants";
 
 function Designer() {
     let { width, height } = useWindowDimensions();

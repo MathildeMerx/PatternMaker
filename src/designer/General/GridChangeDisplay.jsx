@@ -7,7 +7,7 @@ import {
     ZoomOut,
 } from "@mui/icons-material";
 import styled from "styled-components";
-import { NUM_CELLS_MAX, NUM_CELLS_MIN } from "../Theme/constants";
+import { NUM_CELLS_MAX, NUM_CELLS_MIN } from "../../Theme/constants";
 
 function GridChangeDisplay({
     setNumCells,

@@ -1,6 +1,6 @@
 import { useState, useCallback, Fragment } from "react";
 import { useTheme } from "styled-components";
-import useMousePositionGrid from "../useMousePositionGrid";
+import useMousePositionGrid from "../General/useMousePositionGrid";
 
 // This component renders a pattern point in the SVG grid
 function PatternPoint({

@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import ProjectPage from "../src/project/project";
+import ProjectPage from "../src/project/Project";
 import { theme } from "../src/Theme/theme";
 import { createGlobalStyle } from "styled-components";
 

@@ -5,7 +5,7 @@ import RangeInput from "../../Theme/RangeInput";
 import S_CommandsDropdown from "./S_CommandsDropdown";
 import { Print } from "@mui/icons-material";
 import Button from "../../Theme/Button";
-import { useEffectCloseClickOutside } from "../useCloseClickOutside";
+import { useEffectCloseClickOutside } from "../General/useCloseClickOutside";
 
 function PrintDropdown({
     printRef,
