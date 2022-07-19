@@ -21,7 +21,7 @@ function Header({
 }) {
     return (
         <S_Header>
-            <S_Title>Pattern designer</S_Title>
+            <S_Title href="/project">Pattern designer</S_Title>
             <Commands
                 credentials={credentials}
                 setCredentials={setCredentials}
@@ -50,9 +50,17 @@ const S_Header = styled.header`
     padding-right: 64px;
 `;
 
-const S_Title = styled.h1`
+const S_Title = styled.a`
+    color: ${({ theme }) => theme.colours.contrast};
+    font-size: 2em;
+    font-weight: bold;
     line-height: ${TITLE_HEIGHT}rem;
     margin: ${TITLE_MARGIN}px 0;
+    text-decoration: none;
+
+    &:hover {
+        color: ${({ theme }) => theme.colours.bright};
+    }
 `;
 
 export default Header;
